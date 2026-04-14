@@ -21,6 +21,10 @@ class Settings(BaseSettings):
     ah_base_url: str = Field(default="https://api.abstractive.ai", alias="AH_BASE_URL")
     ah_test_mode: bool = Field(default=True, alias="AH_TEST_MODE")
 
+    # OpenRouter (preferred) — falls back to direct OpenAI if only OPENAI_API_KEY is set
+    openrouter_api_key: str = Field(default="", alias="OPENROUTER_API_KEY")
+    openrouter_model: str = Field(default="anthropic/claude-3.5-haiku", alias="OPENROUTER_MODEL")
+
     openai_api_key: str = Field(default="", alias="OPENAI_API_KEY")
     database_url: str = Field(alias="DATABASE_URL")
     jwt_secret: str = Field(default="changeme", alias="JWT_SECRET")

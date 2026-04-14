@@ -19,12 +19,34 @@ def _chunk_context(text: str, chunk_chars: int = 12000) -> list[str]:
     return [text[i * chunk_chars : (i + 1) * chunk_chars] for i in range(chunks)]
 
 
-async def resolve_entities(raw_entities: list[dict], context: str) -> list[dict]:
+def _make_client() -> tuple[AsyncOpenAI, str] | None:
+    """Return (client, model) using OpenRouter if key is set, else direct OpenAI."""
     settings = get_settings()
-    if not settings.openai_api_key or not raw_entities:
+    if settings.openrouter_api_key:
+        client = AsyncOpenAI(
+            api_key=settings.openrouter_api_key,
+            base_url="https://openrouter.ai/api/v1",
+            default_headers={
+                "HTTP-Referer": "https://transitionguard.app",
+                "X-Title": "TransitionGuard",
+            },
+        )
+        return client, settings.openrouter_model
+    if settings.openai_api_key:
+        client = AsyncOpenAI(api_key=settings.openai_api_key)
+        return client, "gpt-4o"
+    return None
+
+
+async def resolve_entities(raw_entities: list[dict], context: str) -> list[dict]:
+    if not raw_entities:
         return raw_entities
 
-    client = AsyncOpenAI(api_key=settings.openai_api_key)
+    result = _make_client()
+    if result is None:
+        return raw_entities
+
+    client, model = result
     context_chunks = _chunk_context(context)
     merged: list[dict] = []
 
@@ -36,7 +58,7 @@ async def resolve_entities(raw_entities: list[dict], context: str) -> list[dict]
             "chunk_total": len(context_chunks),
         }
         response = await client.chat.completions.create(
-            model="gpt-4o",
+            model=model,
             response_format={"type": "json_object"},
             messages=[
                 {"role": "system", "content": SYSTEM_PROMPT},
