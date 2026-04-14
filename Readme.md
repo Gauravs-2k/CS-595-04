@@ -1,0 +1,1 @@
+"For TransitionGuard we integrated Abstractive Health's API for HIE record retrieval. We have mock fallback working for the demo. Do you have a sandbox client_id/client_secret from the LoF services setup that maps to Abstractive Health, or should we demonstrate with mock data?"
