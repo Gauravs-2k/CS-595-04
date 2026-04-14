@@ -212,15 +212,39 @@ button {
 }
 
 .loading-card li {
-  opacity: 0.5;
+  opacity: 0.4;
   transform: translateX(0);
   transition: all 0.4s ease;
-  margin: 8px 0;
+  margin: 10px 0;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
 }
 
 .loading-card li.active {
   opacity: 1;
   transform: translateX(8px);
+  font-weight: 600;
+}
+
+.loading-card li.done {
+  opacity: 0.7;
+  transform: translateX(4px);
+  color: #0b5f2b;
+}
+
+.step-icon {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.75rem;
+  min-width: 18px;
+  text-align: center;
+}
+
+.step-wait {
+  font-size: 0.78rem;
+  font-family: 'IBM Plex Mono', monospace;
+  color: var(--ink-soft);
+  margin-left: auto;
 }
 
 .report-grid {

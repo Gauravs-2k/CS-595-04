@@ -242,35 +242,24 @@ class AbstractiveClient:
             payload["token"] = ah_token
 
             logger.info("ah: search_patient name=%s %s", patient_data.get("first_name"), patient_data.get("last_name"))
+            # AH search returns 202 with processing=True but already contains patient_id — use first response directly
+            response = await client.post(f"{settings.ah_base_url}/search-patient", json=payload)
 
-            # AH search is async — poll until processing=False (same pattern as retrieve-patient-docs)
-            deadline = time.time() + 120  # 2-minute max for search
-            while True:
-                response = await client.post(f"{settings.ah_base_url}/search-patient", json=payload)
+        logger.info("ah: search response status=%s body=%s", response.status_code, response.text[:400])
 
-                if response.status_code not in (200, 202):
-                    logger.error("ah: search failed status=%s body=%s", response.status_code, response.text[:300])
-                    try:
-                        reason = response.json().get("failure_reason") or response.text[:200]
-                    except Exception:
-                        reason = response.text[:200]
-                    raise HTTPException(status_code=502, detail=f"Abstractive Health search failed: {reason}")
+        if response.status_code not in (200, 202):
+            try:
+                reason = response.json().get("failure_reason") or response.text[:200]
+            except Exception:
+                reason = response.text[:200]
+            raise HTTPException(status_code=502, detail=f"Abstractive Health search failed: {reason}")
 
-                data = response.json()
+        data = response.json()
 
-                if data.get("status") == "failure":
-                    reason = data.get("failure_reason") or "unknown"
-                    logger.error("ah: search failure reason=%s", reason)
-                    raise HTTPException(status_code=502, detail=f"Abstractive Health search failed: {reason}")
-
-                if not data.get("processing", True):
-                    break
-
-                if time.time() > deadline:
-                    raise HTTPException(status_code=504, detail="Timed out waiting for Abstractive Health search results")
-
-                logger.info("ah: search still processing, waiting 10s...")
-                await asyncio.sleep(10)
+        if data.get("status") == "failure":
+            reason = data.get("failure_reason") or "unknown"
+            logger.error("ah: search failure reason=%s", reason)
+            raise HTTPException(status_code=502, detail=f"Abstractive Health search failed: {reason}")
 
         conversation_id = data.get("conversation_id", "")
         full_name = f"{patient_data.get('first_name', '')} {patient_data.get('last_name', '')}".strip()
@@ -326,7 +315,7 @@ class AbstractiveClient:
                 logger.info("ah: retrieve_patient_docs patient_id=%s conversation_id=%s", patient_id, conversation_id)
                 response = await client.post(f"{settings.ah_base_url}/retrieve-patient-docs", json=payload)
 
-                if response.status_code != 200:
+                if response.status_code not in (200, 202):
                     logger.error("ah: retrieve failed status=%s body=%s", response.status_code, response.text[:300])
                     try:
                         reason = response.json().get("failure_reason") or response.text[:200]
@@ -335,16 +324,22 @@ class AbstractiveClient:
                     raise HTTPException(status_code=502, detail=f"Abstractive Health retrieve failed: {reason}")
 
                 docs = response.json()
+                logger.info("ah: retrieve_patient_docs status=%s processing=%s", docs.get("status"), docs.get("processing"))
 
-                if not docs.get("processing", True):
+                if docs.get("status") == "failure":
+                    reason = docs.get("failure_reason") or "unknown"
+                    raise HTTPException(status_code=502, detail=f"Abstractive Health retrieve failed: {reason}")
+
+                # Done when status is "success" and processing is explicitly False
+                if docs.get("status") == "success" and not docs.get("processing", True):
                     break
 
                 if time.time() > deadline:
                     logger.warning("ah: polling timeout for patient_id=%s", patient_id)
                     raise HTTPException(status_code=504, detail="Timed out waiting for Abstractive Health documents")
 
-                logger.info("ah: documents still processing, waiting 20s...")
-                await asyncio.sleep(20)
+                logger.info("ah: documents still processing, waiting 10s...")
+                await asyncio.sleep(10)
 
         if docs.get("status") != "success" or not docs.get("results"):
             raise HTTPException(status_code=502, detail="Abstractive Health returned no documents")

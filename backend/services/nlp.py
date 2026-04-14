@@ -4,7 +4,7 @@ import spacy
 
 from services.llm import resolve_entities
 
-_NLP_MODEL = "en_core_web_md"
+_NLP_MODEL = "en_core_sci_lg"
 
 _nlp = None
 

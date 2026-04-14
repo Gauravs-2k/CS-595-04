@@ -1,50 +1,43 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import TopBar from '../components/TopBar'
 import { analyzePatient } from '../api/client'
 
-const steps = [
-  'Matching patient identity across available records',
-  'Retrieving discharge summary and PCP chart',
-  'Extracting entities and aligning to FHIR resources',
-  'Computing prioritized transition gaps',
+const STEPS = [
+  { label: 'Matching patient identity across available records', doneAfter: 3 },
+  { label: 'Retrieving discharge summary and PCP chart', doneAfter: 30 },
+  { label: 'Extracting entities and aligning to FHIR resources', doneAfter: 90 },
+  { label: 'Computing prioritized transition gaps', doneAfter: Infinity },
 ]
 
 export default function LoadingPage() {
-  const [activeStep, setActiveStep] = useState(0)
+  const [elapsed, setElapsed] = useState(0)
   const [error, setError] = useState('')
   const { patientId } = useParams()
   const navigate = useNavigate()
+  const startRef = useRef(Date.now())
 
+  // Tick elapsed seconds — stops once all steps are done
   useEffect(() => {
-    const timer = setInterval(() => {
-      setActiveStep((prev) => (prev + 1) % steps.length)
-    }, 1000)
-    return () => clearInterval(timer)
+    const id = setInterval(() => setElapsed(Math.floor((Date.now() - startRef.current) / 1000)), 500)
+    return () => clearInterval(id)
   }, [])
 
   useEffect(() => {
     let mounted = true
-    const run = async () => {
-      try {
-        const { data } = await analyzePatient(patientId)
-        if (mounted) {
-          navigate(`/report/${data.session_id}`)
-        }
-      } catch {
-        if (mounted) {
-          setError('Analysis failed. Please return and try again.')
-        }
-      }
-    }
-    run()
-    return () => {
-      mounted = false
-    }
+    analyzePatient(patientId)
+      .then(({ data }) => { if (mounted) navigate(`/report/${data.session_id}`) })
+      .catch(() => { if (mounted) setError('Analysis failed. Please go back and try again.') })
+    return () => { mounted = false }
   }, [navigate, patientId])
 
-  const progress = useMemo(() => ((activeStep + 1) / steps.length) * 100, [activeStep])
+  const activeStep = STEPS.reduce((acc, s, i) => (elapsed >= s.doneAfter ? i + 1 : acc), 0)
+  const progress = Math.min(95, ((activeStep) / STEPS.length) * 100 + (elapsed % 10) * 0.5)
+
+  const waitingMsg = elapsed > 15
+    ? `Waiting for Abstractive Health records… ${elapsed}s`
+    : null
 
   return (
     <main className="page loading-shell">
@@ -54,12 +47,17 @@ export default function LoadingPage() {
           <div className="progress-value" style={{ width: `${progress}%` }} />
         </div>
         <ul>
-          {steps.map((step, idx) => (
-            <li key={step} className={idx <= activeStep ? 'active' : ''}>
-              <span>{idx + 1}</span>
-              {step}
-            </li>
-          ))}
+          {STEPS.map((step, idx) => {
+            const done = idx < activeStep
+            const active = idx === activeStep
+            return (
+              <li key={step.label} className={done ? 'done' : active ? 'active' : ''}>
+                <span className="step-icon">{done ? '✓' : idx + 1}</span>
+                {step.label}
+                {active && waitingMsg ? <span className="step-wait">{waitingMsg}</span> : null}
+              </li>
+            )
+          })}
         </ul>
         {error ? <p className="error">{error}</p> : null}
       </section>
