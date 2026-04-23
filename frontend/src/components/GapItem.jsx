@@ -1,6 +1,7 @@
 export default function GapItem({ gap, onResolve }) {
+  const resolved = Boolean(gap.resolved)
   return (
-    <article className={`gap-item severity-${gap.severity}`}>
+    <article className={`gap-item severity-${gap.severity}${resolved ? ' gap-resolved' : ''}`}>
       <div className="gap-main">
         <h4>{gap.title}</h4>
         <p>{gap.description}</p>
@@ -13,11 +14,12 @@ export default function GapItem({ gap, onResolve }) {
         <label>
           <input
             type="checkbox"
-            checked={Boolean(gap.resolved)}
+            checked={resolved}
             onChange={() => onResolve(gap.id)}
-            disabled={Boolean(gap.resolved)}
+            disabled={resolved}
+            aria-label={`Mark "${gap.title}" as resolved`}
           />
-          Mark resolved
+          {resolved ? 'Reviewed' : 'Mark resolved'}
         </label>
       </div>
     </article>

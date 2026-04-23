@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 
 import AbstractivePanel from '../components/AbstractivePanel'
 import GapItem from '../components/GapItem'
@@ -7,12 +7,34 @@ import Sidebar from '../components/Sidebar'
 import TopBar from '../components/TopBar'
 import { exportPDF, getSession, resolveGap } from '../api/client'
 
-const severityOrder = ['critical', 'warning', 'info']
+const GROUPS = [
+  {
+    key: 'missing_from_pcp',
+    label: 'In Handoff, Not in Patient Record',
+    description: 'New items from the hospital that need to be added to the patient\u2019s chart.',
+  },
+  {
+    key: 'missing_from_handoff',
+    label: 'In Patient Record, Not in Handoff',
+    description: 'Existing items not mentioned in the discharge summary \u2014 may have been dropped or intentionally omitted.',
+  },
+  {
+    key: 'changed',
+    label: 'Changed Between Documents',
+    description: 'Medications or labs where the value differs between the two documents.',
+  },
+  {
+    key: 'action_needed',
+    label: 'Action Items',
+    description: 'Referrals, follow-ups, and pending results that need to be scheduled or ordered.',
+  },
+]
 
 export default function ReportPage() {
   const { sessionId } = useParams()
   const [session, setSession] = useState(null)
   const [error, setError] = useState('')
+  const [exportError, setExportError] = useState('')
 
   useEffect(() => {
     const load = async () => {
@@ -29,8 +51,9 @@ export default function ReportPage() {
   const grouped = useMemo(() => {
     if (!session?.gaps) return {}
     return session.gaps.reduce((acc, gap) => {
-      if (!acc[gap.severity]) acc[gap.severity] = []
-      acc[gap.severity].push(gap)
+      const key = gap.category || 'action_needed'
+      if (!acc[key]) acc[key] = []
+      acc[key].push(gap)
       return acc
     }, {})
   }, [session])
@@ -44,14 +67,19 @@ export default function ReportPage() {
   }
 
   const onExport = async () => {
-    const { data } = await exportPDF(sessionId)
-    const blob = new Blob([data], { type: 'application/pdf' })
-    const url = window.URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = `transitionguard_${sessionId}.pdf`
-    a.click()
-    window.URL.revokeObjectURL(url)
+    try {
+      setExportError('')
+      const { data } = await exportPDF(sessionId)
+      const blob = new Blob([data], { type: 'application/pdf' })
+      const url = window.URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `transitionguard_${sessionId}.pdf`
+      a.click()
+      window.URL.revokeObjectURL(url)
+    } catch {
+      setExportError('Failed to generate PDF. Please try again.')
+    }
   }
 
   if (error) return <main className="page shell"><p className="error">{error}</p></main>
@@ -61,23 +89,35 @@ export default function ReportPage() {
     <main className="page report-layout">
       <TopBar
         title="Gap Prioritization Dashboard"
-        subtitle={`Patient ${session.patient.name || 'Unknown'} • Session ${sessionId}`}
+        subtitle={`Patient ${session.patient.name || 'Unknown'} \u2022 Session ${sessionId}`}
       />
       <div className="report-grid">
         <Sidebar gaps={session.gaps} />
         <section>
           <div className="report-actions">
+            <Link to="/" className="btn-secondary">New Search</Link>
             <button onClick={onExport}>Export PDF</button>
+            {exportError && <span className="error" style={{ fontSize: '0.85rem' }}>{exportError}</span>}
           </div>
           <AbstractivePanel sources={session.sources} />
-          {severityOrder.map((severity) => (
-            <section className="severity-block" key={severity}>
-              <h3>{severity.toUpperCase()}</h3>
-              {(grouped[severity] || []).map((gap) => (
-                <GapItem key={gap.id} gap={gap} onResolve={onResolve} />
-              ))}
+          {session.gaps.length === 0 ? (
+            <section className="empty-state">
+              <h3>No care gaps detected</h3>
+              <p>All transition items appear accounted for between the handoff document and patient record.</p>
             </section>
-          ))}
+          ) : (
+            GROUPS
+              .filter((group) => grouped[group.key]?.length)
+              .map((group) => (
+                <section className="severity-block" key={group.key}>
+                  <h3>{group.label}</h3>
+                  <p className="group-description">{group.description}</p>
+                  {grouped[group.key].map((gap) => (
+                    <GapItem key={gap.id} gap={gap} onResolve={onResolve} />
+                  ))}
+                </section>
+              ))
+          )}
         </section>
       </div>
     </main>

@@ -1,10 +1,18 @@
-from schemas.clinical import ClinicalSummary, PatientRecords
+from schemas.clinical import ClinicalDocument, ClinicalEntities, ClinicalSummary, PatientRecords
+from services.mimic_loader import (
+    MIMIC_PATIENT_META,
+    get_mimic_discharge_text,
+    is_mimic_patient,
+    list_mimic_patients,
+    load_mimic_pcp_only,
+    load_mimic_records,
+)
 
 
 def search_patient(patient_data: dict) -> list[dict]:
     first = patient_data.get("first_name", "")
     last = patient_data.get("last_name", "")
-    return [
+    results = [
         {
             "patient_id": "demo-patient-001",
             "name": f"{first} {last}".strip() or "Demo Patient",
@@ -14,9 +22,14 @@ def search_patient(patient_data: dict) -> list[dict]:
             "last_discharge_date": "2026-04-01",
         }
     ]
+    # Include MIMIC sample patients in mock search results
+    results.extend(list_mimic_patients())
+    return results
 
 
 def retrieve_records(patient_id: str) -> PatientRecords:
+    if is_mimic_patient(patient_id):
+        return load_mimic_records(patient_id)
     return PatientRecords.model_validate(
         {
             "discharge_summary": {
@@ -88,6 +101,27 @@ def retrieve_records(patient_id: str) -> PatientRecords:
             ],
         }
     )
+
+
+def retrieve_pcp_chart(patient_id: str) -> ClinicalDocument:
+    """Return only the PCP chart (the 'before' data) for a patient."""
+    if is_mimic_patient(patient_id):
+        return load_mimic_pcp_only(patient_id)
+    # Demo patient — return the hardcoded PCP chart
+    return ClinicalDocument(
+        raw_text="Problem list includes hypertension. No cardiology appointment yet. Current meds: none.",
+        structured=ClinicalEntities(
+            diagnoses=[{"text": "Hypertension", "snomed_code": "38341003", "negated": False, "source_line": 1}],
+            medications=[],
+        ),
+    )
+
+
+def get_demo_handoff_text(patient_id: str) -> str | None:
+    """Return discharge text for demo pre-fill. Only available for MIMIC patients."""
+    if is_mimic_patient(patient_id):
+        return get_mimic_discharge_text(patient_id)
+    return None
 
 
 def get_summary(patient_id: str) -> ClinicalSummary:
