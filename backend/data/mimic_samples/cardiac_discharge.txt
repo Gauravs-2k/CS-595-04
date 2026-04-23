@@ -1,0 +1,53 @@
+DISCHARGE SUMMARY
+
+Patient: De-identified
+Admission Date: 2024-01-15
+Discharge Date: 2024-01-22
+Attending: Dr. Smith
+
+CHIEF COMPLAINT: Chest pain, shortness of breath
+
+HISTORY OF PRESENT ILLNESS:
+68-year-old male with history of hypertension, hyperlipidemia, and type 2 diabetes mellitus
+presented with acute onset substernal chest pain radiating to left arm. ECG showed ST elevation
+in leads II, III, aVF. Troponin elevated at 4.2 ng/mL. Patient underwent emergent cardiac
+catheterization with placement of drug-eluting stent to RCA.
+
+HOSPITAL COURSE:
+Post-catheterization course was uncomplicated. Patient was started on dual antiplatelet therapy.
+Echocardiogram showed EF 40% with inferior wall hypokinesis. BNP elevated at 890 pg/mL.
+Creatinine rose from 1.1 to 1.8 during admission concerning for contrast-induced nephropathy.
+Nephrology was consulted and recommended hydration and monitoring. Metformin was held due
+to declining renal function.
+
+DISCHARGE DIAGNOSES:
+1. ST-elevation myocardial infarction, inferior wall
+2. Coronary artery disease, single vessel
+3. Heart failure with reduced ejection fraction (EF 40%)
+4. Type 2 diabetes mellitus
+5. Hypertension
+6. Hyperlipidemia
+7. Acute kidney injury (contrast-induced nephropathy)
+
+DISCHARGE MEDICATIONS:
+1. Aspirin 81 mg daily
+2. Clopidogrel 75 mg daily (minimum 12 months)
+3. Atorvastatin 80 mg daily
+4. Metoprolol succinate 50 mg daily
+5. Lisinopril 10 mg daily
+6. Furosemide 20 mg daily
+7. Insulin glargine 20 units at bedtime
+NOTE: Metformin HELD - do not restart until creatinine < 1.5 and renal function confirmed stable
+
+PENDING LABS/RESULTS:
+- Repeat BMP in 1 week to reassess renal function (pending)
+- HbA1c resulted at 8.2%
+- LDL resulted at 142 mg/dL
+
+FOLLOW-UP:
+1. Cardiology follow-up in 2 weeks with Dr. Jones
+2. Nephrology follow-up in 1 week for renal function monitoring
+3. Primary care follow-up in 1 week for medication reconciliation
+4. Cardiac rehabilitation referral - schedule intake appointment
+
+CONDITION AT DISCHARGE: Stable

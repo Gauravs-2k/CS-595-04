@@ -13,7 +13,14 @@ const longClient = axios.create({
 
 export const searchPatients = (formData) => client.post('/patients/search', formData)
 
-export const analyzePatient = (patientId) => longClient.post(`/analyze/${patientId}`)
+export const analyzePatient = (patientId, { handoffText, handoffFile } = {}) => {
+  const form = new FormData()
+  if (handoffFile) form.append('handoff_file', handoffFile)
+  if (handoffText) form.append('handoff_text', handoffText)
+  return longClient.post(`/analyze/${patientId}`, form)
+}
+
+export const getDemoHandoff = (patientId) => client.get(`/patients/${patientId}/demo-handoff`)
 
 export const getSession = (sessionId) => client.get(`/analyze/${sessionId}`)
 

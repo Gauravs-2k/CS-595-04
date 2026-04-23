@@ -1,16 +1,22 @@
+import io
+import logging
 from datetime import datetime, timezone
 from uuid import UUID
 
-from fastapi import APIRouter, Depends, HTTPException
+import pdfplumber
+from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile
 from sqlalchemy.orm import Session
 
 from db.database import get_db
 from models.gap import Gap
 from models.session import AnalysisSession
-from schemas.clinical import GapPatchRequest
+from schemas.clinical import ClinicalDocument, GapPatchRequest
 from services.abstractive import AbstractiveClient, get_patient_meta
 from services.gap_engine import detect_gaps
+from services.mimic_loader import get_mimic_discharge_text, is_mimic_patient
 from services.nlp import extract_entities
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/analyze", tags=["analysis"])
 client = AbstractiveClient()
@@ -45,58 +51,116 @@ def _serialize_session(session: AnalysisSession, gaps: list[Gap]) -> dict:
     }
 
 
+async def _extract_handoff_text(
+    handoff_file: UploadFile | None,
+    handoff_text: str | None,
+    patient_id: str,
+) -> str:
+    """Resolve the handoff document text from file upload, pasted text, or MIMIC demo."""
+    if handoff_file is not None:
+        content = await handoff_file.read()
+        filename = (handoff_file.filename or "").lower()
+        if filename.endswith(".pdf"):
+            with pdfplumber.open(io.BytesIO(content)) as pdf:
+                pages = [p.extract_text() or "" for p in pdf.pages]
+            return "\n".join(pages)
+        # Default: treat as UTF-8 text (.txt, .xml, .json, etc.)
+        return content.decode("utf-8", errors="replace")
+
+    if handoff_text:
+        return handoff_text
+
+    # Fallback for MIMIC demo patients
+    if is_mimic_patient(patient_id):
+        return get_mimic_discharge_text(patient_id)
+
+    raise HTTPException(status_code=422, detail="Handoff document required. Upload a file or paste text.")
+
+
 @router.post("/{patient_id}")
-async def analyze_patient(patient_id: str, db: Session = Depends(get_db)):
-    records = await client.retrieve_records(patient_id=patient_id)
+async def analyze_patient(
+    patient_id: str,
+    db: Session = Depends(get_db),
+    handoff_file: UploadFile | None = File(None),
+    handoff_text: str | None = Form(None),
+):
+    # 1. Get the handoff/discharge text (uploaded by user)
+    try:
+        discharge_text = await _extract_handoff_text(handoff_file, handoff_text, patient_id)
+    except HTTPException:
+        raise
+    except Exception as exc:
+        logger.exception("Failed to read handoff document for patient %s", patient_id)
+        raise HTTPException(status_code=400, detail="Could not read the uploaded document") from exc
 
-    discharge_struct = records.discharge_summary.structured
-    pcp_struct = records.pcp_chart.structured
+    # 2. Fetch PCP chart from AH/mock (the patient's existing history)
+    try:
+        pcp_chart = await client.retrieve_pcp_chart(patient_id=patient_id)
+    except HTTPException:
+        raise
+    except Exception as exc:
+        logger.exception("Failed to retrieve PCP chart for patient %s", patient_id)
+        raise HTTPException(status_code=502, detail="Failed to retrieve patient records") from exc
 
-    if discharge_struct is None:
-        discharge_entities = await extract_entities(records.discharge_summary.raw_text)
-    else:
-        discharge_entities = discharge_struct.model_dump()
+    # 3. Build discharge document from uploaded text
+    discharge_doc = ClinicalDocument(raw_text=discharge_text, structured=None)
 
-    if pcp_struct is None:
-        pcp_entities = await extract_entities(records.pcp_chart.raw_text)
-    else:
-        pcp_entities = pcp_struct.model_dump()
+    # 4. NLP extraction + gap detection
+    try:
+        discharge_entities = await extract_entities(discharge_doc.raw_text)
 
-    gaps = detect_gaps(discharge=discharge_entities, pcp=pcp_entities)
+        pcp_struct = pcp_chart.structured
+        if pcp_struct is None:
+            pcp_entities = await extract_entities(pcp_chart.raw_text)
+        else:
+            pcp_entities = pcp_struct.model_dump()
 
-    meta = get_patient_meta(patient_id)
-    session = AnalysisSession(
-        patient_id=patient_id,
-        patient_name=meta.get("name", "Unknown"),
-        patient_dob=meta.get("dob", "Unknown"),
-        sources=[s.model_dump() for s in records.sources],
-        discharge_entities=discharge_entities,
-        pcp_entities=pcp_entities,
-    )
-    db.add(session)
-    db.flush()
+        gaps = detect_gaps(discharge=discharge_entities, pcp=pcp_entities)
+    except Exception as exc:
+        logger.exception("NLP/gap detection failed for patient %s", patient_id)
+        raise HTTPException(status_code=500, detail="Analysis pipeline failed") from exc
 
-    gap_rows = []
-    for gap in gaps:
-        row = Gap(
-            id=gap["id"],
-            session_id=session.id,
-            category=gap["category"],
-            severity=gap["severity"],
-            title=gap["title"],
-            description=gap["description"],
-            source_text=gap["source_text"],
-            source_line=gap.get("source_line"),
-            standard_code=gap.get("standard_code"),
-            standard_system=gap.get("standard_system"),
-            suggested_action=gap["suggested_action"],
-            resolved=False,
+    # 5. Persist to DB
+    try:
+        meta = get_patient_meta(patient_id)
+        session = AnalysisSession(
+            patient_id=patient_id,
+            patient_name=meta.get("name", "Unknown"),
+            patient_dob=meta.get("dob", "Unknown"),
+            sources=[],
+            discharge_entities=discharge_entities,
+            pcp_entities=pcp_entities,
         )
-        db.add(row)
-        gap_rows.append(row)
+        db.add(session)
+        db.flush()
 
-    db.commit()
-    db.refresh(session)
+        gap_rows = []
+        for gap in gaps:
+            row = Gap(
+                id=gap["id"],
+                session_id=session.id,
+                category=gap["category"],
+                severity=gap["severity"],
+                title=gap["title"],
+                description=gap["description"],
+                source_text=gap["source_text"],
+                source_line=gap.get("source_line"),
+                standard_code=gap.get("standard_code"),
+                standard_system=gap.get("standard_system"),
+                suggested_action=gap["suggested_action"],
+                resolved=False,
+            )
+            db.add(row)
+            gap_rows.append(row)
+
+        db.commit()
+        db.refresh(session)
+    except HTTPException:
+        raise
+    except Exception as exc:
+        db.rollback()
+        logger.exception("Database error saving analysis for patient %s", patient_id)
+        raise HTTPException(status_code=500, detail="Failed to save analysis results") from exc
 
     return _serialize_session(session, gap_rows)
 

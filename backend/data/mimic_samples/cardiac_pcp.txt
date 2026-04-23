@@ -1,0 +1,25 @@
+PRIMARY CARE CHART
+
+Patient: De-identified
+Last Visit: 2024-01-05
+
+ACTIVE PROBLEM LIST:
+1. Hypertension
+2. Hyperlipidemia
+3. Type 2 diabetes mellitus
+
+CURRENT MEDICATIONS:
+1. Metformin 1000 mg twice daily
+2. Lisinopril 5 mg daily
+3. Atorvastatin 40 mg daily
+4. Aspirin 81 mg daily
+
+RECENT LABS (2024-01-05):
+- HbA1c: 7.8%
+- Creatinine: 1.1 mg/dL
+- LDL: 118 mg/dL
+
+CARE PLAN:
+- Continue current medications
+- Recheck HbA1c in 3 months
+- Annual diabetic eye exam scheduled

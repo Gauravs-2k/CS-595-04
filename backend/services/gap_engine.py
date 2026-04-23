@@ -1,174 +1,303 @@
 import uuid
 
+from services.normalize import extract_specialty, fuzzy_match, normalize_dx_text, normalize_med_name
+
 
 def _severity(category: str, title: str, source_text: str = "") -> str:
     text = f"{title} {source_text}".lower()
-    if category == "missing" and "medication" in text:
+    if category == "missing_from_pcp" and "medication" in text:
         return "critical"
-    if category == "unscheduled" and ("14 days" in text or "7 days" in text or "urgent" in text):
+    if category == "missing_from_handoff" and "medication" in text:
+        return "warning"
+    if category == "action_needed" and ("14 days" in text or "7 days" in text or "urgent" in text):
         return "critical"
-    if category == "unaddressed" and "pending" in text:
+    if category == "action_needed" and "pending" in text:
         return "critical"
     if category == "changed":
         return "warning"
-    if category == "missing":
+    if category == "missing_from_pcp":
         return "warning"
+    if category == "missing_from_handoff":
+        return "info"
     return "info"
+
+
+def _build_med_sets(meds: list[dict]) -> tuple[set[str], set[str]]:
+    codes = {m.get("rxnorm_code") for m in meds if m.get("rxnorm_code")}
+    names = {normalize_med_name(m.get("name", "")) for m in meds if m.get("name")}
+    names.discard("")
+    return codes, names
+
+
+def _build_dx_sets(diagnoses: list[dict]) -> tuple[set[str], set[str]]:
+    codes = {d.get("snomed_code") for d in diagnoses if d.get("snomed_code")}
+    texts = {normalize_dx_text(d.get("text", "")) for d in diagnoses if d.get("text")}
+    texts.discard("")
+    return codes, texts
+
+
+def _med_in_list(med: dict, target_codes: set[str], target_names: set[str]) -> bool:
+    code = med.get("rxnorm_code")
+    if code and code in target_codes:
+        return True
+    name = normalize_med_name(med.get("name", ""))
+    if not name:
+        return True
+    if name in target_names:
+        return True
+    return any(fuzzy_match(name, n) for n in target_names)
+
+
+def _dx_in_list(dx: dict, target_codes: set[str], target_texts: set[str]) -> bool:
+    code = dx.get("snomed_code")
+    if code and code in target_codes:
+        return True
+    text = normalize_dx_text(dx.get("text", ""))
+    if not text:
+        return True
+    if text in target_texts:
+        return True
+    return any(fuzzy_match(text, t) for t in target_texts)
+
+
+def _find_matching_med(med: dict, target_meds: list[dict]) -> dict | None:
+    code = med.get("rxnorm_code")
+    if code:
+        for tm in target_meds:
+            if tm.get("rxnorm_code") == code:
+                return tm
+    name = normalize_med_name(med.get("name", ""))
+    if name:
+        for tm in target_meds:
+            tm_name = normalize_med_name(tm.get("name", ""))
+            if tm_name and fuzzy_match(name, tm_name):
+                return tm
+    return None
+
+
+def _gap(category, severity_cat, title, description, source_text,
+         source_line=None, standard_code=None, standard_system=None,
+         suggested_action=""):
+    return {
+        "id": uuid.uuid4(),
+        "category": category,
+        "severity": _severity(severity_cat, title, source_text),
+        "title": title,
+        "description": description,
+        "source_text": source_text,
+        "source_line": source_line,
+        "standard_code": standard_code,
+        "standard_system": standard_system,
+        "suggested_action": suggested_action,
+        "resolved": False,
+    }
 
 
 def detect_gaps(discharge: dict, pcp: dict) -> list[dict]:
     gaps: list[dict] = []
 
-    pcp_meds_codes = {m.get("rxnorm_code") for m in pcp.get("medications", []) if m.get("rxnorm_code")}
-    pcp_dx_codes = {d.get("snomed_code") for d in pcp.get("diagnoses", []) if d.get("snomed_code")}
+    discharge_meds = discharge.get("medications", [])
+    pcp_meds = pcp.get("medications", [])
+    discharge_dx = discharge.get("diagnoses", [])
+    pcp_dx = pcp.get("diagnoses", [])
 
-    pcp_care_text = " ".join([c.get("description", "") for c in pcp.get("care_plan", [])]).lower()
+    pcp_med_codes, pcp_med_names = _build_med_sets(pcp_meds)
+    pcp_dx_codes, pcp_dx_texts = _build_dx_sets(pcp_dx)
+    discharge_med_codes, discharge_med_names = _build_med_sets(discharge_meds)
+    discharge_dx_codes, discharge_dx_texts = _build_dx_sets(discharge_dx)
+
+    pcp_care_text = " ".join(
+        c.get("description", "") for c in pcp.get("care_plan", [])
+    ).lower()
     pcp_labs_codes = {l.get("loinc_code") for l in pcp.get("labs", []) if l.get("loinc_code")}
+    pcp_labs_names = {l.get("name", "").lower().strip() for l in pcp.get("labs", []) if l.get("name")}
+    pcp_labs_names.discard("")
 
-    for med in discharge.get("medications", []):
-        if med.get("rxnorm_code") and med.get("rxnorm_code") not in pcp_meds_codes:
-            title = f"Missing medication: {med.get('name', 'Unknown')}"
-            gaps.append(
-                {
-                    "id": uuid.uuid4(),
-                    "category": "missing",
-                    "severity": _severity("missing", title),
-                    "title": title,
-                    "description": "Medication in discharge summary not present in PCP chart.",
-                    "source_text": med.get("name", ""),
-                    "source_line": med.get("source_line"),
-                    "standard_code": med.get("rxnorm_code"),
-                    "standard_system": "RxNorm",
-                    "suggested_action": "Reconcile medication list and confirm prescription continuity.",
-                    "resolved": False,
-                }
+    # ═══════════════════════════════════════════════════════════════════════════
+    # GROUP 1: In handoff, not in patient record  (missing_from_pcp)
+    # New things from the hospital the PCP needs to add/act on.
+    # ═══════════════════════════════════════════════════════════════════════════
+
+    for med in discharge_meds:
+        if not _med_in_list(med, pcp_med_codes, pcp_med_names):
+            gaps.append(_gap(
+                category="missing_from_pcp",
+                severity_cat="missing_from_pcp",
+                title=f"New medication: {med.get('name', 'Unknown')}",
+                description="Prescribed at discharge but not in the patient's existing medication list.",
+                source_text=med.get("name", ""),
+                source_line=med.get("source_line"),
+                standard_code=med.get("rxnorm_code"),
+                standard_system="RxNorm",
+                suggested_action="Add to medication list and confirm prescription continuity.",
+            ))
+
+    for dx in discharge_dx:
+        if not _dx_in_list(dx, pcp_dx_codes, pcp_dx_texts):
+            gaps.append(_gap(
+                category="missing_from_pcp",
+                severity_cat="missing_from_pcp",
+                title=f"New diagnosis: {dx.get('text', 'Unknown')}",
+                description="Documented on discharge but not in the patient's problem list.",
+                source_text=dx.get("text", ""),
+                source_line=dx.get("source_line"),
+                standard_code=dx.get("snomed_code"),
+                standard_system="SNOMED",
+                suggested_action="Add to active problem list if clinically appropriate.",
+            ))
+
+    # ═══════════════════════════════════════════════════════════════════════════
+    # GROUP 2: In patient record, not in handoff  (missing_from_handoff)
+    # Things on the PCP chart not mentioned in discharge — possibly dropped.
+    # ═══════════════════════════════════════════════════════════════════════════
+
+    for med in pcp_meds:
+        if not _med_in_list(med, discharge_med_codes, discharge_med_names):
+            gaps.append(_gap(
+                category="missing_from_handoff",
+                severity_cat="missing_from_handoff",
+                title=f"Medication not in handoff: {med.get('name', 'Unknown')}",
+                description="On patient's existing medication list but not mentioned in the discharge summary. May have been intentionally discontinued or omitted.",
+                source_text=med.get("name", ""),
+                source_line=med.get("source_line"),
+                standard_code=med.get("rxnorm_code"),
+                standard_system="RxNorm",
+                suggested_action="Verify whether medication was discontinued or inadvertently omitted.",
+            ))
+
+    for dx in pcp_dx:
+        if not _dx_in_list(dx, discharge_dx_codes, discharge_dx_texts):
+            gaps.append(_gap(
+                category="missing_from_handoff",
+                severity_cat="missing_from_handoff",
+                title=f"Diagnosis not in handoff: {dx.get('text', 'Unknown')}",
+                description="On patient's existing problem list but not mentioned in the discharge summary.",
+                source_text=dx.get("text", ""),
+                source_line=dx.get("source_line"),
+                standard_code=dx.get("snomed_code"),
+                standard_system="SNOMED",
+                suggested_action="Confirm whether condition was addressed during hospitalization.",
+            ))
+
+    # ═══════════════════════════════════════════════════════════════════════════
+    # GROUP 3: Changed between documents  (changed)
+    # ═══════════════════════════════════════════════════════════════════════════
+
+    for med in discharge_meds:
+        pcp_med = _find_matching_med(med, pcp_meds)
+        if pcp_med:
+            dose_changed = (
+                med.get("dose") and pcp_med.get("dose")
+                and med["dose"] != pcp_med["dose"]
             )
-
-    for dx in discharge.get("diagnoses", []):
-        if dx.get("snomed_code") and dx.get("snomed_code") not in pcp_dx_codes:
-            title = f"Diagnosis absent from PCP list: {dx.get('text', 'Unknown')}"
-            gaps.append(
-                {
-                    "id": uuid.uuid4(),
-                    "category": "missing",
-                    "severity": _severity("missing", title),
-                    "title": title,
-                    "description": "Diagnosis documented on discharge is not present in PCP problem list.",
-                    "source_text": dx.get("text", ""),
-                    "source_line": dx.get("source_line"),
-                    "standard_code": dx.get("snomed_code"),
-                    "standard_system": "SNOMED",
-                    "suggested_action": "Add diagnosis to active problem list if clinically appropriate.",
-                    "resolved": False,
-                }
+            freq_changed = (
+                med.get("frequency") and pcp_med.get("frequency")
+                and med["frequency"] != pcp_med["frequency"]
             )
+            if dose_changed or freq_changed:
+                desc_parts = []
+                if dose_changed:
+                    desc_parts.append(f"Dose: {pcp_med['dose']} → {med['dose']}")
+                if freq_changed:
+                    desc_parts.append(f"Frequency: {pcp_med['frequency']} → {med['frequency']}")
+                gaps.append(_gap(
+                    category="changed",
+                    severity_cat="changed",
+                    title=f"Regimen changed: {med.get('name', 'Unknown')}",
+                    description=". ".join(desc_parts) + ".",
+                    source_text=med.get("name", ""),
+                    source_line=med.get("source_line"),
+                    standard_code=med.get("rxnorm_code"),
+                    standard_system="RxNorm",
+                    suggested_action="Verify intended regimen and update chart accordingly.",
+                ))
 
+    # Lab value changes
+    pcp_labs_by_code = {l.get("loinc_code"): l for l in pcp.get("labs", []) if l.get("loinc_code")}
+    pcp_labs_by_name = {l.get("name", "").lower().strip(): l for l in pcp.get("labs", []) if l.get("name")}
+    for lab in discharge.get("labs", []):
+        code = lab.get("loinc_code")
+        pcp_lab = pcp_labs_by_code.get(code) if code else None
+        if not pcp_lab:
+            lab_name = lab.get("name", "").lower().strip()
+            pcp_lab = pcp_labs_by_name.get(lab_name)
+        if pcp_lab and lab.get("value") and pcp_lab.get("value") and lab["value"] != pcp_lab["value"]:
+            gaps.append(_gap(
+                category="changed",
+                severity_cat="changed",
+                title=f"Lab trend changed: {lab.get('name', 'Unknown')}",
+                description=f"Value changed: {pcp_lab.get('value')} → {lab.get('value')}.",
+                source_text=f"{pcp_lab.get('value')} → {lab.get('value')}",
+                source_line=lab.get("source_line"),
+                standard_code=lab.get("loinc_code"),
+                standard_system="LOINC",
+                suggested_action="Review trend and repeat test if clinically indicated.",
+            ))
+
+    # ═══════════════════════════════════════════════════════════════════════════
+    # GROUP 4: Action items  (action_needed)
+    # Referrals, follow-ups, pending labs that need PCP action.
+    # ═══════════════════════════════════════════════════════════════════════════
+
+    seen_referral_specialties = set()
     for ref in discharge.get("referrals", []):
-        specialty = ref.get("specialty", "")
-        if specialty and specialty.lower() not in pcp_care_text:
-            title = f"Unscheduled referral: {specialty}"
-            source_text = f"{specialty} {ref.get('urgency', '')}".strip()
-            gaps.append(
-                {
-                    "id": uuid.uuid4(),
-                    "category": "unscheduled",
-                    "severity": _severity("unscheduled", title, source_text),
-                    "title": title,
-                    "description": "Referral found in discharge but no matching appointment in PCP care plan.",
-                    "source_text": source_text,
-                    "source_line": ref.get("source_line"),
-                    "standard_code": None,
-                    "standard_system": "SNOMED",
-                    "suggested_action": "Schedule referral appointment and notify patient.",
-                    "resolved": False,
-                }
-            )
+        specialty_raw = ref.get("specialty", "")
+        specialty = extract_specialty(specialty_raw)
+        if not specialty:
+            continue
+        specialty_key = specialty.lower().strip()
+        # Skip generic section headers and duplicates
+        if specialty_key in ("referral", "referrals", "referrals:", "consult", "consultation"):
+            continue
+        if specialty_key in seen_referral_specialties:
+            continue
+        if specialty_key in pcp_care_text:
+            continue
+        seen_referral_specialties.add(specialty_key)
+        source_text = f"{specialty_raw} {ref.get('urgency', '')}".strip()
+        gaps.append(_gap(
+            category="action_needed",
+            severity_cat="action_needed",
+            title=f"Referral to schedule: {specialty.title()}",
+            description="Referral ordered at discharge but no matching appointment in patient's care plan.",
+            source_text=source_text,
+            source_line=ref.get("source_line"),
+            standard_code=None,
+            standard_system="SNOMED",
+            suggested_action="Schedule referral appointment and notify patient.",
+        ))
 
     for task in discharge.get("follow_up_tasks", []):
         desc = task.get("description", "")
         if desc and desc.lower() not in pcp_care_text:
-            title = "Unscheduled follow-up task"
-            gaps.append(
-                {
-                    "id": uuid.uuid4(),
-                    "category": "unscheduled",
-                    "severity": _severity("unscheduled", title, desc),
-                    "title": title,
-                    "description": "Discharge follow-up task not reflected in PCP care plan.",
-                    "source_text": desc,
-                    "source_line": task.get("source_line"),
-                    "standard_code": None,
-                    "standard_system": "SNOMED",
-                    "suggested_action": "Add task to care plan with target completion date.",
-                    "resolved": False,
-                }
-            )
-
-    pcp_meds_by_code = {m.get("rxnorm_code"): m for m in pcp.get("medications", []) if m.get("rxnorm_code")}
-    for med in discharge.get("medications", []):
-        code = med.get("rxnorm_code")
-        if code and code in pcp_meds_by_code:
-            pcp_med = pcp_meds_by_code[code]
-            if med.get("dose") != pcp_med.get("dose") or med.get("frequency") != pcp_med.get("frequency"):
-                title = f"Medication regimen changed: {med.get('name', 'Unknown')}"
-                gaps.append(
-                    {
-                        "id": uuid.uuid4(),
-                        "category": "changed",
-                        "severity": _severity("changed", title),
-                        "title": title,
-                        "description": "Dose or frequency differs between discharge and PCP chart.",
-                        "source_text": med.get("name", ""),
-                        "source_line": med.get("source_line"),
-                        "standard_code": med.get("rxnorm_code"),
-                        "standard_system": "RxNorm",
-                        "suggested_action": "Verify intended regimen and update chart accordingly.",
-                        "resolved": False,
-                    }
-                )
-
-    pcp_labs_by_code = {l.get("loinc_code"): l for l in pcp.get("labs", []) if l.get("loinc_code")}
-    for lab in discharge.get("labs", []):
-        code = lab.get("loinc_code")
-        if code and code in pcp_labs_by_code:
-            pcp_lab = pcp_labs_by_code[code]
-            if lab.get("value") and pcp_lab.get("value") and lab.get("value") != pcp_lab.get("value"):
-                title = f"Lab trend changed: {lab.get('name', 'Unknown')}"
-                gaps.append(
-                    {
-                        "id": uuid.uuid4(),
-                        "category": "changed",
-                        "severity": _severity("changed", title),
-                        "title": title,
-                        "description": "Lab value differs between discharge and PCP chart.",
-                        "source_text": f"{lab.get('value')} -> {pcp_lab.get('value')}",
-                        "source_line": lab.get("source_line"),
-                        "standard_code": lab.get("loinc_code"),
-                        "standard_system": "LOINC",
-                        "suggested_action": "Review trend and repeat test if clinically indicated.",
-                        "resolved": False,
-                    }
-                )
+            gaps.append(_gap(
+                category="action_needed",
+                severity_cat="action_needed",
+                title="Follow-up to schedule",
+                description="Discharge follow-up task not yet reflected in patient's care plan.",
+                source_text=desc,
+                source_line=task.get("source_line"),
+                standard_code=None,
+                standard_system="SNOMED",
+                suggested_action="Add task to care plan with target completion date.",
+            ))
 
     for lab in discharge.get("labs", []):
         if lab.get("status") == "pending":
             code = lab.get("loinc_code")
-            if not code or code not in pcp_labs_codes:
-                title = f"Pending lab unaddressed: {lab.get('name', 'Unknown')}"
-                gaps.append(
-                    {
-                        "id": uuid.uuid4(),
-                        "category": "unaddressed",
-                        "severity": _severity("unaddressed", title, "pending"),
-                        "title": title,
-                        "description": "Pending discharge lab has no corresponding PCP follow-up order.",
-                        "source_text": lab.get("name", ""),
-                        "source_line": lab.get("source_line"),
-                        "standard_code": code,
-                        "standard_system": "LOINC",
-                        "suggested_action": "Place follow-up order and assign result review owner.",
-                        "resolved": False,
-                    }
-                )
+            name = lab.get("name", "").lower().strip()
+            in_pcp = (code and code in pcp_labs_codes) or (name and name in pcp_labs_names)
+            if not in_pcp:
+                gaps.append(_gap(
+                    category="action_needed",
+                    severity_cat="action_needed",
+                    title=f"Pending result: {lab.get('name', 'Unknown')}",
+                    description="Pending lab from discharge with no corresponding follow-up order.",
+                    source_text=lab.get("name", ""),
+                    source_line=lab.get("source_line"),
+                    standard_code=code,
+                    standard_system="LOINC",
+                    suggested_action="Place follow-up order and assign result review owner.",
+                ))
 
     return gaps

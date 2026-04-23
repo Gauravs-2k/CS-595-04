@@ -1,8 +1,12 @@
+import logging
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from db.database import Base, engine
 from routers import analysis, export, patients
+
+logger = logging.getLogger(__name__)
 
 app = FastAPI(title="TransitionGuard API", version="0.1.0")
 
@@ -22,7 +26,16 @@ def health() -> dict:
 
 @app.on_event("startup")
 def on_startup() -> None:
-    Base.metadata.create_all(bind=engine)
+    try:
+        from alembic import command
+        from alembic.config import Config
+
+        alembic_cfg = Config("alembic.ini")
+        command.upgrade(alembic_cfg, "head")
+        logger.info("Database migrations applied successfully")
+    except Exception:
+        logger.warning("Alembic migration failed, falling back to create_all")
+        Base.metadata.create_all(bind=engine)
 
 
 app.include_router(patients.router)

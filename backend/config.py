@@ -1,8 +1,11 @@
+import logging
 from functools import lru_cache
 from pathlib import Path
 
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+logger = logging.getLogger(__name__)
 
 # .env lives in the project root (one level above this file's directory)
 _ENV_FILE = Path(__file__).parent.parent / ".env"
@@ -32,4 +35,7 @@ class Settings(BaseSettings):
 
 @lru_cache
 def get_settings() -> Settings:
-    return Settings()
+    settings = Settings()
+    if settings.jwt_secret == "changeme":
+        logger.warning("JWT_SECRET is set to default 'changeme' — change this before deploying")
+    return settings

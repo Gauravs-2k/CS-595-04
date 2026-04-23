@@ -1,4 +1,6 @@
 .env
+.env.*
+!.env.example
 __pycache__/
 *.pyc
 .venv/
@@ -6,3 +8,10 @@ node_modules/
 dist/
 .vscode/
 .DS_Store
+*.pdf
+*.docx
+*.doc
+*.zip
+.claude/
+/tmp/
+*.md

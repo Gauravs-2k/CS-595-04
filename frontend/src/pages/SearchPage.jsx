@@ -84,7 +84,7 @@ export default function SearchPage() {
 
       <section className="patient-list">
         {patients.map((patient) => (
-          <PatientCard key={patient.patient_id} patient={patient} onSelect={(id) => navigate(`/loading/${id}`)} />
+          <PatientCard key={patient.patient_id} patient={patient} onSelect={(id) => navigate(`/upload/${id}`)} />
         ))}
       </section>
     </main>

@@ -1,0 +1,62 @@
+DISCHARGE SUMMARY
+
+Patient: John Smith
+Admission Date: 2026-04-14
+Discharge Date: 2026-04-20
+Attending: Dr. Rivera, Internal Medicine
+
+CHIEF COMPLAINT: Chest pain, elevated blood pressure
+
+HISTORY OF PRESENT ILLNESS:
+Mr. Smith is a 66-year-old male with a history of hypertension who presented to the ED with
+substernal chest pain radiating to the left arm and blood pressure of 210/120 mmHg. Initial
+troponin was mildly elevated at 0.08 ng/mL. Serial troponins trended down. ECG showed
+ST depression in leads V4-V6. Echocardiogram revealed left ventricular ejection fraction of 45%
+with mild diastolic dysfunction. Patient was admitted for hypertensive emergency with demand
+ischemia and new heart failure with reduced ejection fraction (HFrEF).
+
+HOSPITAL COURSE:
+Blood pressure was managed with IV nicardipine drip, transitioned to oral medications.
+Lisinopril was uptitrated from 10 mg to 40 mg daily. Metoprolol succinate 50 mg daily was
+initiated for rate control and HFrEF. Furosemide 20 mg daily was started for volume management.
+Atorvastatin 40 mg nightly was initiated for cardiovascular risk reduction. Patient was started
+on low-dose aspirin 81 mg daily.
+
+Renal function was monitored. Creatinine rose from 1.1 to 1.4 during admission, likely
+prerenal. BMP at discharge showed potassium 4.8, BUN 28, creatinine 1.3 (improving).
+HbA1c was 6.8%, suggesting prediabetes. Fasting lipid panel: LDL 158, HDL 38, TG 210.
+
+DISCHARGE DIAGNOSES:
+1. Hypertensive emergency
+2. Non-ST elevation myocardial infarction (NSTEMI), type 2 demand ischemia
+3. Heart failure with reduced ejection fraction (HFrEF), new diagnosis, EF 45%
+4. Acute kidney injury, stage 1, improving
+5. Prediabetes (HbA1c 6.8%)
+6. Dyslipidemia
+
+DISCHARGE MEDICATIONS:
+1. Lisinopril 40 mg daily (increased from 10 mg)
+2. Metoprolol succinate 50 mg daily (NEW)
+3. Furosemide 20 mg daily (NEW)
+4. Atorvastatin 40 mg nightly (NEW)
+5. Aspirin 81 mg daily (NEW)
+
+PENDING RESULTS:
+- Repeat BMP in 1 week (monitor potassium and creatinine on uptitrated lisinopril)
+- Repeat troponin if symptoms recur
+- HbA1c recheck in 3 months
+
+FOLLOW-UP:
+1. PCP follow-up within 7 days for blood pressure check and medication reconciliation
+2. Cardiology referral — schedule within 2 weeks for HFrEF management and possible stress test
+3. Nephrology referral if creatinine does not continue to improve
+4. Dietary counseling referral for low-sodium, heart-healthy diet
+5. Repeat echocardiogram in 3 months
+
+PATIENT INSTRUCTIONS:
+- Monitor blood pressure daily, keep log for PCP visit
+- Weigh yourself every morning; call if weight gain > 3 lbs in one day or 5 lbs in one week
+- Low-sodium diet (< 2000 mg/day)
+- Limit fluid intake to 2 liters per day
+- No NSAIDs (ibuprofen, naproxen) — may worsen kidney function and heart failure
+- Return to ED for chest pain, severe shortness of breath, or leg swelling

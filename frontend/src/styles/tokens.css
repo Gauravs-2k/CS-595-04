@@ -283,13 +283,34 @@ button {
 .report-actions {
   display: flex;
   justify-content: flex-end;
+  gap: 10px;
   margin-bottom: 12px;
 }
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--ink);
+  font-size: 0.9rem;
+  text-decoration: none;
+  cursor: pointer;
+}
+.btn-secondary:hover { background: var(--bg-alt); }
 
 .abstractive-panel,
 .severity-block {
   padding: 16px;
   margin-bottom: 12px;
+}
+
+.group-description {
+  margin: 0 0 12px;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
 }
 
 .source-grid {
@@ -321,9 +342,151 @@ button {
 .severity-warning { border-left-color: var(--warning); }
 .severity-info { border-left-color: var(--info); }
 
+.gap-main h4 { margin: 0 0 4px; }
+.gap-main p  { margin: 0 0 6px; color: var(--ink-soft); font-size: 0.9rem; }
+.gap-main small { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--ink-soft); }
+
+.gap-actions { display: flex; flex-direction: column; justify-content: space-between; }
+.gap-actions p { font-size: 0.88rem; margin: 0 0 8px; }
+.gap-actions label { display: flex; align-items: center; gap: 6px; font-size: 0.85rem; cursor: pointer; }
+
+.gap-resolved {
+  opacity: 0.55;
+  border-left-color: var(--info) !important;
+  background: var(--bg-alt);
+}
+.gap-resolved h4 { text-decoration: line-through; }
+.gap-resolved .gap-actions label { color: var(--info); font-weight: 600; }
+
+.empty-state {
+  text-align: center;
+  padding: 48px 24px;
+  color: var(--ink-soft);
+  background: var(--bg-alt);
+  border-radius: 14px;
+  margin-top: 12px;
+}
+.empty-state h3 { color: var(--info); margin: 0 0 8px; }
+.empty-state p { margin: 0; }
+
 .error {
   color: var(--critical);
   font-weight: 700;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+[role="button"]:focus-visible {
+  outline: 2px solid var(--info);
+  outline-offset: 2px;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ── Upload Page ──────────────────────────────────────────── */
+
+.upload-panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  padding: 24px;
+  margin-top: 16px;
+}
+
+.upload-patient-info {
+  display: flex;
+  gap: 24px;
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+.upload-patient-info strong { color: var(--ink); margin-right: 4px; }
+
+.upload-tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 16px;
+}
+.upload-tab {
+  flex: 1;
+  padding: 10px 16px;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  color: var(--ink-soft);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 500;
+  text-align: center;
+}
+.upload-tab:first-child { border-radius: 10px 0 0 10px; }
+.upload-tab:last-child { border-radius: 0 10px 10px 0; }
+.upload-tab.active {
+  background: white;
+  color: var(--ink);
+  font-weight: 700;
+  border-color: var(--info);
+}
+
+.upload-textarea {
+  width: 100%;
+  min-height: 260px;
+  padding: 14px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  resize: vertical;
+  line-height: 1.5;
+}
+.upload-textarea:focus {
+  outline: 2px solid var(--info);
+  outline-offset: 1px;
+}
+
+.upload-dropzone {
+  border: 2px dashed var(--border);
+  border-radius: 14px;
+  padding: 48px 24px;
+  text-align: center;
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+.upload-dropzone:hover,
+.upload-dropzone.drag-over {
+  border-color: var(--info);
+  background: rgba(0, 95, 119, 0.04);
+}
+.upload-dropzone p { margin: 8px 0 0; font-size: 0.85rem; }
+.upload-dropzone .file-name {
+  margin-top: 12px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.demo-banner {
+  background: rgba(0, 95, 119, 0.08);
+  border: 1px solid rgba(0, 95, 119, 0.25);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 0.85rem;
+  color: var(--info);
+  margin-bottom: 12px;
+}
+
+.upload-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
 }
 
 @media (max-width: 860px) {

@@ -1,0 +1,24 @@
+PRIMARY CARE CHART
+
+Patient: De-identified
+Last Visit: 2024-02-01
+
+ACTIVE PROBLEM LIST:
+1. Type 1 diabetes mellitus
+2. Hypothyroidism
+3. Major depressive disorder
+
+CURRENT MEDICATIONS:
+1. Insulin lispro via pump
+2. Levothyroxine 100 mcg daily
+3. Sertraline 100 mg daily
+
+RECENT LABS (2024-02-01):
+- HbA1c: 8.9%
+- TSH: 5.2 mIU/L
+- Creatinine: 0.8 mg/dL
+
+CARE PLAN:
+- Continue insulin pump management
+- Recheck TSH in 3 months
+- PHQ-9 screening at next visit

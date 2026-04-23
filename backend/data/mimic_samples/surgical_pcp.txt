@@ -1,0 +1,25 @@
+PRIMARY CARE CHART
+
+Patient: De-identified
+Last Visit: 2024-02-20
+
+ACTIVE PROBLEM LIST:
+1. Atrial fibrillation
+2. COPD
+3. Chronic kidney disease stage 3
+
+CURRENT MEDICATIONS:
+1. Warfarin 4 mg daily
+2. Tiotropium 18 mcg inhaler daily
+3. Albuterol inhaler as needed
+4. Lisinopril 10 mg daily
+
+RECENT LABS (2024-02-20):
+- INR: 2.3
+- Creatinine: 1.6 mg/dL
+- eGFR: 42 mL/min
+
+CARE PLAN:
+- INR goal 2.0-3.0
+- Annual spirometry
+- Renal function monitoring every 6 months

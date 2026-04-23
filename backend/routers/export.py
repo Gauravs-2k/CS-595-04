@@ -1,3 +1,4 @@
+import logging
 from datetime import datetime
 from pathlib import Path
 
@@ -9,6 +10,8 @@ from db.database import get_db
 from models.gap import Gap
 from models.session import AnalysisSession
 from services.pdf_export import render_pdf
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/export", tags=["export"])
 
@@ -39,12 +42,19 @@ def export_pdf(session_id: str, db: Session = Depends(get_db)):
         "created_at": session.created_at.isoformat() if session.created_at else datetime.utcnow().isoformat(),
     }
 
-    output_dir = Path("/tmp/transitionguard")
-    output_dir.mkdir(parents=True, exist_ok=True)
-    slug_name = (session.patient_name or "patient").replace(" ", "_")
-    filename = f"transitionguard_{slug_name}_{datetime.utcnow().date().isoformat()}.pdf"
-    output_path = output_dir / filename
+    try:
+        output_dir = Path("/tmp/transitionguard")
+        output_dir.mkdir(parents=True, exist_ok=True)
+        slug_name = (session.patient_name or "patient").replace(" ", "_")
+        filename = f"transitionguard_{slug_name}_{datetime.utcnow().date().isoformat()}.pdf"
+        output_path = output_dir / filename
 
-    render_pdf(session_payload=payload, output_path=str(output_path))
+        render_pdf(session_payload=payload, output_path=str(output_path))
+    except OSError as exc:
+        logger.exception("PDF generation I/O error for session %s", session_id)
+        raise HTTPException(status_code=500, detail="Failed to generate PDF report") from exc
+    except Exception as exc:
+        logger.exception("PDF generation failed for session %s", session_id)
+        raise HTTPException(status_code=500, detail="Failed to generate PDF report") from exc
 
     return FileResponse(str(output_path), media_type="application/pdf", filename=filename)

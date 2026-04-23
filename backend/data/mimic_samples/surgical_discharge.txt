@@ -1,0 +1,52 @@
+DISCHARGE SUMMARY
+
+Patient: De-identified
+Admission Date: 2024-03-01
+Discharge Date: 2024-03-06
+Attending: Dr. Chen
+
+CHIEF COMPLAINT: Right lower quadrant abdominal pain
+
+HISTORY OF PRESENT ILLNESS:
+72-year-old male with history of atrial fibrillation on warfarin, COPD, and chronic kidney
+disease stage 3 presented with acute right lower quadrant pain. CT abdomen showed perforated
+appendicitis with localized abscess. Underwent laparoscopic appendectomy on hospital day 1.
+
+HOSPITAL COURSE:
+Warfarin was held preoperatively and bridged with heparin. Surgery was uncomplicated.
+Postoperatively developed atrial fibrillation with rapid ventricular response requiring
+IV amiodarone. Rate controlled by hospital day 3. Wound cultures grew E. coli, treated
+with IV ceftriaxone transitioned to oral ciprofloxacin. Pulmonology consulted for COPD
+exacerbation triggered by perioperative stress. Started on prednisone taper. INR was
+subtherapeutic at 1.3 at discharge.
+
+DISCHARGE DIAGNOSES:
+1. Perforated appendicitis, status post laparoscopic appendectomy
+2. Intra-abdominal abscess, E. coli
+3. Atrial fibrillation with rapid ventricular response
+4. COPD exacerbation
+5. Chronic kidney disease stage 3
+6. Subtherapeutic anticoagulation
+
+DISCHARGE MEDICATIONS:
+1. Warfarin 5 mg daily (increased from 4 mg - recheck INR in 3 days)
+2. Ciprofloxacin 500 mg twice daily x 10 days
+3. Prednisone 40 mg daily x 3 days then 20 mg x 3 days then 10 mg x 3 days then stop
+4. Amiodarone 200 mg daily
+5. Tiotropium 18 mcg inhaler daily
+6. Albuterol inhaler 2 puffs every 4 hours as needed
+7. Lisinopril 10 mg daily
+8. Acetaminophen 650 mg every 6 hours as needed for pain
+
+PENDING LABS/RESULTS:
+- Final wound culture sensitivities (pending)
+- INR recheck in 3 days (pending)
+- CBC recheck in 1 week (pending)
+
+FOLLOW-UP:
+1. Surgery follow-up in 2 weeks for wound check
+2. Pulmonology follow-up in 1 week
+3. Primary care follow-up in 3 days for INR check
+4. Anticoagulation clinic referral for warfarin management
+
+CONDITION AT DISCHARGE: Stable

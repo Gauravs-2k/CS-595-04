@@ -1,0 +1,47 @@
+DISCHARGE SUMMARY
+
+Patient: De-identified
+Admission Date: 2024-02-10
+Discharge Date: 2024-02-14
+Attending: Dr. Patel
+
+CHIEF COMPLAINT: Diabetic ketoacidosis
+
+HISTORY OF PRESENT ILLNESS:
+45-year-old female with type 1 diabetes mellitus, hypothyroidism, and depression presented
+with nausea, vomiting, and altered mental status. Blood glucose 520 mg/dL, pH 7.18, bicarbonate
+8 mEq/L. Diagnosed with diabetic ketoacidosis likely precipitated by insulin pump malfunction.
+
+HOSPITAL COURSE:
+Managed with IV insulin drip and aggressive fluid resuscitation. Transitioned to subcutaneous
+insulin on hospital day 3. Endocrinology consulted for insulin pump reassessment. Thyroid
+function tests showed TSH 8.4 mIU/L suggesting undertreated hypothyroidism. Levothyroxine
+dose was increased. PHQ-9 scored 18 indicating moderately severe depression. Psychiatry
+consulted and recommended increasing sertraline dose.
+
+DISCHARGE DIAGNOSES:
+1. Diabetic ketoacidosis, resolved
+2. Type 1 diabetes mellitus
+3. Hypothyroidism, undertreated
+4. Major depressive disorder, moderate
+5. Insulin pump malfunction
+
+DISCHARGE MEDICATIONS:
+1. Insulin lispro via pump - basal rate adjusted per endocrinology
+2. Insulin lispro 5 units with meals (backup if pump fails)
+3. Levothyroxine 125 mcg daily (increased from 100 mcg)
+4. Sertraline 150 mg daily (increased from 100 mg)
+5. Ondansetron 4 mg as needed for nausea
+
+PENDING LABS/RESULTS:
+- Repeat TSH in 6 weeks (pending)
+- Anti-GAD antibodies sent (pending)
+- Urine microalbumin (pending)
+
+FOLLOW-UP:
+1. Endocrinology follow-up in 2 weeks for pump adjustment
+2. Psychiatry follow-up in 4 weeks for medication check
+3. Primary care follow-up in 1 week
+4. Diabetes educator referral for pump troubleshooting
+
+CONDITION AT DISCHARGE: Stable, improved
