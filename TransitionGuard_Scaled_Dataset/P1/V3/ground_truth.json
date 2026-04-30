@@ -1,0 +1,92 @@
+[
+  {
+    "gap_id": "G001",
+    "category": "Follow-up",
+    "severity": "Warning",
+    "description": "No referral made for nephrology consultation despite stable Chronic Kidney Disease Stage 3.",
+    "evidence_in_history": "Chronic Kidney Disease Stage 3 noted with stable eGFR around 44-45 mL/min/1.73m²; no mention of nephrology referral or consultation.",
+    "evidence_in_summary": "Follow-up instructions state no referral made for nephrology consultation despite stable CKD.",
+    "suggested_correction": "Arrange nephrology referral for ongoing CKD management and monitoring."
+  },
+  {
+    "gap_id": "G002",
+    "category": "Follow-up",
+    "severity": "Warning",
+    "description": "No ophthalmology follow-up arranged for diabetic retinopathy monitoring.",
+    "evidence_in_history": "History lists diabetic retinopathy (mild non-proliferative) diagnosed in 2019 with no recent ophthalmology follow-up.",
+    "evidence_in_summary": "Follow-up instructions indicate no documented ophthalmology follow-up for diabetic retinopathy progression monitoring.",
+    "suggested_correction": "Schedule regular ophthalmology visits to monitor diabetic retinopathy progression."
+  },
+  {
+    "gap_id": "G003",
+    "category": "Follow-up",
+    "severity": "Warning",
+    "description": "Follow-up visits with cardiology and endocrinology clinics scheduled only in 6 months, which may delay timely reassessment given suboptimal diabetes and lipid control and recent CHF exacerbation.",
+    "evidence_in_history": "Prior plans called for 3-month follow-up; diabetes remains poorly controlled with HbA1c 7.8% and lipids above targets.",
+    "evidence_in_summary": "Discharge instructions schedule follow-up in 6 months with cardiology and endocrinology, potentially delaying care.",
+    "suggested_correction": "Advise earlier follow-up visits (e.g., within 1-3 months) to reassess volume status, glycemic and lipid control."
+  },
+  {
+    "gap_id": "G004",
+    "category": "Medication",
+    "severity": "Warning",
+    "description": "No adjustment or intensification of glucose-lowering therapy despite elevated fasting glucose (145 mg/dL) and HbA1c (7.8%).",
+    "evidence_in_history": "Diabetes documented with suboptimal glucose control; insulin dose unchanged during hospitalization.",
+    "evidence_in_summary": "Discharge summary notes no insulin dose adjustment despite elevated glucose and HbA1c above target.",
+    "suggested_correction": "Consider diabetes medication adjustment or intensification, including insulin titration or addition of other agents, with documented plan."
+  },
+  {
+    "gap_id": "G005",
+    "category": "Medication",
+    "severity": "Warning",
+    "description": "Statin therapy continued without lipid goal reassessment or adjustment despite persistent elevated LDL (135 mg/dL).",
+    "evidence_in_history": "Lipid panel shows LDL elevated at 135 mg/dL, above target <100 mg/dL despite atorvastatin 40 mg daily.",
+    "evidence_in_summary": "No documentation of lipid goal reassessment or any medication dose adjustment for dyslipidemia.",
+    "suggested_correction": "Reassess lipid goals and consider statin dose escalation or addition of other lipid-lowering agents if indicated."
+  },
+  {
+    "gap_id": "G006",
+    "category": "Instruction",
+    "severity": "Warning",
+    "description": "No documented plan for electrolyte monitoring despite increased furosemide dose and elevated potassium at high normal level.",
+    "evidence_in_history": "Furosemide dose increased from 40 mg to 60 mg; potassium at 4.9 mmol/L (high normal).",
+    "evidence_in_summary": "No documented electrolyte monitoring plan post-discharge.",
+    "suggested_correction": "Establish regular electrolyte and renal function monitoring to manage risk of hypokalemia/hyperkalemia and renal deterioration."
+  },
+  {
+    "gap_id": "G007",
+    "category": "Instruction",
+    "severity": "Warning",
+    "description": "Patient education regarding orthostatic hypotension precautions not reinforced despite prior reported dizziness and orthostatic hypotension findings.",
+    "evidence_in_history": "Prior visit document noted orthostatic BP drop and dizziness upon standing.",
+    "evidence_in_summary": "Discharge notes lack documentation of education reinforcement on orthostatic hypotension.",
+    "suggested_correction": "Reinforce orthostatic hypotension precautions and provide patient education at discharge."
+  },
+  {
+    "gap_id": "G008",
+    "category": "Instruction",
+    "severity": "Info",
+    "description": "Immunization status not reviewed or updated during hospitalization.",
+    "evidence_in_history": "No mention of immunization review or updates in any prior notes.",
+    "evidence_in_summary": "Discharge summary notes immunization status not reviewed or updated.",
+    "suggested_correction": "Review immunization status (e.g., influenza, pneumococcal, COVID-19) and update as appropriate before discharge."
+  },
+  {
+    "gap_id": "G009",
+    "category": "Instruction",
+    "severity": "Info",
+    "description": "No documented referral to diabetes educator or dietitian despite ongoing diabetes management challenges.",
+    "evidence_in_history": "Plans include reinforcement of diabetic diet and glucose monitoring, but no formal referral documented.",
+    "evidence_in_summary": "Discharge summary notes lifestyle counseling provided but no documented referral to diabetes educator or dietitian.",
+    "suggested_correction": "Arrange referral to diabetes educator and/or dietitian for structured support in diabetes self-management."
+  },
+  {
+    "gap_id": "G010",
+    "category": "Instruction",
+    "severity": "Info",
+    "description": "No documentation of advanced care planning or goals of care discussion despite chronic progressive illnesses.",
+    "evidence_in_history": "Patient has multiple chronic progressive conditions (CHF, CKD, diabetes) but no recorded advance care planning.",
+    "evidence_in_summary": "Discharge summary explicitly notes no documentation of advanced care planning or goals of care discussions.",
+    "suggested_correction": "Initiate and document advanced care planning and goals of care discussions as part of comprehensive chronic disease management."
+  }
+]

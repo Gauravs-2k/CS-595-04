@@ -1,0 +1,65 @@
+[
+  {
+    "gap_id": "G001",
+    "category": "Medication",
+    "severity": "Warning",
+    "description": "No corticosteroids prescribed at discharge despite COPD exacerbation diagnosis and hospitalization.",
+    "evidence_in_history": "Assessment at hospital included acute exacerbation of COPD; usual management often involves corticosteroids.",
+    "evidence_in_summary": "Note states: 'Oral corticosteroids were not prescribed at discharge despite COPD exacerbation.'",
+    "suggested_correction": "Document rationale for withholding corticosteroids or consider prescribing corticosteroids at discharge per COPD exacerbation guidelines."
+  },
+  {
+    "gap_id": "G002",
+    "category": "Follow-up",
+    "severity": "Warning",
+    "description": "Pulmonology follow-up appointment mentioned without specific date; primary care follow-up recommended with no timeframe specified.",
+    "evidence_in_history": "2012-05-25 routine visit recommended follow-up in 6 months but hospital discharge follow-up details lack specificity.",
+    "evidence_in_summary": "Follow-up: 'Pulmonology appointment in 4 weeks (exact date not provided)' and 'Primary care provider follow-up recommended, no specific timeframe indicated.'",
+    "suggested_correction": "Provide specific dates for pulmonology and primary care follow-up appointments in the discharge summary."
+  },
+  {
+    "gap_id": "G003",
+    "category": "Follow-up",
+    "severity": "Info",
+    "description": "No documented recommendations or referrals for pulmonary rehabilitation despite prior recommendation during outpatient visit.",
+    "evidence_in_history": "Office Visit 2 plan includes 'Recommend pulmonary rehab referral'.",
+    "evidence_in_summary": "No documented recommendations for pulmonary rehabilitation in discharge summary.",
+    "suggested_correction": "Include pulmonary rehabilitation referral or clear documentation regarding its consideration in the discharge summary."
+  },
+  {
+    "gap_id": "G004",
+    "category": "Instruction",
+    "severity": "Info",
+    "description": "No mention of vaccination status or recommendations at discharge, despite vaccination administration noted at prior outpatient visit.",
+    "evidence_in_history": "Office Visit 2 includes administration of influenza and pneumococcal vaccines.",
+    "evidence_in_summary": "No referral or instructions regarding influenza or pneumococcal vaccination status or schedule at discharge.",
+    "suggested_correction": "Document vaccination status clearly and provide recommendations or reminders regarding vaccinations at discharge."
+  },
+  {
+    "gap_id": "G005",
+    "category": "Instruction",
+    "severity": "Warning",
+    "description": "No documentation of venous thromboembolism (VTE) prophylaxis during hospitalization despite immobility risk; no documentation of home oxygen therapy or respiratory therapy plan at discharge.",
+    "evidence_in_history": "Hospital course notes no VTE prophylaxis documented and no home oxygen plan documented at discharge.",
+    "evidence_in_summary": "Discharge summary states 'No home health services arranged' and 'No clear respiratory therapy or home oxygen plan documented.'",
+    "suggested_correction": "Document VTE prophylaxis plan during admission; provide clear discharge instructions regarding respiratory therapy and home oxygen if needed."
+  },
+  {
+    "gap_id": "G006",
+    "category": "Lab",
+    "severity": "Info",
+    "description": "No follow-up laboratory monitoring scheduled or recommended despite mild acute kidney injury at admission.",
+    "evidence_in_history": "Hospital course notes mild AKI with creatinine 1.3 mg/dL on admission.",
+    "evidence_in_summary": "Discharge summary does not mention lab follow-up plans for kidney function monitoring.",
+    "suggested_correction": "Include recommendations for monitoring renal function post-discharge given acute kidney injury during hospitalization."
+  },
+  {
+    "gap_id": "G007",
+    "category": "Instruction",
+    "severity": "Info",
+    "description": "Nutritional status and management not addressed during hospitalization or at discharge.",
+    "evidence_in_history": "Hospital course states 'Nutritional status was not specifically addressed.'",
+    "evidence_in_summary": "No documentation of nutritional assessment or recommendations at discharge.",
+    "suggested_correction": "Document nutritional evaluation and provide dietary recommendations or referrals as appropriate in discharge summary."
+  }
+]

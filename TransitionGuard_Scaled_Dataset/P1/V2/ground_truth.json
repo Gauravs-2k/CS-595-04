@@ -1,0 +1,29 @@
+[
+  {
+    "gap_id": "G001",
+    "category": "Medication",
+    "severity": "Warning",
+    "description": "The exact start date and instructions for Semaglutide initiation during hospitalization are not documented.",
+    "evidence_in_history": "Visit 2 plan includes adding Semaglutide starting at 0.25 mg weekly as outpatient.",
+    "evidence_in_summary": "Discharge medications list includes Semaglutide 0.25 mg weekly; note states exact start date during hospitalization not specified.",
+    "suggested_correction": "Document the exact date Semaglutide was started during hospitalization and provide clear dosing and administration instructions."
+  },
+  {
+    "gap_id": "G002",
+    "category": "Lab",
+    "severity": "Info",
+    "description": "BNP result was mentioned as elevated at 420 pg/mL in hospital course but specific lab date and prior BNP results are missing.",
+    "evidence_in_history": "Visit 1 notes BNP was pending (10/15/2023), no BNP values included in lab history.",
+    "evidence_in_summary": "Hospital course references elevated BNP (420 pg/mL) but does not document specific date of measurement or trend.",
+    "suggested_correction": "Include specific date and serial BNP values to correlate with clinical status and monitor CHF exacerbation."
+  },
+  {
+    "gap_id": "G003",
+    "category": "Instruction",
+    "severity": "Info",
+    "description": "Discharge instructions do not explicitly document patient education on potential side effects and monitoring parameters related to new GLP-1 receptor agonist therapy.",
+    "evidence_in_history": "Plan includes addition of Semaglutide with note on renal function monitoring but no detailed patient education on medication side effects.",
+    "evidence_in_summary": "Discharge summary mentions renal monitoring and dietary counseling but lacks detailed instructions on semaglutide side effects and management.",
+    "suggested_correction": "Add specific documented education on potential adverse effects of Semaglutide (e.g., nausea, pancreatitis risk) and instructions for patient symptom reporting."
+  }
+]

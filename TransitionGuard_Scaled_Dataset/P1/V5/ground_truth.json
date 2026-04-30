@@ -1,0 +1,74 @@
+[
+  {
+    "gap_id": "G001",
+    "category": "Medication",
+    "severity": "Warning",
+    "description": "Potassium chloride was discontinued at discharge without documented rationale or recent serum potassium assessment after increasing furosemide dose.",
+    "evidence_in_history": "Current medications include potassium chloride 20 mEq daily; lab potassium levels were normal but patient remained on potassium supplementation while furosemide dose was increased to twice daily.",
+    "evidence_in_summary": "Discharge medications omitted potassium chloride with a note that it was discontinued without potassium level reassessment or documented rationale.",
+    "suggested_correction": "Document recent potassium levels before discontinuation or monitor potassium closely after stopping supplementation to avoid hypokalemia."
+  },
+  {
+    "gap_id": "G002",
+    "category": "Follow-up",
+    "severity": "Urgent",
+    "description": "No endocrinology referral or appointment planned despite persistently elevated HbA1c indicating suboptimal diabetes control.",
+    "evidence_in_history": "Plan from outpatient visit included considering endocrinology referral if HbA1c did not improve; latest HbA1c values remain elevated around 7.6-7.8%.",
+    "evidence_in_summary": "Follow-up instructions note no endocrinology referral or scheduled appointment despite glycemic control concerns.",
+    "suggested_correction": "Arrange endocrinology referral or consultation to optimize diabetes management prior to or shortly after discharge."
+  },
+  {
+    "gap_id": "G003",
+    "category": "Follow-up",
+    "severity": "Urgent",
+    "description": "No scheduled nephrology follow-up despite CKD stage 3 and evidence of renal function decline and elevations in BUN and creatinine.",
+    "evidence_in_history": "CKD stage 3 diagnosis with stable but elevated and slightly rising BUN and creatinine over last 6 months; plans to monitor labs and dietitian consult planned outpatient.",
+    "evidence_in_summary": "No nephrology follow-up appointment scheduled or recommended despite risk for progression and acute on chronic kidney injury noted on admission.",
+    "suggested_correction": "Schedule nephrology outpatient follow-up to monitor CKD progression and optimize renal care."
+  },
+  {
+    "gap_id": "G004",
+    "category": "Instruction",
+    "severity": "Warning",
+    "description": "No documentation of patient education materials provided or confirmation of patient understanding of discharge instructions, particularly regarding new medication changes and monitoring.",
+    "evidence_in_history": "Plan included patient education on weight monitoring and diet; patient reported adherence but struggled with diet and fatigue.",
+    "evidence_in_summary": "No documentation found of education materials or patient comprehension discussion at discharge.",
+    "suggested_correction": "Provide and document patient education on medication changes, warning signs, diet, and monitoring; confirm patient understanding before discharge."
+  },
+  {
+    "gap_id": "G005",
+    "category": "Instruction",
+    "severity": "Info",
+    "description": "No formal diabetic or renal dietitian consultation obtained either during admission or arranged at discharge despite documented complexities in diabetes and CKD management.",
+    "evidence_in_history": "Outpatient plan included dietitian referral; labs and clinical notes indicate suboptimal diabetes and CKD control; patient reported struggles with diet adherence.",
+    "evidence_in_summary": "Noted lack of formal dietitian consult during admission or at discharge.",
+    "suggested_correction": "Coordinate dietitian consultation for diabetes and CKD dietary counseling to support outpatient management."
+  },
+  {
+    "gap_id": "G006",
+    "category": "Medication",
+    "severity": "Warning",
+    "description": "No insulin dose adjustment or medication changes made to address persistently suboptimal glycemic control despite elevated HbA1c levels.",
+    "evidence_in_history": "Insulin glargine dose unchanged; HbA1c remains elevated with some fluctuation (7.6-7.8%).",
+    "evidence_in_summary": "Hospital course notes no insulin or diabetic medication changes despite elevated glucose and HbA1c.",
+    "suggested_correction": "Evaluate need for insulin titration or additional diabetes therapy before discharge or during follow-up."
+  },
+  {
+    "gap_id": "G007",
+    "category": "Instruction",
+    "severity": "Info",
+    "description": "No documentation discussing sulfa allergy in the context of patient’s current medication regimen or potential cross-reactivity risks.",
+    "evidence_in_history": "Patient has documented sulfa allergy with anaphylaxis; no new medications/potential sulfa drugs listed.",
+    "evidence_in_summary": "Sulfa allergy noted but no discussion regarding impact on therapy or warnings provided.",
+    "suggested_correction": "Document assessment of allergy risks related to current and future medications and educate patient accordingly."
+  },
+  {
+    "gap_id": "G008",
+    "category": "Follow-up",
+    "severity": "Warning",
+    "description": "Cardiology outpatient appointment was suggested but not scheduled or coordinated before discharge.",
+    "evidence_in_history": "Patient has CHF with NYHA class II and S3 gallop; plan includes cardiology follow-up in outpatient notes.",
+    "evidence_in_summary": "Discharge summary notes cardiology follow-up suggested but not scheduled.",
+    "suggested_correction": "Schedule cardiology outpatient appointment prior to or immediately after discharge for continuity of care."
+  }
+]

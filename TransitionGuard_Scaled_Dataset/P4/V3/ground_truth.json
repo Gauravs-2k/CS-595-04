@@ -1,0 +1,92 @@
+[
+  {
+    "gap_id": "G001",
+    "category": "Medication",
+    "severity": "Warning",
+    "description": "No documentation of counseling regarding lithium toxicity risk, hydration status, or renal function monitoring during hospitalization and at discharge.",
+    "evidence_in_history": "Lithium and lamotrigine were continued; no serum drug levels were drawn during hospitalization.",
+    "evidence_in_summary": "Despite recommendation, documentation is lacking on counseling regarding lithium toxicity risk, especially in cases of hydration or renal compromise.",
+    "suggested_correction": "Include explicit counseling on lithium toxicity risks, proper hydration, renal function monitoring, and ordering lithium serum levels during hospitalization and discharge instructions."
+  },
+  {
+    "gap_id": "G002",
+    "category": "Follow-up",
+    "severity": "Urgent",
+    "description": "Follow-up appointment with neurology and psychiatry scheduled only in 6 months; no urgent or sooner follow-up arranged despite recent increased migraine frequency and fatigue.",
+    "evidence_in_history": "Plan from office visit 1 suggested follow-up in 3 months or sooner if worsening symptoms; recent migraine frequency increased and fatigue present.",
+    "evidence_in_summary": "Follow-up appointment with neurology and psychiatry scheduled in 6 months (*urgent or sooner follow-up not arranged despite recent increase in migraine frequency and fatigue*).",
+    "suggested_correction": "Arrange earlier follow-up appointments within 3 months or sooner if symptoms worsen, documented in discharge instructions."
+  },
+  {
+    "gap_id": "G003",
+    "category": "Lab",
+    "severity": "Urgent",
+    "description": "No lab orders included or communicated in discharge paperwork for repeat CBC and ferritin to monitor anemia status.",
+    "evidence_in_history": "Plan includes monitoring CBC and ferritin in 3 months to confirm resolution of anemia.",
+    "evidence_in_summary": "Repeat CBC and ferritin labs recommended in 3 months (*no lab orders included or communicated in discharge paperwork*).",
+    "suggested_correction": "Include explicit lab orders for CBC and serum ferritin for follow-up monitoring and communicate to patient and care providers."
+  },
+  {
+    "gap_id": "G004",
+    "category": "Diagnosis | Follow-up",
+    "severity": "Urgent",
+    "description": "No assessment documented for menstrual or other bleeding causes contributing to iron deficiency anemia; no referral made to hematology or gastroenterology for anemia workup.",
+    "evidence_in_history": "Iron deficiency anemia diagnosed; underlying cause not fully evaluated in office visits.",
+    "evidence_in_summary": "No information noted regarding assessment for menstrual or other bleeding contributing to iron deficiency. No referral to hematology or gastroenterology conducted to investigate underlying cause of anemia.",
+    "suggested_correction": "Conduct and document assessment for bleeding sources (gynecological or GI) and arrange appropriate specialist referrals for anemia etiology evaluation."
+  },
+  {
+    "gap_id": "G005",
+    "category": "Follow-up | Instruction",
+    "severity": "Urgent",
+    "description": "No documentation of suicide risk assessment or mental health crisis safety plan despite bipolar disorder diagnosis with symptoms of fatigue and irritability.",
+    "evidence_in_history": "Fatigue and mild irritability reported; bipolar disorder present with no mention of suicide risk assessment.",
+    "evidence_in_summary": "Suicide risk assessment was not documented despite bipolar diagnosis with fatigue and irritability. No safety plan or psychosocial follow-up arranged.",
+    "suggested_correction": "Perform and document suicide risk assessment, create safety plan, and arrange appropriate psychosocial follow-up before discharge."
+  },
+  {
+    "gap_id": "G006",
+    "category": "Medication",
+    "severity": "Info",
+    "description": "No mention or documentation of folic acid or vitamin D supplementation for anemia or mood disorder support.",
+    "evidence_in_history": "No folic acid or vitamin D supplementation mentioned in medication list or office visits for anemia/mood support.",
+    "evidence_in_summary": "*No new medications added on discharge. Documentation missing regarding folic acid or vitamin D supplementation for anemia or mood support.*",
+    "suggested_correction": "Consider evaluation for and document folic acid and vitamin D supplementation as supportive therapy; include rationale if not indicated."
+  },
+  {
+    "gap_id": "G007",
+    "category": "Medication | Instruction",
+    "severity": "Warning",
+    "description": "Medication reconciliation missing NSAIDs or alternative migraine adjuncts that might be relevant due to migraine management.",
+    "evidence_in_history": "No NSAIDs or other non-specified migraine adjunct medications documented in history or plan.",
+    "evidence_in_summary": "Medication reconciliation does not list NSAIDs or other common migraine adjuncts that may be relevant.",
+    "suggested_correction": "Include review and documentation of all migraine-related medications including NSAIDs or alternative therapies in medication reconciliation."
+  },
+  {
+    "gap_id": "G008",
+    "category": "Instruction | Allergy",
+    "severity": "Info",
+    "description": "No documentation on possible cross-allergy with other beta-lactams or alternative analgesics given known penicillin and codeine allergies.",
+    "evidence_in_history": "Penicillin and codeine allergies documented with reactions described.",
+    "evidence_in_summary": "*No note on possible cross-allergy with other beta-lactams or alternative analgesics.*",
+    "suggested_correction": "Document counseling or allergy assessment related to potential cross-reactivity with beta-lactams and alternative analgesics to avoid adverse reactions."
+  },
+  {
+    "gap_id": "G009",
+    "category": "Instruction",
+    "severity": "Warning",
+    "description": "No instructions provided regarding hydration, lithium level monitoring, or recognition of lithium toxicity symptoms at discharge.",
+    "evidence_in_history": "History includes lithium therapy with no mention of patient education on side effects or toxicity.",
+    "evidence_in_summary": "No instructions provided regarding hydration, lithium level monitoring, or recognition of lithium toxicity symptoms.",
+    "suggested_correction": "Provide clear discharge instructions on hydration importance, monitoring lithium levels, and signs/symptoms of toxicity."
+  },
+  {
+    "gap_id": "G010",
+    "category": "Follow-up",
+    "severity": "Warning",
+    "description": "No home health, social work, or nursing referrals documented despite patient fatigue and complex chronic conditions.",
+    "evidence_in_history": "Patient reports fatigue and multiple chronic conditions; no mention of home support services.",
+    "evidence_in_summary": "No home health, social work, or nursing service referrals documented.",
+    "suggested_correction": "Assess need for and arrange appropriate home health or social support services for discharge planning."
+  }
+]

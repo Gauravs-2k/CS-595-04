@@ -1,0 +1,83 @@
+[
+  {
+    "gap_id": "G001",
+    "category": "Medication",
+    "severity": "Urgent",
+    "description": "No discharge antibiotic prescribed to complete the pneumonia treatment course despite severe infection at admission.",
+    "evidence_in_history": "Visit 1 plan includes starting Azithromycin 500 mg once daily for 5 days for pneumonia.",
+    "evidence_in_summary": "Azithromycin listed as 'Not prescribed at discharge' with note about no discharge antibiotic prescribed to complete treatment.",
+    "suggested_correction": "Document continuation or completion plan for antibiotic treatment at discharge, prescribe appropriate antibiotic therapy to complete pneumonia treatment."
+  },
+  {
+    "gap_id": "G002",
+    "category": "Medication",
+    "severity": "Warning",
+    "description": "No documentation of corticosteroid use or consideration despite COPD exacerbation severity during hospitalization.",
+    "evidence_in_history": "Assessment of acute bacterial pneumonia on background of COPD exacerbation, plan addresses antibiotics and inhalers but no steroids mentioned.",
+    "evidence_in_summary": "Hospital course notes absence of corticosteroid use for COPD exacerbation.",
+    "suggested_correction": "Document rationale for corticosteroid use or omission in management of COPD exacerbation; consider appropriate corticosteroid therapy if indicated."
+  },
+  {
+    "gap_id": "G003",
+    "category": "Medication | Allergy",
+    "severity": "Urgent",
+    "description": "No explicit documentation of allergy review during admission or consideration of antibiotic choice and cross-reactivity given penicillin and sulfa drug allergies.",
+    "evidence_in_history": "Allergy record lists penicillin and sulfa drug allergies, but antibiotic plan uses Azithromycin without allergy review.",
+    "evidence_in_summary": "Hospital course states allergy review not documented, no rationale for antibiotic choice in context of allergies.",
+    "suggested_correction": "Include allergy review and document antibiotic selection rationale; address cross-reactivity risks and alternative antibiotic options if needed."
+  },
+  {
+    "gap_id": "G004",
+    "category": "Lab | Monitoring",
+    "severity": "Warning",
+    "description": "Vital signs such as peak temperature and respiratory rates during hospitalization were not documented; pulmonary function monitoring was limited.",
+    "evidence_in_history": "Objective data collected during outpatient visit and labs noted but no continuous monitoring information during admission.",
+    "evidence_in_summary": "Hospital course mentions intermittent vital signs recording with missing peak temperature and respiratory rate details and limited respiratory monitoring.",
+    "suggested_correction": "Provide daily or more frequent vital signs documentation and pulmonary function monitoring details during hospitalization to assess patient status accurately."
+  },
+  {
+    "gap_id": "G005",
+    "category": "Instruction | Follow-up",
+    "severity": "Warning",
+    "description": "No documentation of patient education or instructions related to oxygen use, warning signs, or management of COPD exacerbation at discharge.",
+    "evidence_in_history": "Plan includes patient education on infection and COPD exacerbation symptoms but no specific oxygen or warning sign instructions.",
+    "evidence_in_summary": "Hospital course states discharge education provided but no documentation of oxygen use instructions or clear return-to-hospital criteria; follow-up appointments recommended but not scheduled or fully documented.",
+    "suggested_correction": "Document detailed patient education on oxygen therapy, signs/symptoms requiring urgent care, and ensure follow-up appointments are scheduled and communicated."
+  },
+  {
+    "gap_id": "G006",
+    "category": "Follow-up | Lab | Imaging",
+    "severity": "Info",
+    "description": "No documented plan for repeat chest imaging or pulmonary function testing post-discharge to monitor resolution of pneumonia and COPD status.",
+    "evidence_in_history": "Spirometry performed in outpatient visit shows COPD moderate obstruction; no mention of repeat imaging.",
+    "evidence_in_summary": "Follow-up recommendations note absence of plan for repeat chest imaging or pulmonary function tests.",
+    "suggested_correction": "Include plan for repeat chest X-ray and pulmonary function testing post discharge to assess recovery and lung function."
+  },
+  {
+    "gap_id": "G007",
+    "category": "Medication | Instruction",
+    "severity": "Info",
+    "description": "No home oxygen therapy prescribed or documented despite borderline oxygen saturation during admission and mild hypoxia at discharge.",
+    "evidence_in_history": "O2 saturation 90% on room air during acute illness; plan mentions supplemental oxygen if saturation falls below 88%.",
+    "evidence_in_summary": "Discharge notes oxygen saturation 92% on room air; no home oxygen prescribed or instructions provided.",
+    "suggested_correction": "Assess and document need for home oxygen therapy or outpatient oxygen monitoring; provide instructions if appropriate."
+  },
+  {
+    "gap_id": "G008",
+    "category": "Instruction | Vaccination",
+    "severity": "Info",
+    "description": "Influenza and pneumococcal vaccination status at discharge not addressed despite risk factors.",
+    "evidence_in_history": "Annual influenza vaccine recommended and administered in June outpatient visit.",
+    "evidence_in_summary": "Discharge summary states vaccine status not addressed.",
+    "suggested_correction": "Document updated vaccination status at discharge, consider pneumococcal vaccination, and provide vaccination plan if needed."
+  },
+  {
+    "gap_id": "G009",
+    "category": "Lab",
+    "severity": "Info",
+    "description": "No repeat inflammatory markers (e.g. CRP, procalcitonin) or blood counts documented during hospital stay to monitor infection response.",
+    "evidence_in_history": "Labs show elevated WBC, CRP, and procalcitonin at outpatient visit during acute infection onset.",
+    "evidence_in_summary": "Hospital course lacks documentation of serial labs for infection monitoring.",
+    "suggested_correction": "Include serial laboratory monitoring during hospitalization to assess treatment response."
+  }
+]

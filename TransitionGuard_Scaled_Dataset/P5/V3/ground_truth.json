@@ -1,0 +1,92 @@
+[
+  {
+    "gap_id": "G001",
+    "category": "Discharge Documentation | Date",
+    "severity": "Urgent",
+    "description": "Date of admission and date of discharge are not documented in the discharge summary.",
+    "evidence_in_history": "No specific admission or discharge dates as this is an outpatient history record.",
+    "evidence_in_summary": "Date of Admission: Not documented; Date of Discharge: Not documented;",
+    "suggested_correction": "Include precise dates of admission and discharge in the discharge summary for completeness and continuity of care."
+  },
+  {
+    "gap_id": "G002",
+    "category": "Discharge Documentation | Hospital Number | Provider Information",
+    "severity": "Warning",
+    "description": "Hospital number, name of preparer, date and signature fields are missing in the discharge summary.",
+    "evidence_in_history": "Not applicable; outpatient record.",
+    "evidence_in_summary": "Hospital Number: Not documented; Prepared by: Not documented; Date: Not documented; Signature: Not documented;",
+    "suggested_correction": "Add hospital number, name of person preparing the summary, date, and signature to validate documentation."
+  },
+  {
+    "gap_id": "G003",
+    "category": "Medication",
+    "severity": "Warning",
+    "description": "No documentation clarifies whether aspirin should be continued alongside apixaban despite increased bleeding risk and no documented bleeding risk assessment.",
+    "evidence_in_history": "Patient is on both apixaban and aspirin (enteric-coated 81 mg daily). No mention of bleeding risk or aspirin discontinuation.",
+    "evidence_in_summary": "Discharge medications include both apixaban and aspirin with note that risk assessment was not documented.",
+    "suggested_correction": "Document bleeding risk assessment and clarify the rationale for combined use of aspirin with anticoagulation or instructions for discontinuation if appropriate."
+  },
+  {
+    "gap_id": "G004",
+    "category": "Allergy",
+    "severity": "Info",
+    "description": "No assessment or documentation of aspirin allergy despite reported NSAID sensitivity.",
+    "evidence_in_history": "Allergy record lists NSAIDs as causing GI upset and mild gastritis; aspirin allergy not mentioned.",
+    "evidence_in_summary": "No mention of aspirin allergy assessment or confirmation in allergy section.",
+    "suggested_correction": "Assess and document aspirin allergy status given NSAID sensitivity to ensure patient safety."
+  },
+  {
+    "gap_id": "G005",
+    "category": "Lab | Monitoring",
+    "severity": "Warning",
+    "description": "Laboratory testing during hospitalization lacks exact timing, trend analysis, and documentation of dose verification for apixaban.",
+    "evidence_in_history": "Routine labs and INR documented as stable and regularly monitored outpatient.",
+    "evidence_in_summary": "Lab tests were performed but exact timing and trends not documented; no dose adjustment or verification for apixaban documented.",
+    "suggested_correction": "Include detailed lab results with dates, trends during admission, and documentation confirming apixaban dose appropriateness and monitoring."
+  },
+  {
+    "gap_id": "G006",
+    "category": "Imaging | Procedure",
+    "severity": "Info",
+    "description": "No cardiac imaging (e.g., echocardiogram) or brain imaging performed or documented during hospitalization.",
+    "evidence_in_history": "No imaging noted in outpatient notes; relevant given atrial fibrillation and stroke history.",
+    "evidence_in_summary": "No cardiac or brain imaging documented during this admission.",
+    "suggested_correction": "Document whether imaging was considered or performed; consider ordering echocardiogram or brain imaging as clinically indicated."
+  },
+  {
+    "gap_id": "G007",
+    "category": "Consultations | Rehabilitation",
+    "severity": "Warning",
+    "description": "No documented cardiology or neurology consults and no referrals for physical or occupational therapy despite stroke history and hospitalization.",
+    "evidence_in_history": "Patient with prior ischemic stroke requiring follow-up care.",
+    "evidence_in_summary": "No cardiology/neurology consults or rehabilitation referrals noted.",
+    "suggested_correction": "Document referrals or consultations for specialist care and rehabilitation services as appropriate."
+  },
+  {
+    "gap_id": "G008",
+    "category": "Instruction | Follow-up",
+    "severity": "Urgent",
+    "description": "No documented plan for urgent post-discharge follow-up, specific outpatient INR monitoring schedule, stroke symptom monitoring, emergency contacts, or scheduling of blood work or imaging.",
+    "evidence_in_history": "History notes routine INR monitoring and follow-up in 6 months or sooner if symptomatic.",
+    "evidence_in_summary": "Follow-up instructions lack urgency or specificity; no scheduled labs, imaging, or emergency instructions provided.",
+    "suggested_correction": "Provide explicit instructions for post-discharge INR monitoring schedule, stroke symptom monitoring, emergency contact information, and scheduling of labs/imaging."
+  },
+  {
+    "gap_id": "G009",
+    "category": "Vaccination",
+    "severity": "Info",
+    "description": "Vaccination status (influenza, pneumococcal) was not assessed or documented during hospitalization or discharge.",
+    "evidence_in_history": "Office visit recommended vaccines if not up to date.",
+    "evidence_in_summary": "No documentation regarding vaccination status or administration during hospital stay.",
+    "suggested_correction": "Assess and document vaccination status and provide recommended vaccines or referrals prior to discharge."
+  },
+  {
+    "gap_id": "G010",
+    "category": "Discharge Condition | Ambulatory Status",
+    "severity": "Info",
+    "description": "Documentation of patient's ambulatory status at discharge is incomplete.",
+    "evidence_in_history": "No explicit ambulatory status documented but outpatient notes suggest no focal deficits.",
+    "evidence_in_summary": "Discharge summary states ambulatory with no assistance but notes incomplete documentation.",
+    "suggested_correction": "Clearly document functional mobility and need for assistance at discharge."
+  }
+]

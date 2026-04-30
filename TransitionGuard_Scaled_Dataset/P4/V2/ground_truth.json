@@ -1,0 +1,38 @@
+[
+  {
+    "gap_id": "G001",
+    "category": "Medication",
+    "severity": "Warning",
+    "description": "The frequency of ferrous sulfate dosing on discharge medications is uncertain and not clearly specified.",
+    "evidence_in_history": "Ferrous sulfate prescribed as 325 mg TID (three times daily) consistently in medication list and office visits.",
+    "evidence_in_summary": "Discharge medications list ferrous sulfate 325 mg with frequency marked as '**[Frequency uncertain]**'; notes mention dosing intervals require confirmation.",
+    "suggested_correction": "Clarify and clearly specify the exact frequency of ferrous sulfate dosing at discharge to avoid potential medication errors."
+  },
+  {
+    "gap_id": "G002",
+    "category": "Diagnosis",
+    "severity": "Info",
+    "description": "Secondary diagnosis related to mood stability or other hematologic conditions is mentioned as '[Secondary diagnosis related to mood stability or other hematologic conditions not documented]' without further specification.",
+    "evidence_in_history": "Mood disorder diagnoses clearly documented (Bipolar I disorder, status stable); no other hematologic diagnoses mentioned beyond iron deficiency anemia.",
+    "evidence_in_summary": "Secondary diagnosis section includes an undefined placeholder indicating missing or undocumented secondary diagnoses.",
+    "suggested_correction": "Remove placeholder or specify relevant secondary diagnoses if applicable to provide complete diagnostic documentation."
+  },
+  {
+    "gap_id": "G003",
+    "category": "Follow-up",
+    "severity": "Info",
+    "description": "No admission or discharge dates provided, complicating timeline clarity and follow-up scheduling.",
+    "evidence_in_history": "No admission or discharge dates mentioned in the longitudinal record.",
+    "evidence_in_summary": "Admission Date and Discharge Date fields are empty in the discharge summary header.",
+    "suggested_correction": "Include accurate admission and discharge dates in the summary to ensure clear documentation of hospital stay and support continuity of care."
+  },
+  {
+    "gap_id": "G004",
+    "category": "Instruction",
+    "severity": "Info",
+    "description": "Psychiatric counseling reinforcement noted but details about counseling support or psychiatric medication adjustment specifics are lacking.",
+    "evidence_in_history": "Office visits mention counseling support for bipolar disorder and suggestions for psychiatry follow-up.",
+    "evidence_in_summary": "Summary states counseling was reinforced but lacks details on content, frequency, or planned psychiatric medication adjustments.",
+    "suggested_correction": "Provide more detailed documentation regarding psychiatric counseling content, planned follow-up, and any medication adjustment considerations."
+  }
+]

@@ -1,0 +1,56 @@
+[
+  {
+    "gap_id": "G001",
+    "category": "Medication",
+    "severity": "Warning",
+    "description": "Celecoxib, a selective COX-2 NSAID, was prescribed despite a documented allergy to non-selective NSAIDs without any documented safety discussion or monitoring plan.",
+    "evidence_in_history": "Current Medication List includes Celecoxib 200 mg twice daily; Allergy Record documents NSAIDs (non-selective) allergy with gastrointestinal upset.",
+    "evidence_in_summary": "Note states Celecoxib was prescribed despite documented NSAID allergy without documented safety discussion or monitoring plan.",
+    "suggested_correction": "Document clinical rationale and safety monitoring for use of selective NSAID in patient with NSAID allergy; consider allergy testing or alternative medications if necessary."
+  },
+  {
+    "gap_id": "G002",
+    "category": "Medication",
+    "severity": "Info",
+    "description": "Aspirin continuation or discontinuation at discharge is unclear; discharge medications do not list Aspirin though it was on admission medication list.",
+    "evidence_in_history": "Current Medication List includes Aspirin 81 mg once daily.",
+    "evidence_in_summary": "Discharge medications omit Aspirin; no explicit statement about discontinuation or continuation.",
+    "suggested_correction": "Explicitly document aspirin continuation or discontinuation at discharge to avoid medication reconciliation errors."
+  },
+  {
+    "gap_id": "G003",
+    "category": "Follow-up",
+    "severity": "Warning",
+    "description": "No documented confirmation or scheduling of primary care follow-up for management of hypertension and diabetes mellitus after discharge.",
+    "evidence_in_history": "History includes diagnoses of essential hypertension and type 2 diabetes mellitus; medications for these conditions ongoing.",
+    "evidence_in_summary": "Discharge summary notes recommendation for primary care follow-up within 6 months but no appointment confirmation documented.",
+    "suggested_correction": "Document confirmed primary care follow-up appointment or clear patient instructions to ensure chronic disease management continuity."
+  },
+  {
+    "gap_id": "G004",
+    "category": "Follow-up | Instruction",
+    "severity": "Info",
+    "description": "Physical therapy plan lacks detailed schedule and follow-up adherence documentation post-discharge.",
+    "evidence_in_history": "Visit 1 plan includes encouragement of physical therapy 3 times per week; Visit 2 and summary mention PT but no adherence or schedule details.",
+    "evidence_in_summary": "Discharge instructions mention physical therapy encouraged but no specific plan or compliance follow-up documented.",
+    "suggested_correction": "Include a clear physical therapy schedule with documented patient adherence plans and monitor compliance during follow-up visits."
+  },
+  {
+    "gap_id": "G005",
+    "category": "Instruction",
+    "severity": "Warning",
+    "description": "No documented instructions regarding ongoing fall risk reassessment or monitoring for potential prosthetic complications post-discharge.",
+    "evidence_in_history": "Patient advised on fall prevention and mobility safety at Visit 1; no recurrent mention at Visit 2.",
+    "evidence_in_summary": "Discharge summary states no instructions documented for fall risk reassessment or prosthesis monitoring.",
+    "suggested_correction": "Provide and document specific fall risk reassessment schedules and criteria for monitoring prosthetic joint complications in discharge instructions and follow-up plans."
+  },
+  {
+    "gap_id": "G006",
+    "category": "Lab",
+    "severity": "Info",
+    "description": "No specified frequency or parameters for ongoing Vitamin D level monitoring despite documented deficiency and supplementation.",
+    "evidence_in_history": "Vitamin D deficiency diagnosed 2023-05-08; improving levels recorded; supplementation ongoing; yearly monitoring advised.",
+    "evidence_in_summary": "Discharge summary notes improved vitamin D status but frequency and parameters for continued monitoring remain unspecified.",
+    "suggested_correction": "Define and document a clear Vitamin D monitoring schedule and target levels for ongoing management."
+  }
+]

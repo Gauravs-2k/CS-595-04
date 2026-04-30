@@ -1,0 +1,47 @@
+[
+  {
+    "gap_id": "G001",
+    "category": "Medication",
+    "severity": "Warning",
+    "description": "Discrepancy in Acetaminophen dosing frequency between history and discharge summary.",
+    "evidence_in_history": "Acetaminophen prescribed as 650 mg every 6 hours prn.",
+    "evidence_in_summary": "Acetaminophen prescribed as 650 mg every 8 hours prn at discharge.",
+    "suggested_correction": "Clarify and standardize acetaminophen dosing frequency in discharge instructions and medication list to maintain consistency and safe usage."
+  },
+  {
+    "gap_id": "G002",
+    "category": "Medication",
+    "severity": "Info",
+    "description": "Azithromycin discontinued at discharge but no explicit mention of alternative antibiotic plan or rationale for non-continuation.",
+    "evidence_in_history": "Azithromycin prescribed for 5 days (last used on admission date 2023-11-05).",
+    "evidence_in_summary": "Azithromycin not continued after hospitalization per clinical improvement, but no details on antibiotic stewardship or alternatives.",
+    "suggested_correction": "Include clear rationale for azithromycin discontinuation and any necessary antibiotic follow-up or monitoring instructions."
+  },
+  {
+    "gap_id": "G003",
+    "category": "Follow-up",
+    "severity": "Info",
+    "description": "No explicit follow-up plan for re-assessment of inflammatory markers or lung function post pneumonia resolution.",
+    "evidence_in_history": "Elevated CRP and WBC during pneumonia episode; spirometry available from 2024-01-15 showing stable COPD.",
+    "evidence_in_summary": "Follow-up instructions include PCP in 1 week and pulmonology in 6 months but no specific lab or spirometry follow-up.",
+    "suggested_correction": "Recommend scheduling follow-up labs (CBC, CRP) and pulmonary function tests to monitor resolution and COPD status after pneumonia."
+  },
+  {
+    "gap_id": "G004",
+    "category": "Instruction",
+    "severity": "Warning",
+    "description": "No specific instructions on oxygen use or ambulatory oxygen assessment despite initial hypoxemia during admission.",
+    "evidence_in_history": "ABG showed hypoxemia (pO2 65 mmHg), oxygen saturation 89% on room air at presentation, improved with supplemental oxygen.",
+    "evidence_in_summary": "Patient discharged on room air with SpO2 95%, but no clear documentation regarding oxygen therapy discontinuation or monitoring.",
+    "suggested_correction": "Include clear instructions regarding oxygen therapy status post discharge, signs to monitor for hypoxemia, and criteria for oxygen reassessment."
+  },
+  {
+    "gap_id": "G005",
+    "category": "Lab",
+    "severity": "Info",
+    "description": "No repeat CRP or WBC lab results reported during hospital course or at discharge to demonstrate resolution.",
+    "evidence_in_history": "Initial CRP 42 mg/L on 2023-11-05 (admission); WBC elevated at 15.2 x10^3/µL.",
+    "evidence_in_summary": "Summary states labs normalized by discharge but no specific repeat lab values provided.",
+    "suggested_correction": "Document and include repeat CRP and WBC values to objectively demonstrate resolution of infection."
+  }
+]

@@ -1,0 +1,38 @@
+[
+  {
+    "gap_id": "G001",
+    "category": "Lab",
+    "severity": "Warning",
+    "description": "Orthostatic vital signs were not documented during hospital stay despite patient reporting dizziness suspected to be related to medication or volume status.",
+    "evidence_in_history": "Visit 2: Primary Care Follow-up (2024-06-20) notes dizziness possibly related to antihypertensive medications or volume status and plans to check orthostatic vitals at next visit.",
+    "evidence_in_summary": "Hospital Course section states orthostatic vital signs were not formally documented during the stay despite reports of dizziness.",
+    "suggested_correction": "Formally document orthostatic vital signs during hospitalization or subsequent visits to evaluate dizziness and guide management of antihypertensive therapy."
+  },
+  {
+    "gap_id": "G002",
+    "category": "Medication",
+    "severity": "Warning",
+    "description": "No medication adjustments or plans for insulin dose titration were made despite persistently elevated HbA1c (~7.5%) indicating suboptimal glycemic control.",
+    "evidence_in_history": "Multiple HbA1c values above target (7.4-7.6%), suboptimal glycemic control noted in assessments; Visit 2 reinforces need for improved glycemic control but no medication changes documented.",
+    "evidence_in_summary": "Hospital course notes no new insulin adjustments were made during hospitalization; dose details remained as prior to admission.",
+    "suggested_correction": "Consider adjusting diabetic medications including insulin dosing and/or initiating additional therapies to improve glycemic control; document medication review and plan."
+  },
+  {
+    "gap_id": "G003",
+    "category": "Instruction",
+    "severity": "Info",
+    "description": "Despite ongoing mild anemia indicated by borderline low hemoglobin and mild pallor on exam, no specific anemia work-up or management plan is provided.",
+    "evidence_in_history": "Lab history shows stable but borderline low hemoglobin (~12.7-12.9 g/dL), and physical exam notes mild pallor at Visit 2.",
+    "evidence_in_summary": "Secondary diagnoses include mild anemia; no investigations or treatment plans mentioned.",
+    "suggested_correction": "Document anemia evaluation or plan (e.g., iron studies, nutritional assessment) and consider treatment if indicated."
+  },
+  {
+    "gap_id": "G004",
+    "category": "Follow-up",
+    "severity": "Info",
+    "description": "Cardiology follow-up plans are vague, noted as 'as needed or sooner with symptom worsening' without a scheduled appointment to ensure close monitoring of CHF and CKD progression after hospitalization.",
+    "evidence_in_history": "Visit 1 and 2 plans mention follow-up intervals but no scheduled cardiology appointment post-hospitalization.",
+    "evidence_in_summary": "Discharge summary indicates cardiology follow-up 'as needed or sooner' but lacks specific appointment scheduling.",
+    "suggested_correction": "Schedule and document a specific cardiology follow-up appointment to monitor cardiac status and medication effects after discharge."
+  }
+]

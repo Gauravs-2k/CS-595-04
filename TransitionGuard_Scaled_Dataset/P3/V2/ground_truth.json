@@ -1,0 +1,29 @@
+[
+  {
+    "gap_id": "G001",
+    "category": "Medication",
+    "severity": "Warning",
+    "description": "Discrepancy in oxycodone-acetaminophen dosing frequency between pre-admission and discharge medication lists without explanation.",
+    "evidence_in_history": "Oxycodone-acetaminophen prescribed as 1 tablet every 6 hours as needed for pain (prior to admission and outpatient records).",
+    "evidence_in_summary": "Discharge medications list oxycodone-acetaminophen as 1 tablet every 8 hours as needed for pain, but the discharge summary does not clarify the rationale for this change.",
+    "suggested_correction": "Document the reason and details for adjustment in oxycodone-acetaminophen dosing frequency in the discharge summary and ensure clear instructions in discharge medications."
+  },
+  {
+    "gap_id": "G002",
+    "category": "Follow-up",
+    "severity": "Info",
+    "description": "DXA scan for bone density screening recommended multiple times but no documentation if ordered or scheduled during hospitalization or at discharge.",
+    "evidence_in_history": "Office visit note on 2024-08-20 by PCP recommends DXA scan for bone density screening (due).",
+    "evidence_in_summary": "Discharge summary mentions DXA scan recommended but scheduling to be arranged by PCP; no confirmation or order documented.",
+    "suggested_correction": "Include in the discharge instructions whether the DXA scan was ordered or provide clear referral/order instructions to ensure timely bone health monitoring."
+  },
+  {
+    "gap_id": "G003",
+    "category": "Instruction",
+    "severity": "Info",
+    "description": "Pain management plan during hospitalization includes adjustment of oxycodone-acetaminophen dosing frequency, but exact inpatient pain management regimen changes were not specified in the discharge instructions.",
+    "evidence_in_history": "Outpatient notes indicated weaning oxycodone-acetaminophen and encouraging acetaminophen alone for mild pain.",
+    "evidence_in_summary": "Summary states dosing frequency was adjusted during hospitalization but lacks specific details and recommendations for outpatient management.",
+    "suggested_correction": "Document detailed pain management plan including any changes made during hospitalization and clear instructions for outpatient pain control on discharge."
+  }
+]

@@ -1,0 +1,92 @@
+[
+  {
+    "gap_id": "G001",
+    "category": "Follow-up",
+    "severity": "Warning",
+    "description": "No specific neurology referral or appointment scheduled upon discharge despite ongoing migraine issues and prior recommendation.",
+    "evidence_in_history": "Plan in 2023-12-01 and 2024-06-10 visits includes scheduling neurology referral if headache frequency increases and suggested neurology referral if headaches worsen.",
+    "evidence_in_summary": "Discharge plans include recommendation for neurology follow-up if headaches worsen, but no specific referral or appointment arranged.",
+    "suggested_correction": "Document scheduling a specific neurology outpatient appointment or referral on discharge to ensure continuity of care for migraines."
+  },
+  {
+    "gap_id": "G002",
+    "category": "Follow-up",
+    "severity": "Warning",
+    "description": "No documented psychiatry referral or appointment arranged on discharge despite recommendation for psychiatric follow-up.",
+    "evidence_in_history": "Bipolar disorder stable on current regimen with outpatient monitoring planned; recommendation for psychiatric follow-up noted.",
+    "evidence_in_summary": "Psychiatric follow-up recommended but no referral documentation provided.",
+    "suggested_correction": "Arrange and document a psychiatry outpatient referral or appointment on discharge to continue mental health management."
+  },
+  {
+    "gap_id": "G003",
+    "category": "Lab",
+    "severity": "Warning",
+    "description": "No outpatient laboratory orders for routine blood work (CBC and iron studies) placed at time of discharge despite recommendations.",
+    "evidence_in_history": "Plan includes repeating CBC and iron studies in 3 months and further monitoring iron labs after 3 months if normalized.",
+    "evidence_in_summary": "Routine blood work including CBC and iron studies recommended in 3 months but no lab order was placed on discharge.",
+    "suggested_correction": "Place and document outpatient lab orders for CBC and iron studies at discharge to ensure appropriate monitoring of anemia."
+  },
+  {
+    "gap_id": "G004",
+    "category": "Lab",
+    "severity": "Warning",
+    "description": "Lithium serum level was drawn during hospitalization but results were pending at discharge and no clear plan to follow up on lithium level was documented.",
+    "evidence_in_history": "Lithium level checked at 2024-06-10 visit and monitored as per plan.",
+    "evidence_in_summary": "Lithium levels drawn but due to lab delays results were not available prior to discharge and no clear follow-up plan documented.",
+    "suggested_correction": "Ensure documentation of plan for follow-up and management of pending lithium level results post-discharge with responsible provider and timeline."
+  },
+  {
+    "gap_id": "G005",
+    "category": "Instruction",
+    "severity": "Warning",
+    "description": "No documented patient education on signs and symptoms of lithium toxicity despite clinical relevance and patient reporting mild hand tremors.",
+    "evidence_in_history": "Office note dated 2024-06-10 notes mild hand tremor likely related to lithium and plan to educate about lithium toxicity signs.",
+    "evidence_in_summary": "Patient education provided on medication adherence; however, no documentation of lithium toxicity signs education was found.",
+    "suggested_correction": "Provide and document specific education to patient on signs, symptoms, and precautions regarding lithium toxicity before discharge."
+  },
+  {
+    "gap_id": "G006",
+    "category": "Instruction",
+    "severity": "Info",
+    "description": "No documentation of allergy reconciliation or review regarding penicillin allergy and potential cross-reactivity during hospital stay or at discharge.",
+    "evidence_in_history": "Allergy record lists penicillin allergy with rash and mild urticaria; no mention of cross-reactivity or allergy review.",
+    "evidence_in_summary": "No allergy reconciliation regarding penicillin cross-reactivity reviewed though patient has a penicillin allergy.",
+    "suggested_correction": "Include allergy reconciliation addressing penicillin allergy, review for potential cross-reactivity, and document findings and counseling."
+  },
+  {
+    "gap_id": "G007",
+    "category": "Medication",
+    "severity": "Info",
+    "description": "No initiation of migraine prophylactic therapy despite history of frequent migraines and discussion of prophylaxis if headaches increase.",
+    "evidence_in_history": "Office visit #1 notes consider prophylaxis if headache frequency increases; headaches reported as 2-3 times per week then improving to 1/week later.",
+    "evidence_in_summary": "No prophylactic migraine therapy was initiated during admission despite frequency of headaches.",
+    "suggested_correction": "Consider and document evaluation for migraine prophylaxis therapy initiation if clinically indicated or rationale for withholding therapy."
+  },
+  {
+    "gap_id": "G008",
+    "category": "Medication",
+    "severity": "Info",
+    "description": "No adjustment made to psychiatric medications despite patient reporting mild lithium-related hand tremor.",
+    "evidence_in_history": "Patient reports mild hand tremor possibly lithium-related; Plan includes monitoring lithium side effects.",
+    "evidence_in_summary": "No adjustments to psychiatric medications were made during admission despite hand tremors.",
+    "suggested_correction": "Document consideration of medication dose adjustment or consultation for side effect management or plan to monitor and reassess."
+  },
+  {
+    "gap_id": "G009",
+    "category": "Follow-up",
+    "severity": "Info",
+    "description": "Dietary review for iron deficiency anemia incomplete due to scheduling conflicts and no plan documented to complete this important aspect of anemia management.",
+    "evidence_in_history": "Iron deficiency anemia with partial improvement; no documented detailed dietary review.",
+    "evidence_in_summary": "Dietary review was incomplete due to scheduling conflicts; no plan to address noted.",
+    "suggested_correction": "Schedule and complete dietary assessment and counseling for iron deficiency anemia and document in the medical record."
+  },
+  {
+    "gap_id": "G010",
+    "category": "Medication",
+    "severity": "Info",
+    "description": "No consideration or documentation of intravenous iron therapy despite partial response to oral iron supplementation and persistent mild anemia.",
+    "evidence_in_history": "Iron deficiency anemia with mild to moderate anemia; ongoing oral iron therapy with some improvement but not normalized previously.",
+    "evidence_in_summary": "No intravenous iron therapy was considered during hospitalization.",
+    "suggested_correction": "Evaluate and document consideration of IV iron therapy when oral supplementation response is partial or insufficient."
+  }
+]

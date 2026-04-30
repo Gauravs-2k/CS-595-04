@@ -1,0 +1,47 @@
+[
+  {
+    "gap_id": "G001",
+    "category": "Medication",
+    "severity": "Warning",
+    "description": "Discharge summary lists Levofloxacin as a discharge medication with a note that the patient completed the 7-day antibiotic course prior to discharge, but it does not explicitly state discontinuation or provide clear instruction regarding antibiotic use post-discharge.",
+    "evidence_in_history": "Plan at Visit 1 on 2023-11-10: Start oral Levofloxacin 500 mg once daily for 7 days.",
+    "evidence_in_summary": "Discharge Medications include Levofloxacin 500 mg once daily for 7 days* with a note stating patient completed antibiotic course prior to discharge.",
+    "suggested_correction": "Clarify in discharge summary that Levofloxacin was completed prior to discharge and should not be continued after discharge, or explicitly state antibiotic discontinuation to avoid confusion."
+  },
+  {
+    "gap_id": "G002",
+    "category": "Medication",
+    "severity": "Info",
+    "description": "Inhaled corticosteroid (Fluticasone propionate) prescribed at pulmonology visit (2024-05-05) is not listed in the discharge medications section, and the discharge summary does not mention change or addition of inhaled steroids.",
+    "evidence_in_history": "Visit 2 on 2024-05-05: Added Fluticasone propionate 250 mcg, 2 puffs twice daily.",
+    "evidence_in_summary": "Discharge medications from 2023-11-17 do not include Fluticasone, nor is it mentioned in the discharge summary.",
+    "suggested_correction": "Update discharge summary and medication list to include new inhaled corticosteroid to ensure continuity and accuracy of medication reconciliation."
+  },
+  {
+    "gap_id": "G003",
+    "category": "Follow-up",
+    "severity": "Info",
+    "description": "Pulmonary rehabilitation is recommended in the pulmonology visit plan but is only mentioned as an advised referral in the discharge summary without specifying referral status or scheduling.",
+    "evidence_in_history": "Visit 2 on 2024-05-05 plan: Encourage pulmonary rehabilitation referral.",
+    "evidence_in_summary": "Discharge summary: 'Advised on smoking cessation and pulmonary rehabilitation referral' with no mention of referral completion/status.",
+    "suggested_correction": "Clarify in discharge summary whether pulmonary rehabilitation referral was made or scheduled to improve adherence and care coordination."
+  },
+  {
+    "gap_id": "G004",
+    "category": "Lab",
+    "severity": "Info",
+    "description": "BNP mild elevation (125 pg/mL) noted at 2024-04-15 visit indicating possible cardiac strain related to hypertension, but no cardiac evaluation or management plan documented in summary or follow-up instructions.",
+    "evidence_in_history": "2024-04-15 labs: BNP 125 pg/mL (mild elevation), assessment notes hypertension well-controlled.",
+    "evidence_in_summary": "No mention of BNP elevation or cardiac evaluation/follow-up recommendations regarding BNP or cardiovascular status.",
+    "suggested_correction": "Consider documenting cardiac assessment or plan related to elevated BNP to ensure comprehensive cardiovascular monitoring given patient's hypertension."
+  },
+  {
+    "gap_id": "G005",
+    "category": "Instruction",
+    "severity": "Info",
+    "description": "Discharge summary advises smoking cessation and pulmonary rehabilitation referral but lacks specific smoking status or counseling details in history or summary.",
+    "evidence_in_history": "No documentation of smoking status or tobacco use in provided history.",
+    "evidence_in_summary": "Discharge summary advises smoking cessation but no baseline or counseling details provided.",
+    "suggested_correction": "Document smoking status and any counseling provided to better guide discharge instructions and follow-up."
+  }
+]

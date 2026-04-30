@@ -1,0 +1,56 @@
+[
+  {
+    "gap_id": "G001",
+    "category": "Medication",
+    "severity": "Warning",
+    "description": "No thromboprophylaxis prescribed at discharge despite recent major orthopedic surgery and early discontinuation of enoxaparin.",
+    "evidence_in_history": "Enoxaparin prescribed post-op (40 mg SC once daily) but discontinued on 2023-02-10; no further anticoagulation documented.",
+    "evidence_in_summary": "Discharge medications do not include any thromboprophylaxis; noted that no thromboprophylaxis prescribed at discharge.",
+    "suggested_correction": "Consider prescribing or documenting rationale for absence of thromboprophylaxis after total hip arthroplasty; arrange monitoring or alternative thromboprophylaxis if indicated."
+  },
+  {
+    "gap_id": "G002",
+    "category": "Follow-up",
+    "severity": "Warning",
+    "description": "Orthopedic follow-up scheduled only annually despite recent surgery and ongoing recovery; no earlier or more frequent follow-up arranged.",
+    "evidence_in_history": "Office visit note (2024-05-22) suggests annual follow-up with orthopedic surgery.",
+    "evidence_in_summary": "Follow-up and recommendations section states orthopedic follow-up scheduled in 12 months; no earlier follow-up arranged despite recent surgery history.",
+    "suggested_correction": "Schedule earlier orthopedic surgery follow-up visits to monitor recovery and detect potential complications timely."
+  },
+  {
+    "gap_id": "G003",
+    "category": "Instruction",
+    "severity": "Warning",
+    "description": "No formal occupational therapy discharge training session documented despite patient undergoing recovery and physical therapy.",
+    "evidence_in_history": "Physical therapy ongoing per SOAP notes, but no mention of occupational therapy sessions or education.",
+    "evidence_in_summary": "Hospital course notes patient demonstrated understanding of activity restrictions and wound care but no documentation of occupational therapy discharge training session.",
+    "suggested_correction": "Document occupational therapy involvement or discharge training to optimize functional recovery and patient education."
+  },
+  {
+    "gap_id": "G004",
+    "category": "Instruction",
+    "severity": "Warning",
+    "description": "Discharge instructions lack reconfirmation of allergies and specific warnings about NSAID use despite documented NSAID allergy.",
+    "evidence_in_history": "Allergy record documents ibuprofen allergy (urticaria).",
+    "evidence_in_summary": "Discharge summary states no reconfirmation of allergies or NSAID warnings provided.",
+    "suggested_correction": "Include explicit allergy reconfirmation and NSAID avoidance instructions in discharge teaching materials."
+  },
+  {
+    "gap_id": "G005",
+    "category": "Follow-up",
+    "severity": "Info",
+    "description": "No specific diabetes or hypertension follow-up appointments arranged despite comorbid chronic conditions.",
+    "evidence_in_history": "Problems listed include hypertension, type 2 diabetes; recent labs show controlled but slightly elevated HbA1c.",
+    "evidence_in_summary": "Recommendations mention reinforcing management with PCP but no arranged follow-up appointments.",
+    "suggested_correction": "Arrange or recommend specific follow-up visits with primary care or endocrinology to ensure chronic disease management."
+  },
+  {
+    "gap_id": "G006",
+    "category": "Follow-up",
+    "severity": "Warning",
+    "description": "Physical therapy indicated to continue as outpatient but no formal referral or contact details provided upon discharge.",
+    "evidence_in_history": "SOAP notes emphasize continuation of physical therapy for rehabilitation.",
+    "evidence_in_summary": "Discharge summary notes outpatient physical therapy continuation but lacks referral or contact information.",
+    "suggested_correction": "Provide formal outpatient PT referral and contact details at discharge to ensure continuity of care."
+  }
+]

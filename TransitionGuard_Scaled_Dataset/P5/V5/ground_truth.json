@@ -1,0 +1,83 @@
+[
+  {
+    "gap_id": "G001",
+    "category": "Medication",
+    "severity": "Warning",
+    "description": "Aspirin was omitted from the discharge medication list despite documented prior use and no contraindications.",
+    "evidence_in_history": "Current Medication List includes Aspirin 81 mg once daily; Plan in office visits includes continuation of Aspirin.",
+    "evidence_in_summary": "Discharge Medications do not include Aspirin; noted as unintentionally omitted.",
+    "suggested_correction": "Include Aspirin 81 mg once daily in discharge medications and document rationale if withheld."
+  },
+  {
+    "gap_id": "G002",
+    "category": "Lab",
+    "severity": "Warning",
+    "description": "INR lab results and timing during hospital admission were inconsistently documented, complicating anticoagulation management.",
+    "evidence_in_history": "Regular INR monitoring with therapeutic results noted in office visits.",
+    "evidence_in_summary": "Hospital course notes missing or inconsistent INR documentation during admission; no adjustment to warfarin dosing documented.",
+    "suggested_correction": "Ensure regular and consistent INR testing documentation during admission; document any dose adjustments or rationale for maintaining current dosing."
+  },
+  {
+    "gap_id": "G003",
+    "category": "Medication",
+    "severity": "Warning",
+    "description": "No documentation on aspirin continuation decision or bleeding risk assessment despite concomitant warfarin and aspirin use.",
+    "evidence_in_history": "Aspirin and warfarin both used chronically without contraindications.",
+    "evidence_in_summary": "No documentation regarding aspirin continuation, bleeding risk, or drug interaction assessment during hospitalization.",
+    "suggested_correction": "Document bleeding risk assessment and rationale for continuing or discontinuing aspirin concomitant with warfarin therapy."
+  },
+  {
+    "gap_id": "G004",
+    "category": "Allergy",
+    "severity": "Info",
+    "description": "Allergy reconciliation during hospitalization was missing despite known penicillin and sulfa drug allergies.",
+    "evidence_in_history": "Allergy record includes documented penicillin and sulfa allergies.",
+    "evidence_in_summary": "No allergy reconciliation performed or documented during stay; no screening for cross-reactivity with administered medications.",
+    "suggested_correction": "Perform and document allergy reconciliation upon admission including evaluation of potential cross-reactivity with administered medications."
+  },
+  {
+    "gap_id": "G005",
+    "category": "Follow-up",
+    "severity": "Warning",
+    "description": "No cardiology follow-up was scheduled despite ongoing atrial fibrillation symptoms (palpitations, dizziness).",
+    "evidence_in_history": "Symptoms of mild palpitations and dizziness noted in recent office visits and hospital course.",
+    "evidence_in_summary": "Discharge summary indicates no cardiology referral or follow-up arranged.",
+    "suggested_correction": "Schedule cardiology follow-up to evaluate ongoing arrhythmia symptoms and optimize management."
+  },
+  {
+    "gap_id": "G006",
+    "category": "Follow-up",
+    "severity": "Warning",
+    "description": "Neurology consult was requested but not completed during hospitalization; recent symptoms did not prompt expedited neurology referral.",
+    "evidence_in_history": "Scheduled neurology follow-up for stroke rehabilitation in 6 months.",
+    "evidence_in_summary": "Hospital course states neurology consult not completed; no expedited referral despite recent dizziness and palpitations.",
+    "suggested_correction": "Ensure completion of neurology consult during admission or arrange expedited neurology follow-up for symptom assessment."
+  },
+  {
+    "gap_id": "G007",
+    "category": "Instruction",
+    "severity": "Info",
+    "description": "No formal patient education materials provided regarding anticoagulation risks and benefits at discharge.",
+    "evidence_in_history": "Plan includes monitoring for bleeding and stroke symptoms but no mention of patient education materials.",
+    "evidence_in_summary": "Discharge summary explicitly states no formal anticoagulation education materials given.",
+    "suggested_correction": "Provide and document formal patient education regarding anticoagulation therapy risks, signs of bleeding, and adherence importance."
+  },
+  {
+    "gap_id": "G008",
+    "category": "Follow-up",
+    "severity": "Warning",
+    "description": "No home health nursing or fall risk assessment arranged despite documented mild orthostatic hypotension and dizziness.",
+    "evidence_in_history": "Patient reports mild dizziness on standing; orthostatic hypotension documented in vital signs and assessment.",
+    "evidence_in_summary": "No fall risk assessment or home health support mentioned in discharge plans.",
+    "suggested_correction": "Arrange fall risk assessment and consider home health nursing support to mitigate risk related to orthostatic symptoms."
+  },
+  {
+    "gap_id": "G009",
+    "category": "Lab",
+    "severity": "Info",
+    "description": "Potassium level was not specifically repeated during hospitalization despite known atrial fibrillation and use of medications affecting potassium.",
+    "evidence_in_history": "Potassium levels available in outpatient labs; patient uses lisinopril and other cardiac meds.",
+    "evidence_in_summary": "Hospital course notes potassium level was not specifically rechecked.",
+    "suggested_correction": "Repeat and document potassium levels during hospitalization to monitor for electrolyte imbalances affecting arrhythmia risk."
+  }
+]

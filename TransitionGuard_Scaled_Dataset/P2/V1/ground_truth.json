@@ -1,0 +1,38 @@
+[
+  {
+    "gap_id": "G001",
+    "category": "Lab",
+    "severity": "Warning",
+    "description": "No results reported for CBC on 2024-05-05 in history; CBC is ordered and referenced but complete panel data missing in documentation.",
+    "evidence_in_history": "6-Month Lab History section shows CBC test date 2024-05-05 with some parameters listed but missing complete results for the panel and no interpretation.",
+    "evidence_in_summary": "Hospital discharge summary mentions routine lab evaluation including CBC but does not include any lab data or follow-up testing results beyond initial hospitalization labs in Nov 2023.",
+    "suggested_correction": "Include full CBC test results for 2024-05-05 with interpretation or note if labs were normal to improve continuity and completeness of lab documentation."
+  },
+  {
+    "gap_id": "G002",
+    "category": "Medication",
+    "severity": "Info",
+    "description": "No documentation of medication adherence counseling or review post-discharge beyond generic statements.",
+    "evidence_in_history": "Medication list is current, and plan includes medication continuation but no specific notes on adherence assessment.",
+    "evidence_in_summary": "Summary states patient was counseled on medication adherence but lacks specifics or evidence of adherence assessment or plans to monitor adherence post hospitalization.",
+    "suggested_correction": "Document specific interventions related to medication adherence, assessment of patient's understanding, and plans for adherence monitoring at follow-up visits."
+  },
+  {
+    "gap_id": "G003",
+    "category": "Follow-up",
+    "severity": "Info",
+    "description": "Follow-up plan does not reference pulmonary rehabilitation despite it being encouraged in outpatient visit.",
+    "evidence_in_history": "May 2024 office visit SOAP note includes plan to encourage pulmonary rehabilitation exercises.",
+    "evidence_in_summary": "Discharge summary follow-up section omits mention of pulmonary rehabilitation or referral needed.",
+    "suggested_correction": "Add pulmonary rehabilitation follow-up or referral instructions in discharge summary to support outpatient management of COPD."
+  },
+  {
+    "gap_id": "G004",
+    "category": "Diagnosis",
+    "severity": "Info",
+    "description": "Hyperlipidemia is documented as a comorbidity and discharge secondary diagnosis but is missing from the problem list in history.",
+    "evidence_in_history": "Problem List section does not include hyperlipidemia as a problem.",
+    "evidence_in_summary": "Secondary Diagnoses lists hyperlipidemia.",
+    "suggested_correction": "Include hyperlipidemia in the problem list to maintain consistency and completeness of problem-based documentation."
+  }
+]

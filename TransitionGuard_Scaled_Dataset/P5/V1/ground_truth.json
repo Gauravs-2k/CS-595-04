@@ -1,0 +1,38 @@
+[
+  {
+    "gap_id": "G001",
+    "category": "Lab",
+    "severity": "Warning",
+    "description": "INR and aPTT lab tests are outdated with last values from 2023-12-10, and no recent coagulation labs were reported during hospitalization or at discharge.",
+    "evidence_in_history": "INR and aPTT labs last recorded on 2023-12-10 with INR 2.3 (therapeutic).",
+    "evidence_in_summary": "Hospital course states labs were stable within therapeutic ranges but does not provide recent coagulation labs or INR results corresponding to hospitalization period.",
+    "suggested_correction": "Include updated INR and coagulation test results performed during hospitalization or shortly before discharge to confirm therapeutic anticoagulation status."
+  },
+  {
+    "gap_id": "G002",
+    "category": "Medication",
+    "severity": "Info",
+    "description": "Aspirin is included in the medication list and discharge medications for secondary stroke prevention despite the patient being on Apixaban, which raises potential concerns for dual anticoagulation/antiplatelet effects.",
+    "evidence_in_history": "Current medications list includes both Apixaban and low-dose Aspirin (81 mg daily).",
+    "evidence_in_summary": "Discharge medications include both Apixaban and Aspirin without mention of rationale or bleeding risk assessment for combined use.",
+    "suggested_correction": "Document clinical justification and bleeding risk assessment for concurrent use of Apixaban and Aspirin and consider explicit instructions regarding monitoring for bleeding or potential need to reassess combination therapy."
+  },
+  {
+    "gap_id": "G003",
+    "category": "Instruction",
+    "severity": "Info",
+    "description": "Discharge summary does not specify the exact dates of admission and discharge, which are important for clarity of hospitalization timeline and continuity of care.",
+    "evidence_in_history": "No mention of hospitalization dates in any sections.",
+    "evidence_in_summary": "Date of Admission and Date of Discharge fields are marked as '[Not specified]'.",
+    "suggested_correction": "Add precise admission and discharge dates to the summary to ensure clear documentation and facilitate follow-up and care coordination."
+  },
+  {
+    "gap_id": "G004",
+    "category": "Follow-up",
+    "severity": "Info",
+    "description": "Physical therapy details such as frequency and duration of sessions, goals, or expected outcomes are not documented beyond referral and continuation instructions.",
+    "evidence_in_history": "Plan includes physical therapy referral and encouragement but lacks detailed therapy plan.",
+    "evidence_in_summary": "Mentions physical therapy continuation but provides no detailed plan or expected goals.",
+    "suggested_correction": "Include more detailed physical therapy instructions, goals, session frequency, and expected duration to guide outpatient therapy and monitor patient progress."
+  }
+]

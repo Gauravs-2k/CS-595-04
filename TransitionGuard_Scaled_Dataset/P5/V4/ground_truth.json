@@ -1,0 +1,38 @@
+[
+  {
+    "gap_id": "G001",
+    "category": "Lab",
+    "severity": "Warning",
+    "description": "Magnesium level was never documented or followed up despite patient's complaint of lower extremity cramps and recommendation to consider magnesium supplementation if low.",
+    "evidence_in_history": "Office Visit 2 (2023-05-20) notes mild lower extremity cramps at night and plan to recommend magnesium supplementation if confirmed low on labs.",
+    "evidence_in_summary": "No mention of magnesium testing or supplementation recommendation in discharge summary.",
+    "suggested_correction": "Include magnesium level lab test results in summary and document any recommendations or plans regarding magnesium supplementation based on lab findings."
+  },
+  {
+    "gap_id": "G002",
+    "category": "Follow-up",
+    "severity": "Info",
+    "description": "No documentation of results or follow-up plan regarding ECG and ambulatory event monitor, which were ordered in outpatient prior to admission and referenced as pending in discharge summary.",
+    "evidence_in_history": "Office Visit 1 plan included follow-up ECG and event monitor referral for palpitations; Office Visit 2 lacks mention of these results; discharge summary notes ordered but results still pending.",
+    "evidence_in_summary": "Discharge summary states ECG and event monitor ordered with results pending but no plan for timing of review or how to address abnormal findings.",
+    "suggested_correction": "Add planned timing for review of ECG/event monitor results and contingency plans to discharge instructions and follow-up appointments."
+  },
+  {
+    "gap_id": "G003",
+    "category": "Medication",
+    "severity": "Info",
+    "description": "Aspirin use for secondary stroke prevention is documented in medication lists but was not explicitly addressed or reviewed in the hospital course or discharge summary regarding its indication and safety with anticoagulation.",
+    "evidence_in_history": "Current medication list and office visit notes include aspirin 81 mg daily for stroke secondary prevention.",
+    "evidence_in_summary": "Discharge summary lists aspirin in medications but does not discuss rationale, risk of bleeding, or any changes made.",
+    "suggested_correction": "Include discussion on aspirin therapy management alongside anticoagulation during hospitalization and at discharge, assessing bleeding risk and justification."
+  },
+  {
+    "gap_id": "G004",
+    "category": "Instruction",
+    "severity": "Info",
+    "description": "No documentation on patient education or instruction regarding management of diabetic peripheral neuropathy symptoms, specifically lower extremity cramps, which were noted and suspected during outpatient visits.",
+    "evidence_in_history": "Office Visit 2 suspected mild diabetic peripheral neuropathy due to cramps and recommended magnesium supplementation if low levels confirmed; patient education focused on stroke signs but not neuropathy symptoms.",
+    "evidence_in_summary": "Discharge summary references patient education on stroke prevention and symptom monitoring but omits neuropathy symptom management or related instructions.",
+    "suggested_correction": "Add patient education regarding diabetic neuropathy symptoms and management to discharge instructions."
+  }
+]

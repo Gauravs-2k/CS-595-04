@@ -1,0 +1,38 @@
+[
+  {
+    "gap_id": "G001",
+    "category": "Medication",
+    "severity": "Warning",
+    "description": "The discharge summary mentions a dose adjustment of carvedilol during hospitalization but lacks specific details on the adjusted dose and titration steps.",
+    "evidence_in_history": "Current medication list and office visit #1 indicate carvedilol 12.5 mg twice daily; no documented changes prior to admission.",
+    "evidence_in_summary": "Discharge summary states: 'The dose of carvedilol was adjusted during hospitalization, though specific dose titration documentation is not fully detailed in the chart.' The discharge medication list does not clarify the exact dose post adjustment.",
+    "suggested_correction": "Document the exact carvedilol dose changes made during hospitalization, including titration details and rationale, both in progress notes and medication reconciliation at discharge."
+  },
+  {
+    "gap_id": "G002",
+    "category": "Instruction",
+    "severity": "Info",
+    "description": "The discharge summary's follow-up plan lacks explicit instruction on monitoring for side effects related to metformin use, especially given prediabetic status and renal function monitoring.",
+    "evidence_in_history": "Metformin prescribed for borderline elevated HbA1c; labs show stable normal kidney function (creatinine 1.0-1.1 mg/dL).",
+    "evidence_in_summary": "Follow-up instructions mention lab review and general monitoring but do not specifically address metformin safety monitoring or renal function checks.",
+    "suggested_correction": "Add instructions for monitoring renal function periodically and educate patient about signs of metformin-related adverse effects such as lactic acidosis."
+  },
+  {
+    "gap_id": "G003",
+    "category": "Instruction",
+    "severity": "Info",
+    "description": "There is no documented plan or instruction regarding lifestyle modifications targeting improvement of patient's prediabetes despite persistent borderline HbA1c levels.",
+    "evidence_in_history": "Office visits note counseling on diet and physical activity; prediabetes persists based on serial HbA1c values (6.1% to 6.3%).",
+    "evidence_in_summary": "Discharge summary briefly states patient was counseled on lifestyle modifications but lacks specificity or referral for diabetes education or nutrition counseling.",
+    "suggested_correction": "Include detailed lifestyle modification advice, referral to diabetes prevention programs, or nutrition counseling in discharge instructions."
+  },
+  {
+    "gap_id": "G004",
+    "category": "Follow-up",
+    "severity": "Warning",
+    "description": "The follow-up labs are scheduled 2 months after discharge, which may delay timely reassessment of prediabetes and medication effects given persistent elevated HbA1c.",
+    "evidence_in_history": "HbA1c remains in prediabetes range repeatedly; metformin therapy ongoing.",
+    "evidence_in_summary": "Lab review scheduled in 2 months; no earlier monitoring planned.",
+    "suggested_correction": "Recommend earlier HbA1c and metabolic panel follow-up within 4-6 weeks post-discharge to assess response to therapy and adjust treatment as needed."
+  }
+]

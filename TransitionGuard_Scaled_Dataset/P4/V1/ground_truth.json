@@ -1,0 +1,47 @@
+[
+  {
+    "gap_id": "G001",
+    "category": "Patient Demographics",
+    "severity": "Warning",
+    "description": "Patient name and admission/discharge dates are not specified in the discharge summary and missing in the history record.",
+    "evidence_in_history": "Patient Demographics section states 'Name: Not Provided'; no admission or discharge dates recorded.",
+    "evidence_in_summary": "Discharge summary states 'Admission Date: Not specified' and 'Discharge Date: Not specified'; patient name is not mentioned.",
+    "suggested_correction": "Include patient full name and specify admission and discharge dates in the discharge summary and document patient identifying information in the medical record for completeness."
+  },
+  {
+    "gap_id": "G002",
+    "category": "Medication",
+    "severity": "Info",
+    "description": "Discrepancy in sumatriptan dosing between medication list and home medications in discharge summary.",
+    "evidence_in_history": "Medication list shows sumatriptan 50 mg po as needed, max 100 mg/day; office visit notes indicate dose increased to max 200 mg/day.",
+    "evidence_in_summary": "Home medications mention sumatriptan 50 mg po as needed (max 100 mg/day) adjusted during care, but discharge medications correctly list 100 mg po max 200 mg daily; medication list in history not updated to reflect the increased dosing.",
+    "suggested_correction": "Update the current medication list in the history to reflect the increased sumatriptan dose of 100 mg as needed, max 200 mg/day consistent with discharge orders."
+  },
+  {
+    "gap_id": "G003",
+    "category": "Instruction | Follow-up",
+    "severity": "Info",
+    "description": "No documentation of counseling or monitoring plan for lithium side effects and renal function despite regular lithium use.",
+    "evidence_in_history": "Lithium levels are monitored but no explicit mention of monitoring renal function or patient counseling on lithium side effects in SOAP notes or plan.",
+    "evidence_in_summary": "No mention of renal function monitoring or lithium side effect counseling in hospital course or follow-up plans.",
+    "suggested_correction": "Add specific instructions and documentation regarding lithium side effect education, regular renal function monitoring (e.g., CMP), and mood symptom review as part of follow-up."
+  },
+  {
+    "gap_id": "G004",
+    "category": "Lab",
+    "severity": "Info",
+    "description": "Vitamin B12 lab value documented only once in history with no ongoing monitoring plan referenced.",
+    "evidence_in_history": "Vitamin B12 level measured once on 2024-04-10 (950 pg/mL) but no follow-up test planned or referenced explicitly.",
+    "evidence_in_summary": "Vitamin B12 therapy noted as monthly IM injection but no lab monitoring or plans mentioned in discharge summary.",
+    "suggested_correction": "Document ongoing Vitamin B12 level monitoring schedule or justification for discontinuing testing if stable to ensure completeness."
+  },
+  {
+    "gap_id": "G005",
+    "category": "Instruction",
+    "severity": "Info",
+    "description": "Dietary counseling was noted in office visit but is only briefly mentioned in discharge summary without specific dietary recommendations.",
+    "evidence_in_history": "Visit 2 plan includes 'Counsel patient on diet rich in iron'.",
+    "evidence_in_summary": "Discharge follow-up mentions 'Reinforce iron-rich diet' but lacks more detailed dietary advice or materials.",
+    "suggested_correction": "Provide and document specific dietary instructions or referrals (e.g., to dietitian) to better support anemia management."
+  }
+]
