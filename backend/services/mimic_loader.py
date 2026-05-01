@@ -15,9 +15,9 @@ MIMIC_SAMPLES = {
 }
 
 MIMIC_PATIENT_META = {
-    "mimic-cardiac-001": {"name": "MIMIC Cardiac Patient", "dob": "1956-05-12"},
-    "mimic-diabetes-001": {"name": "MIMIC Diabetes Patient", "dob": "1979-08-23"},
-    "mimic-surgical-001": {"name": "MIMIC Surgical Patient", "dob": "1952-11-07"},
+    "mimic-cardiac-001": {"name": "Tim Sanders", "dob": "1958-03-12"},
+    "mimic-diabetes-001": {"name": "Sarah Jones", "dob": "1981-03-12"},
+    "mimic-surgical-001": {"name": "Bart Richard", "dob": "1954-03-12"},
 }
 
 

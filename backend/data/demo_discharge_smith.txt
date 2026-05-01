@@ -1,6 +1,7 @@
 DISCHARGE SUMMARY
 
 Patient: John Smith
+DOB: 1960-03-12
 Admission Date: 2026-04-14
 Discharge Date: 2026-04-20
 Attending: Dr. Rivera, Internal Medicine

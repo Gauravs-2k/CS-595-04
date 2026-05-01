@@ -12,6 +12,7 @@ from models.gap import Gap
 from models.session import AnalysisSession
 from schemas.clinical import ClinicalDocument, GapPatchRequest
 from services.abstractive import AbstractiveClient, get_patient_meta
+from services.dataset_loader import DATASET_PATIENTS, is_dataset_patient, load_dataset_gaps
 from services.gap_engine import detect_gaps
 from services.mimic_loader import get_mimic_discharge_text, is_mimic_patient
 from services.nlp import extract_entities
@@ -77,6 +78,51 @@ async def _extract_handoff_text(
     raise HTTPException(status_code=422, detail="Handoff document required. Upload a file or paste text.")
 
 
+async def _analyze_dataset_patient(patient_id: str, db: Session) -> dict:
+    """Skip NLP entirely and serve ground-truth gaps from the dataset."""
+    meta = DATASET_PATIENTS[patient_id]
+    gaps = load_dataset_gaps(patient_id)
+
+    session = AnalysisSession(
+        patient_id=patient_id,
+        patient_name=meta["name"],
+        patient_dob=meta["dob"],
+        sources=[{
+            "name": "TransitionGuard Dataset",
+            "ehr": "Ground Truth Annotation",
+            "retrieved_at": datetime.now(timezone.utc).isoformat(),
+            "format": "JSON",
+        }],
+        discharge_entities={},
+        pcp_entities={},
+    )
+    db.add(session)
+    db.flush()
+
+    gap_rows = []
+    for gap in gaps:
+        row = Gap(
+            id=gap["id"],
+            session_id=session.id,
+            category=gap["category"],
+            severity=gap["severity"],
+            title=gap["title"],
+            description=gap["description"],
+            source_text=gap["source_text"],
+            source_line=gap.get("source_line"),
+            standard_code=gap.get("standard_code"),
+            standard_system=gap.get("standard_system"),
+            suggested_action=gap["suggested_action"],
+            resolved=False,
+        )
+        db.add(row)
+        gap_rows.append(row)
+
+    db.commit()
+    db.refresh(session)
+    return _serialize_session(session, gap_rows)
+
+
 @router.post("/{patient_id}")
 async def analyze_patient(
     patient_id: str,
@@ -84,6 +130,10 @@ async def analyze_patient(
     handoff_file: UploadFile | None = File(None),
     handoff_text: str | None = Form(None),
 ):
+    # Dataset patients: bypass NLP entirely and serve ground-truth gaps
+    if is_dataset_patient(patient_id):
+        return await _analyze_dataset_patient(patient_id, db)
+
     # 1. Get the handoff/discharge text (uploaded by user)
     try:
         discharge_text = await _extract_handoff_text(handoff_file, handoff_text, patient_id)

@@ -32,9 +32,12 @@ _patient_cache: dict[str, dict] = {}
 
 
 def get_patient_meta(patient_id: str) -> dict:
+    from services.dataset_loader import DATASET_PATIENTS
     from services.mimic_loader import MIMIC_PATIENT_META
     if patient_id in MIMIC_PATIENT_META:
         return MIMIC_PATIENT_META[patient_id]
+    if patient_id in DATASET_PATIENTS:
+        return DATASET_PATIENTS[patient_id]
     return _patient_cache.get(patient_id, {})
 
 
@@ -355,6 +358,8 @@ class AbstractiveClient:
                     "last_discharge_date": r.get("last_discharge_date", ""),
                 })
 
+            from services.dataset_loader import list_dataset_patients
+            results.extend(list_dataset_patients())
             logger.info("ah: search complete results=%d conversation_id=%s", len(results), conversation_id)
             return results
 

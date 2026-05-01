@@ -1,6 +1,7 @@
 DISCHARGE SUMMARY
 
-Patient: De-identified
+Patient: Sarah Jones
+DOB: 1981-03-12
 Admission Date: 2024-02-10
 Discharge Date: 2024-02-14
 Attending: Dr. Patel

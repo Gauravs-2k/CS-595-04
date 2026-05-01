@@ -18,6 +18,7 @@ services:
       - db
     volumes:
       - ./backend:/app
+      - ./TransitionGuard_Scaled_Dataset:/dataset
     command: uvicorn main:app --host 0.0.0.0 --reload
 
   frontend:

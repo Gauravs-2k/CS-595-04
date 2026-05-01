@@ -1,6 +1,6 @@
 PRIMARY CARE CHART
 
-Patient: De-identified
+Patient: Bart Richard
 Last Visit: 2024-02-20
 
 ACTIVE PROBLEM LIST:
