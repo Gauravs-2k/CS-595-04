@@ -1,6 +1,7 @@
 DISCHARGE SUMMARY
 
-Patient: De-identified
+Patient: Bart Richard
+DOB: 1954-03-12
 Admission Date: 2024-03-01
 Discharge Date: 2024-03-06
 Attending: Dr. Chen

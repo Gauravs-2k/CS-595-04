@@ -1,6 +1,7 @@
 DISCHARGE SUMMARY
 
-Patient: De-identified
+Patient: Tim Sanders
+DOB: 1958-03-12
 Admission Date: 2024-01-15
 Discharge Date: 2024-01-22
 Attending: Dr. Smith

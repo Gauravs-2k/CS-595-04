@@ -1,4 +1,9 @@
 from schemas.clinical import ClinicalDocument, ClinicalEntities, ClinicalSummary, PatientRecords
+from services.dataset_loader import (
+    get_dataset_demo_handoff,
+    is_dataset_patient,
+    list_dataset_patients,
+)
 from services.mimic_loader import (
     MIMIC_PATIENT_META,
     get_mimic_discharge_text,
@@ -10,20 +15,22 @@ from services.mimic_loader import (
 
 
 def search_patient(patient_data: dict) -> list[dict]:
-    first = patient_data.get("first_name", "")
-    last = patient_data.get("last_name", "")
+    first = patient_data.get("first_name", "").strip().lower()
+    last = patient_data.get("last_name", "").strip().lower()
+    dob = patient_data.get("dob", "").strip()
+
+    if len(last) < 2:
+        return []
+
+    candidates = list_mimic_patients() + list_dataset_patients()
     results = [
-        {
-            "patient_id": "demo-patient-001",
-            "name": f"{first} {last}".strip() or "Demo Patient",
-            "dob": patient_data.get("dob", ""),
-            "mrn": "MRN-10231",
-            "source_ehr": "Epic (Mock)",
-            "last_discharge_date": "2026-04-01",
-        }
+        p for p in candidates
+        if first in p["name"].lower() or last in p["name"].lower()
     ]
-    # Include MIMIC sample patients in mock search results
-    results.extend(list_mimic_patients())
+
+    if dob:
+        results = [p for p in results if p["dob"] == dob]
+
     return results
 
 
@@ -118,9 +125,11 @@ def retrieve_pcp_chart(patient_id: str) -> ClinicalDocument:
 
 
 def get_demo_handoff_text(patient_id: str) -> str | None:
-    """Return discharge text for demo pre-fill. Only available for MIMIC patients."""
+    """Return discharge text for demo pre-fill. Available for MIMIC and dataset patients."""
     if is_mimic_patient(patient_id):
         return get_mimic_discharge_text(patient_id)
+    if is_dataset_patient(patient_id):
+        return get_dataset_demo_handoff(patient_id)
     return None
 
 
