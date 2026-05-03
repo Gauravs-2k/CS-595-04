@@ -29,6 +29,7 @@ class Settings(BaseSettings):
     openrouter_model: str = Field(default="anthropic/claude-3.5-haiku", alias="OPENROUTER_MODEL")
 
     openai_api_key: str = Field(default="", alias="OPENAI_API_KEY")
+    use_langchain_agents: bool = Field(default=False, alias="USE_LANGCHAIN_AGENTS")
     database_url: str = Field(alias="DATABASE_URL")
     jwt_secret: str = Field(default="changeme", alias="JWT_SECRET")
 

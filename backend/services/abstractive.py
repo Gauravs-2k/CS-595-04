@@ -32,12 +32,13 @@ _patient_cache: dict[str, dict] = {}
 
 
 def get_patient_meta(patient_id: str) -> dict:
-    from services.dataset_loader import DATASET_PATIENTS
+    from services.dataset_loader import get_dataset_patient_meta
     from services.mimic_loader import MIMIC_PATIENT_META
     if patient_id in MIMIC_PATIENT_META:
         return MIMIC_PATIENT_META[patient_id]
-    if patient_id in DATASET_PATIENTS:
-        return DATASET_PATIENTS[patient_id]
+    dataset_meta = get_dataset_patient_meta(patient_id)
+    if dataset_meta is not None:
+        return dataset_meta
     return _patient_cache.get(patient_id, {})
 
 
@@ -282,6 +283,19 @@ def _parse_zip(zip_bytes: bytes, patient_id: str) -> PatientRecords:
 class AbstractiveClient:
 
     async def search_patient(self, patient_data: dict) -> list[dict]:
+        variant_id = patient_data.get("variant_id", "").strip()
+        if variant_id:
+            from services.dataset_loader import list_dataset_patients
+            from services.mimic_loader import list_mimic_patients
+
+            needle = variant_id.upper()
+            candidates = list_mimic_patients() + list_dataset_patients()
+            return [
+                p for p in candidates
+                if p.get("variant_id", "").upper() == needle
+                or p.get("patient_id", "").upper() == needle
+            ]
+
         if _use_mock():
             logger.info("abstractive.search_patient: mock mode")
             return mock_abstractive.search_patient(patient_data=patient_data)

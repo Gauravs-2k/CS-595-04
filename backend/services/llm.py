@@ -99,8 +99,7 @@ async def resolve_entities(raw_entities: list[dict], context: str) -> list[dict]
             try:
                 response = await client.chat.completions.create(
                     model=model,
-                    response_format={"type": "json_object"},
-                    messages=[
+                    response_format={"type": "json_object"},                    max_tokens=4096,                    messages=[
                         {"role": "system", "content": SYSTEM_PROMPT},
                         {"role": "user", "content": json.dumps(payload)},
                     ],

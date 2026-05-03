@@ -6,6 +6,8 @@ We classify them into medications, diagnoses, labs, and referrals using keyword
 heuristics after the NER pass.
 """
 
+import re
+
 import spacy
 
 from services.llm import resolve_entities
@@ -67,6 +69,7 @@ _LAB_KEYWORDS = {
     "ferritin", "iron", "magnesium", "calcium", "phosphorus",
     "urinalysis", "urine", "blood gas", "abg", "lactate", "procalcitonin",
     "esr", "crp", "d-dimer", "fibrinogen", "hematocrit",
+    "cholesterol",
 }
 _DX_KEYWORDS = {
     "diabetes", "hypertension", "failure", "disease", "disorder",
@@ -122,7 +125,10 @@ def _classify(text: str) -> str:
     has_drug_name = bool(words & _MED_NAMES)
     # Check if the last word looks like a drug name (ends with a pharma suffix)
     last_word = lower.split()[-1] if lower.split() else ""
-    _NOT_DRUGS = {"control", "protocol", "alcohol", "patrol", "aerosol", "parasol", "esterol"}
+    _NOT_DRUGS = {
+        "control", "protocol", "alcohol", "patrol", "aerosol", "parasol", "esterol",
+        "cholesterol", "total cholesterol", "ldl", "hdl", "triglycerides",
+    }
     has_drug_suffix = (
         any(last_word.endswith(s) for s in _MED_SUFFIXES)
         and len(last_word) > 4
@@ -148,10 +154,168 @@ def _get_nlp():
     return _nlp
 
 
+_NEGATION_PREFIXES = re.compile(
+    r"\b(no|not|without|denies|denied|absence of|no evidence of|no signs? of|"
+    r"rules? out|ruled out|negative for|no history of|no acute|no new)\b",
+    re.IGNORECASE,
+)
+
+# Section headers that introduce allergy/adverse-reaction content — entities
+# found on these lines should not be classified as medications or diagnoses.
+_ALLERGY_SECTION_RE = re.compile(
+    r"##?\s*(\d+\.?\s*)?(allerg(y|ies)|allergy\s+record|allergy\s+list|"
+    r"adverse\s+reactions?|drug\s+reactions?)",
+    re.IGNORECASE,
+)
+_NEXT_SECTION_RE = re.compile(r"^##", re.MULTILINE)
+_NEGATED_REFERRAL_RE = re.compile(
+    r"\b(no|not|without|denies|declines)\b.{0,24}\b(referral|consult(ation)?|specialist)\b"
+    r"|\b(referral|consult(ation)?|specialist)\b.{0,24}\b(not needed|unnecessary|none)\b",
+    re.IGNORECASE,
+)
+_ALLERGY_CONTEXT_RE = re.compile(r"\ballerg(y|ies)\b|\bavoided\b|\bintolerance\b", re.IGNORECASE)
+_ALLERGY_SKIP_TOKENS = {
+    "allergen", "reaction", "severity", "date", "record", "allergy",
+}
+_MED_FALLBACK_PATTERNS = [
+    re.compile(r"\bamoxicillin\s*[-/ ]?clavulan(ate|ic acid)\b", re.IGNORECASE),
+    re.compile(r"\baugmentin\b", re.IGNORECASE),
+    re.compile(r"\bamoxicillin\b", re.IGNORECASE),
+    re.compile(r"\bprednisone\b", re.IGNORECASE),
+]
+_HOME_MED_SECTION_RE = re.compile(
+    r"##?\s*(home medications?\b.*prior to admission|medications? prior to admission)",
+    re.IGNORECASE,
+)
+_FOLLOWUP_SECTION_RE = re.compile(r"##?\s*(follow[- ]?up|discharge follow[- ]?up)", re.IGNORECASE)
+_METADATA_LINE_RE = re.compile(
+    r"\*\*\s*(patient\s+variant\s+id|archetype|base\s+conditions|prepared\s+by|date)\s*:\s*\*\*",
+    re.IGNORECASE,
+)
+
+
+def _build_allergy_line_set(text: str) -> set[int]:
+    """Return the set of 1-based line numbers that fall inside an Allergies section."""
+    lines = text.splitlines()
+    allergy_lines: set[int] = set()
+    in_allergy = False
+    for i, line in enumerate(lines, start=1):
+        if _ALLERGY_SECTION_RE.search(line):
+            in_allergy = True
+            allergy_lines.add(i)
+            continue
+        if in_allergy:
+            if _NEXT_SECTION_RE.match(line):
+                in_allergy = False
+            else:
+                allergy_lines.add(i)
+    return allergy_lines
+
+
+def _is_negated(text: str, line_text: str) -> bool:
+    """Return True if the entity text appears to be negated on this line."""
+    entity_lower = text.lower()
+    line_lower = line_text.lower()
+    # Find where entity appears in line
+    pos = line_lower.find(entity_lower)
+    if pos == -1:
+        return False
+    # Look at the ~60 chars before the entity for a negation prefix
+    window = line_lower[max(0, pos - 60): pos]
+    return bool(_NEGATION_PREFIXES.search(window))
+
+
+def _is_negated_referral_line(line_text: str) -> bool:
+    return bool(_NEGATED_REFERRAL_RE.search(line_text or ""))
+
+
+def _extract_allergies(lines: list[str], allergy_lines: set[int]) -> list[dict]:
+    """Extract allergen names from lines under an Allergies section."""
+    allergies: list[dict] = []
+    seen = set()
+
+    for line_no in sorted(allergy_lines):
+        if line_no <= 0 or line_no > len(lines):
+            continue
+        raw = lines[line_no - 1].strip()
+        if not raw:
+            continue
+
+        candidate = ""
+        if raw.startswith("|"):
+            cells = [c.strip() for c in raw.strip("|").split("|")]
+            if cells:
+                candidate = cells[0]
+        else:
+            candidate = raw.lstrip("-•●* ").split(":")[0].strip()
+
+        candidate = re.sub(r"\*+", "", candidate).strip()
+        candidate_lower = candidate.lower()
+        if (
+            not candidate
+            or candidate.startswith("#")
+            or candidate_lower in _ALLERGY_SKIP_TOKENS
+            or "allergy" in candidate_lower and "penicillin" not in candidate_lower and "sulfa" not in candidate_lower
+            or set(candidate) <= {"-", "|", " "}
+            or "---" in candidate
+        ):
+            continue
+
+        key = candidate_lower
+        if key in seen:
+            continue
+        seen.add(key)
+        allergies.append({"name": candidate, "source_line": line_no})
+
+    return allergies
+
+
+def _build_home_med_line_set(text: str) -> set[int]:
+    """Return lines that belong to 'home meds prior to admission' sections."""
+    lines = text.splitlines()
+    section_lines: set[int] = set()
+    in_home_med = False
+    for i, line in enumerate(lines, start=1):
+        if _HOME_MED_SECTION_RE.search(line):
+            in_home_med = True
+            section_lines.add(i)
+            continue
+        if in_home_med:
+            if _NEXT_SECTION_RE.match(line):
+                in_home_med = False
+            else:
+                section_lines.add(i)
+    return section_lines
+
+
+def _build_followup_line_set(text: str) -> set[int]:
+    """Return lines that belong to follow-up sections."""
+    lines = text.splitlines()
+    section_lines: set[int] = set()
+    in_followup = False
+    for i, line in enumerate(lines, start=1):
+        if _FOLLOWUP_SECTION_RE.search(line):
+            in_followup = True
+            section_lines.add(i)
+            continue
+        if in_followup:
+            if _NEXT_SECTION_RE.match(line):
+                in_followup = False
+            else:
+                section_lines.add(i)
+    return section_lines
+
+
 async def extract_entities(text: str) -> dict:
     if not text:
         return {"diagnoses": [], "medications": [], "labs": [],
                 "referrals": [], "follow_up_tasks": [], "care_plan": []}
+
+    allergy_lines = _build_allergy_line_set(text)
+    home_med_lines = _build_home_med_line_set(text)
+    followup_lines = _build_followup_line_set(text)
+    text_lines = text.splitlines()
+    allergies = _extract_allergies(text_lines, allergy_lines)
 
     doc = _get_nlp()(text)
 
@@ -159,30 +323,86 @@ async def extract_entities(text: str) -> dict:
 
     for ent in doc.ents:
         line_no = doc.text[: ent.start_char].count("\n") + 1
-        kind = _classify(ent.text)
+
+        # Skip entities whose source line is inside an Allergies section
+        if line_no in allergy_lines:
+            continue
+
+        line_text = text_lines[line_no - 1] if line_no <= len(text_lines) else ""
+        if line_text.strip().startswith("#") or _METADATA_LINE_RE.search(line_text):
+            continue
+
+        ent_text = re.sub(r"\s+", " ", ent.text).strip()
+        if not ent_text or "**" in ent_text:
+            continue
+
+        lower_ent_text = ent_text.lower()
+        if "archetype" in lower_ent_text or "base conditions" in lower_ent_text:
+            continue
+
+        kind = _classify(ent_text)
         if kind == "skip":
             continue
-        elif kind == "med":
+
+        if kind == "med":
+            if line_no in home_med_lines:
+                continue
+            if _ALLERGY_CONTEXT_RE.search(line_text):
+                continue
             meds.append({
-                "name": ent.text, "rxnorm_code": None,
+                "name": ent_text, "rxnorm_code": None,
                 "dose": None, "frequency": None, "source_line": line_no,
             })
         elif kind == "lab":
             labs.append({
-                "name": ent.text, "loinc_code": None,
+                "name": ent_text, "loinc_code": None,
                 "value": None, "status": "resulted", "source_line": line_no,
             })
         elif kind == "referral":
-            specialty = extract_specialty(ent.text)
+            if _is_negated_referral_line(line_text):
+                continue
+            if followup_lines and line_no not in followup_lines and not ("referral" in line_text.lower() or "consult" in line_text.lower()):
+                continue
+            specialty = extract_specialty(ent_text)
             if specialty and specialty.lower() not in ("referral", "consult", "consultation", "referred", "specialist"):
                 referrals_from_ner.append({
                     "specialty": specialty, "provider": None,
                     "urgency": None, "source_line": line_no,
                 })
         else:
-            diagnoses.append({
-                "text": ent.text, "snomed_code": None,
-                "negated": False, "source_line": line_no,
+            if lower_ent_text.startswith(("no ", "without ", "denies ", "negative for ")):
+                continue
+            negated = _is_negated(ent_text, line_text)
+            if not negated:
+                diagnoses.append({
+                    "text": ent_text, "snomed_code": None,
+                    "negated": False, "source_line": line_no,
+                })
+
+    # Fallback medication extraction for high-value meds that NER may skip.
+    seen_med_names = {normalize_med_name(m.get("name", "")) for m in meds if m.get("name")}
+    for idx, line in enumerate(text_lines, start=1):
+        if idx in allergy_lines:
+            continue
+        if idx in home_med_lines:
+            continue
+        for pattern in _MED_FALLBACK_PATTERNS:
+            if pattern.pattern == r"\bamoxicillin\b" and re.search(r"clavulan", line, re.IGNORECASE):
+                continue
+            match = pattern.search(line)
+            if not match:
+                continue
+            med_name = match.group(0).strip()
+            norm = normalize_med_name(med_name)
+            if not norm or norm in seen_med_names:
+                continue
+            seen_med_names.add(norm)
+            meds.append({
+                "name": med_name,
+                "rxnorm_code": None,
+                "dose": None,
+                "frequency": None,
+                "source_line": idx,
             })
 
     # Keyword-based extraction for referrals, follow-ups, pending labs
@@ -195,6 +415,8 @@ async def extract_entities(text: str) -> dict:
     for idx, line in enumerate(text.splitlines(), start=1):
         lower = line.lower()
         if ("referral" in lower or "consult" in lower) and idx not in seen_referral_lines:
+            if _is_negated_referral_line(line):
+                continue
             specialty = extract_specialty(line.strip())
             # Skip generic "referral" with no identified specialty
             if specialty and specialty.lower() not in ("referral", "consult", "consultation"):
@@ -202,8 +424,14 @@ async def extract_entities(text: str) -> dict:
                     seen_specialties.add(specialty.lower())
                     referrals.append({"specialty": specialty, "provider": None,
                                        "urgency": None, "source_line": idx})
-        if "follow" in lower or "appointment" in lower:
-            desc = line.strip()
+        if ("follow" in lower or "appointment" in lower):
+            if followup_lines and idx not in followup_lines:
+                continue
+            desc = line.strip().lstrip("-•● ").strip()
+            if desc.startswith("#"):
+                continue
+            desc = re.sub(r"^(follow[- ]?up\s*:?\s*)", "", desc, flags=re.IGNORECASE).strip()
+            desc = re.sub(r"^(appointment\s*:?\s*)", "", desc, flags=re.IGNORECASE).strip()
             desc_key = desc.lower()
             # Skip section headers and instructions to return to ED
             if (desc_key.rstrip(":") in ("follow-up", "follow up", "followup")
@@ -255,6 +483,11 @@ async def extract_entities(text: str) -> dict:
             seen_meds.add(key)
             deduped_meds.append(m)
 
+    # Prefer the specific combination product over plain amoxicillin when both were extracted.
+    has_amox_clav = any(normalize_med_name(m.get("name", "")) == "amoxicillin clavulanate" for m in deduped_meds)
+    if has_amox_clav:
+        deduped_meds = [m for m in deduped_meds if normalize_med_name(m.get("name", "")) != "amoxicillin"]
+
     seen_dx = set()
     deduped_dx = []
     for d in diagnoses:
@@ -274,5 +507,5 @@ async def extract_entities(text: str) -> dict:
     return {
         "diagnoses": deduped_dx, "medications": deduped_meds, "labs": deduped_labs,
         "referrals": referrals, "follow_up_tasks": follow_up_tasks,
-        "care_plan": [],
+        "care_plan": [], "allergies": allergies, "document_text": text,
     }

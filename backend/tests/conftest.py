@@ -1,5 +1,6 @@
 """Shared test fixtures."""
 
+import os
 import sqlite3
 import uuid
 from unittest.mock import patch
@@ -9,6 +10,7 @@ from sqlalchemy import JSON, String, create_engine, event
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import StaticPool
 
+from config import get_settings
 from db.database import Base, get_db
 from main import app
 
@@ -20,8 +22,12 @@ sqlite3.register_converter("UUID", lambda b: uuid.UUID(b.decode()))
 @pytest.fixture(autouse=True)
 def force_mock_mode():
     """Force Abstractive Health mock mode for all tests."""
+    os.environ["OPENROUTER_API_KEY"] = ""
+    os.environ["OPENAI_API_KEY"] = ""
+    get_settings.cache_clear()
     with patch("services.abstractive._use_mock", return_value=True):
         yield
+    get_settings.cache_clear()
 
 
 @pytest.fixture()

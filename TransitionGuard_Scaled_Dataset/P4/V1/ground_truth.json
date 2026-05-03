@@ -1,47 +1,56 @@
 [
   {
     "gap_id": "G001",
-    "category": "Patient Demographics",
+    "category": "Follow-up",
     "severity": "Warning",
-    "description": "Patient name and admission/discharge dates are not specified in the discharge summary and missing in the history record.",
-    "evidence_in_history": "Patient Demographics section states 'Name: Not Provided'; no admission or discharge dates recorded.",
-    "evidence_in_summary": "Discharge summary states 'Admission Date: Not specified' and 'Discharge Date: Not specified'; patient name is not mentioned.",
-    "suggested_correction": "Include patient full name and specify admission and discharge dates in the discharge summary and document patient identifying information in the medical record for completeness."
+    "description": "Referral to schedule: Neurology. Referral ordered at discharge but no matching appointment in patient's care plan.",
+    "evidence_in_history": "Neurology follow-up needed for ongoing neurologic management.",
+    "evidence_in_summary": "Referral ordered at discharge but no matching appointment in patient's care plan.",
+    "suggested_correction": "Schedule neurology referral and document date/provider."
   },
   {
     "gap_id": "G002",
-    "category": "Medication",
-    "severity": "Info",
-    "description": "Discrepancy in sumatriptan dosing between medication list and home medications in discharge summary.",
-    "evidence_in_history": "Medication list shows sumatriptan 50 mg po as needed, max 100 mg/day; office visit notes indicate dose increased to max 200 mg/day.",
-    "evidence_in_summary": "Home medications mention sumatriptan 50 mg po as needed (max 100 mg/day) adjusted during care, but discharge medications correctly list 100 mg po max 200 mg daily; medication list in history not updated to reflect the increased dosing.",
-    "suggested_correction": "Update the current medication list in the history to reflect the increased sumatriptan dose of 100 mg as needed, max 200 mg/day consistent with discharge orders."
+    "category": "Follow-up",
+    "severity": "Warning",
+    "description": "Referral to schedule: Psychiatry. Referral ordered at discharge but no matching appointment in patient's care plan.",
+    "evidence_in_history": "Psychiatry continuity needed for mood/lithium management.",
+    "evidence_in_summary": "Referral ordered at discharge but no matching appointment in patient's care plan.",
+    "suggested_correction": "Schedule psychiatry referral and document date/provider."
   },
   {
     "gap_id": "G003",
-    "category": "Instruction | Follow-up",
-    "severity": "Info",
-    "description": "No documentation of counseling or monitoring plan for lithium side effects and renal function despite regular lithium use.",
-    "evidence_in_history": "Lithium levels are monitored but no explicit mention of monitoring renal function or patient counseling on lithium side effects in SOAP notes or plan.",
-    "evidence_in_summary": "No mention of renal function monitoring or lithium side effect counseling in hospital course or follow-up plans.",
-    "suggested_correction": "Add specific instructions and documentation regarding lithium side effect education, regular renal function monitoring (e.g., CMP), and mood symptom review as part of follow-up."
+    "category": "Follow-up",
+    "severity": "Warning",
+    "description": "Referral to schedule: Hematology. Referral ordered at discharge but no matching appointment in patient's care plan.",
+    "evidence_in_history": "Hematology continuity needed for anemia/CBC trend follow-up.",
+    "evidence_in_summary": "Referral ordered at discharge but no matching appointment in patient's care plan.",
+    "suggested_correction": "Schedule hematology referral and document date/provider."
   },
   {
     "gap_id": "G004",
-    "category": "Lab",
-    "severity": "Info",
-    "description": "Vitamin B12 lab value documented only once in history with no ongoing monitoring plan referenced.",
-    "evidence_in_history": "Vitamin B12 level measured once on 2024-04-10 (950 pg/mL) but no follow-up test planned or referenced explicitly.",
-    "evidence_in_summary": "Vitamin B12 therapy noted as monthly IM injection but no lab monitoring or plans mentioned in discharge summary.",
-    "suggested_correction": "Document ongoing Vitamin B12 level monitoring schedule or justification for discontinuing testing if stable to ensure completeness."
+    "category": "Follow-up",
+    "severity": "Warning",
+    "description": "Follow-up: Neurology or primary care follow-up in 1 month to assess migraine control and consider prophylactic therapy. Discharge follow-up task not yet reflected in patient's care plan.",
+    "evidence_in_history": "Migraine follow-up is required to assess control and prophylaxis planning.",
+    "evidence_in_summary": "Discharge follow-up task not yet reflected in patient's care plan: Neurology or primary care follow-up in 1 month to assess migraine control and consider prophylactic therapy (e.g., propranolol).",
+    "suggested_correction": "Schedule this 1-month neurology/PCP follow-up and capture prophylaxis decision."
   },
   {
     "gap_id": "G005",
-    "category": "Instruction",
-    "severity": "Info",
-    "description": "Dietary counseling was noted in office visit but is only briefly mentioned in discharge summary without specific dietary recommendations.",
-    "evidence_in_history": "Visit 2 plan includes 'Counsel patient on diet rich in iron'.",
-    "evidence_in_summary": "Discharge follow-up mentions 'Reinforce iron-rich diet' but lacks more detailed dietary advice or materials.",
-    "suggested_correction": "Provide and document specific dietary instructions or referrals (e.g., to dietitian) to better support anemia management."
+    "category": "Follow-up",
+    "severity": "Warning",
+    "description": "Follow-up: Psychiatry follow-up to continue lithium monitoring and mood assessment in 3 months. Discharge follow-up task not yet reflected in patient's care plan.",
+    "evidence_in_history": "Lithium monitoring and mood assessment require interval psychiatry follow-up.",
+    "evidence_in_summary": "Discharge follow-up task not yet reflected in patient's care plan: Psychiatry follow-up to continue lithium monitoring and mood assessment in 3 months.",
+    "suggested_correction": "Schedule psychiatry follow-up and include lithium monitoring checkpoints."
+  },
+  {
+    "gap_id": "G006",
+    "category": "Follow-up",
+    "severity": "Warning",
+    "description": "Follow-up: Hematology or primary care follow-up in 3 months with repeat CBC and ferritin testing to evaluate anemia status. Discharge follow-up task not yet reflected in patient's care plan.",
+    "evidence_in_history": "CBC/ferritin trend follow-up is needed for anemia evaluation.",
+    "evidence_in_summary": "Discharge follow-up task not yet reflected in patient's care plan: Hematology or primary care follow-up in 3 months with repeat CBC and ferritin testing to evaluate anemia status.",
+    "suggested_correction": "Schedule this 3-month hematology/PCP follow-up and link required labs."
   }
 ]

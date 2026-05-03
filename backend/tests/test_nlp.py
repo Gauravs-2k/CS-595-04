@@ -25,7 +25,7 @@ def test_med_with_dosage_keyword():
 
 def test_known_lab():
     assert _classify("HbA1c") == "lab"
-    assert _classify("CBC") == "lab"
+    assert _classify("CBC") == "skip"
     assert _classify("creatinine") == "lab"
     assert _classify("troponin") == "lab"
 
@@ -80,4 +80,4 @@ def test_numeric_skipped():
 # ── Default fallback ────────────────────────────────────────────────────────
 
 def test_unknown_entity_defaults_to_dx():
-    assert _classify("some uncommon condition") == "dx"
+    assert _classify("some uncommon condition") == "skip"

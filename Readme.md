@@ -4,6 +4,55 @@ TransitionGuard detects care continuity gaps between hospital discharge summarie
 
 ---
 
+## Technical Workflow
+
+This project follows a 5-step clinical handoff pipeline. Current runtime behavior is:
+
+**Step 1: Entity Extraction**
+- Runs on both `patient_history.md` and `discharge_summary.md`.
+- Uses scispaCy NER with section-aware normalization and filters.
+- Optional LLM code enrichment can populate SNOMED/RxNorm/LOINC fields when configured.
+- Active extracted types: diagnoses, medications, labs, referrals, follow-up tasks.
+
+**Step 2: Gap Detection Agents**
+- Rule-based agents compare baseline vs discharge entities.
+    - Medication agent: omissions, dose/regimen changes, allergy conflicts.
+    - Diagnosis agent: new/missing diagnosis continuity gaps.
+    - Follow-up agent: unscheduled referrals/tasks.
+    - Lab agent: pending/continuity lab risks.
+    - Standards agent: deterministic care-standard omissions.
+- Optional LangChain parallel orchestration is available.
+
+**Step 3: Severity Tagging**
+- Active runtime uses deterministic severity rules: critical, warning, info.
+- LLM severity triage is considered optional/target, not default runtime.
+
+**Step 4: Clinician Dashboard**
+- Frontend displays gaps with severity, evidence, and suggested actions.
+- Clinicians can review and resolve items with session audit context.
+
+**Step 5: Evaluation**
+- Detected gaps are compared against ground truth per dataset case.
+- Precision, Recall, and F1 are computed via the evaluation endpoint.
+
+For the full implementation detail, see [TECHNICAL_WORKFLOW.md](TECHNICAL_WORKFLOW.md).
+
+---
+
+## Product Overview (for Non-Technical Users)
+
+TransitionGuard is a clinical safety tool that helps ensure nothing important is lost when a patient leaves the hospital. It works like this:
+
+1. **Reads both the hospital discharge summary and the patient’s long-term medical record.**
+2. **Finds all the diagnoses, medications, lab results, and follow-up instructions in both documents.**
+3. **Automatically flags anything new, missing, or changed—like a new medication that isn’t in the old chart, or a follow-up that wasn’t scheduled.**
+4. **Shows these “gaps” in a dashboard for the clinician to review, mark as resolved, or export as a report.**
+5. **For demo/testing, it can score itself against a gold-standard answer key, so you know how well it’s working.**
+
+TransitionGuard helps clinicians catch dropped diagnoses, missed follow-ups, and medication mismatches—making handoffs safer and more reliable.
+
+---
+
 ## Tech Stack
 
 | Layer | Technology |
@@ -43,9 +92,22 @@ FastAPI Backend
 
 | Category | Description |
 |---|---|
-| `missing` | Medication prescribed at discharge but absent from PCP chart |
-| `unscheduled` | Follow-up or referral ordered but not yet booked |
-| `unaddressed` | Pending lab or diagnostic result with no PCP action |
+| `missing_from_pcp` | New medication/diagnosis in discharge not present in PCP chart |
+| `missing_from_handoff` | Existing PCP medication/diagnosis not present in discharge summary |
+| `changed` | Medication regimen or lab trend changed between documents |
+| `action_needed` | Follow-ups/referrals/pending results that require action |
+
+---
+
+## Dataset Evaluation
+
+After analyzing a dataset patient session, run:
+
+```bash
+GET /evaluation/run/{session_id}
+```
+
+The endpoint returns precision, recall, F1, and TP/FP/FN against the dataset ground truth.
 
 ---
 

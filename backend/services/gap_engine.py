@@ -1,18 +1,54 @@
 import uuid
 
-from services.normalize import extract_specialty, fuzzy_match, normalize_dx_text, normalize_med_name
+from services.clinical_standards_agent import detect_clinical_standard_gaps
+from services.normalize import (
+    extract_specialty,
+    fuzzy_match,
+    medication_classes,
+    normalize_dx_text,
+    normalize_med_name,
+)
+
+_HIGH_RISK_MED_KEYWORDS = {
+    "insulin", "warfarin", "heparin", "enoxaparin", "apixaban", "rivaroxaban",
+    "dabigatran", "clopidogrel", "digoxin", "amiodarone", "prednisone",
+}
+_LOW_RISK_MED_KEYWORDS = {
+    "acetaminophen", "paracetamol", "ibuprofen", "naproxen",
+}
+_DIAGNOSIS_NOISE_TERMS = {
+    "chronic disease management", "disease management", "management",
+    "edema", "mild bilateral ankle edema", "ankle edema",
+    "chronic disease", "chronic conditions",
+}
 
 
 def _severity(category: str, title: str, source_text: str = "") -> str:
     text = f"{title} {source_text}".lower()
-    if category == "missing_from_pcp" and "medication" in text:
+    if category == "action_needed" and "allergy" in text and "conflict" in text:
         return "critical"
-    if category == "missing_from_handoff" and "medication" in text:
-        return "warning"
     if category == "action_needed" and ("14 days" in text or "7 days" in text or "urgent" in text):
         return "critical"
     if category == "action_needed" and "pending" in text:
         return "critical"
+    if category == "action_needed" and ("follow-up" in text or "referral" in text):
+        return "warning"
+    if category == "action_needed" and (
+        "corticosteroid" in text
+        or "vte" in text
+        or "prophylaxis" in text
+        or "standard of care" in text
+        or "guideline" in text
+    ):
+        return "warning"
+    if category == "missing_from_pcp" and "medication" in text:
+        if any(k in text for k in _LOW_RISK_MED_KEYWORDS):
+            return "info"
+        if any(k in text for k in _HIGH_RISK_MED_KEYWORDS):
+            return "critical"
+        return "warning"
+    if category == "missing_from_handoff" and "medication" in text:
+        return "warning"
     if category == "changed":
         return "warning"
     if category == "missing_from_pcp":
@@ -93,6 +129,67 @@ def _gap(category, severity_cat, title, description, source_text,
     }
 
 
+def _allergy_conflict_gaps(discharge_meds: list[dict], allergies: list[dict]) -> list[dict]:
+    gaps: list[dict] = []
+    seen_conflicts = set()
+
+    for med in discharge_meds:
+        med_name = med.get("name", "")
+        med_classes = medication_classes(med_name)
+        if not med_name or not med_classes:
+            continue
+
+        for allergy in allergies:
+            allergen = (allergy.get("name") or allergy.get("text") or "").strip()
+            if not allergen:
+                continue
+
+            allergy_classes = medication_classes(allergen)
+            overlap = med_classes & allergy_classes
+            if not overlap:
+                continue
+
+            key = (normalize_med_name(med_name), allergen.lower())
+            if key in seen_conflicts:
+                continue
+            seen_conflicts.add(key)
+
+            class_text = ", ".join(sorted(overlap))
+            gaps.append(_gap(
+                category="action_needed",
+                severity_cat="action_needed",
+                title=f"Allergy conflict risk: {med_name}",
+                description=(
+                    "Discharge medication may conflict with documented allergy "
+                    f"({allergen}) via shared class ({class_text})."
+                ),
+                source_text=f"{med_name} vs allergy: {allergen}",
+                source_line=med.get("source_line"),
+                standard_code=med.get("rxnorm_code"),
+                standard_system="RxNorm",
+                suggested_action="Urgent safety review: verify allergy-safe alternative before continuation.",
+            ))
+
+    return gaps
+
+
+def _is_noise_dx(dx_text: str, discharge_dx_texts: set[str]) -> bool:
+    norm = normalize_dx_text(dx_text)
+    if not norm:
+        return True
+    if norm in {"disease", "chronic", "chronic disease"}:
+        return True
+    if "chronic disease" in norm:
+        return True
+    if "edema" in norm:
+        return True
+    if norm in _DIAGNOSIS_NOISE_TERMS or "management" in norm:
+        return True
+    if norm == "infection" and any(k in d for d in discharge_dx_texts for k in ("pneumonia", "infection", "sepsis")):
+        return True
+    return False
+
+
 def detect_gaps(discharge: dict, pcp: dict) -> list[dict]:
     gaps: list[dict] = []
 
@@ -100,6 +197,7 @@ def detect_gaps(discharge: dict, pcp: dict) -> list[dict]:
     pcp_meds = pcp.get("medications", [])
     discharge_dx = discharge.get("diagnoses", [])
     pcp_dx = pcp.get("diagnoses", [])
+    known_allergies = discharge.get("allergies", []) + pcp.get("allergies", [])
 
     pcp_med_codes, pcp_med_names = _build_med_sets(pcp_meds)
     pcp_dx_codes, pcp_dx_texts = _build_dx_sets(pcp_dx)
@@ -118,7 +216,20 @@ def detect_gaps(discharge: dict, pcp: dict) -> list[dict]:
     # New things from the hospital the PCP needs to add/act on.
     # ═══════════════════════════════════════════════════════════════════════════
 
+    # Clinical standards omissions (not simple diff) are checked first.
+    gaps.extend(detect_clinical_standard_gaps(discharge=discharge, gap_builder=_gap))
+
+    allergy_conflicts = _allergy_conflict_gaps(discharge_meds=discharge_meds, allergies=known_allergies)
+    gaps.extend(allergy_conflicts)
+    conflict_med_names = {
+        normalize_med_name(g.get("source_text", "").split(" vs allergy:")[0])
+        for g in allergy_conflicts
+        if g.get("source_text")
+    }
+
     for med in discharge_meds:
+        if normalize_med_name(med.get("name", "")) in conflict_med_names:
+            continue
         if not _med_in_list(med, pcp_med_codes, pcp_med_names):
             gaps.append(_gap(
                 category="missing_from_pcp",
@@ -133,6 +244,8 @@ def detect_gaps(discharge: dict, pcp: dict) -> list[dict]:
             ))
 
     for dx in discharge_dx:
+        if _is_noise_dx(dx.get("text", ""), pcp_dx_texts):
+            continue
         if not _dx_in_list(dx, pcp_dx_codes, pcp_dx_texts):
             gaps.append(_gap(
                 category="missing_from_pcp",
@@ -166,6 +279,8 @@ def detect_gaps(discharge: dict, pcp: dict) -> list[dict]:
             ))
 
     for dx in pcp_dx:
+        if _is_noise_dx(dx.get("text", ""), discharge_dx_texts):
+            continue
         if not _dx_in_list(dx, discharge_dx_codes, discharge_dx_texts):
             gaps.append(_gap(
                 category="missing_from_handoff",

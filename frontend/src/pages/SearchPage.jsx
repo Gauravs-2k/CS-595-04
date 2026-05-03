@@ -6,6 +6,7 @@ import TopBar from '../components/TopBar'
 import { searchPatients } from '../api/client'
 
 const EMPTY = {
+  variant_id: '',
   first_name: '', last_name: '', dob: '', gender: '',
   phone: '', email: '', address: '', city: '', state: '', zip: '',
 }
@@ -27,7 +28,7 @@ export default function SearchPage() {
       const { data } = await searchPatients(form)
       const list = Array.isArray(data) ? data : []
       setPatients(list)
-      if (list.length === 0) setError('No patients found. Check the name and date of birth.')
+      if (list.length === 0) setError('No patients found. Try a Variant ID (for example P1-V3) or name + DOB.')
     } catch {
       setError('Unable to reach patient records. Check that the backend is running.')
     } finally {
@@ -42,20 +43,24 @@ export default function SearchPage() {
       <section className="search-panel">
         <form onSubmit={onSearch} className="search-form">
           <label>
+            Variant ID (Unique)
+            <input value={form.variant_id} onChange={set('variant_id')} placeholder="P2-V3 or dataset-P2-V3" />
+          </label>
+          <label>
             First Name
-            <input value={form.first_name} onChange={set('first_name')} placeholder="Nwhinone" required />
+            <input value={form.first_name} onChange={set('first_name')} placeholder="Maria" />
           </label>
           <label>
             Last Name
-            <input value={form.last_name} onChange={set('last_name')} placeholder="Nwhinzzztestpatient" required />
+            <input value={form.last_name} onChange={set('last_name')} placeholder="Alvarez" />
           </label>
           <label>
             Date of Birth
-            <input type="date" value={form.dob} onChange={set('dob')} required />
+            <input type="date" value={form.dob} onChange={set('dob')} />
           </label>
           <label>
             Gender
-            <select value={form.gender} onChange={set('gender')} required>
+            <select value={form.gender} onChange={set('gender')}>
               <option value="">Select…</option>
               <option value="M">Male</option>
               <option value="F">Female</option>

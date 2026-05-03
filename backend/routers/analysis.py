@@ -12,8 +12,8 @@ from models.gap import Gap
 from models.session import AnalysisSession
 from schemas.clinical import ClinicalDocument, GapPatchRequest
 from services.abstractive import AbstractiveClient, get_patient_meta
-from services.dataset_loader import DATASET_PATIENTS, is_dataset_patient, load_dataset_gaps
-from services.gap_engine import detect_gaps
+from services.agentic_gap_engine import detect_gaps
+from services.dataset_loader import get_dataset_patient_meta, is_dataset_patient, load_dataset_documents
 from services.mimic_loader import get_mimic_discharge_text, is_mimic_patient
 from services.nlp import extract_entities
 
@@ -44,6 +44,7 @@ def _serialize_session(session: AnalysisSession, gaps: list[Gap]) -> dict:
                 "standard_system": g.standard_system,
                 "suggested_action": g.suggested_action,
                 "resolved": g.resolved,
+                "resolved_at": g.resolved_at,
             }
             for g in gaps
         ],
@@ -79,9 +80,17 @@ async def _extract_handoff_text(
 
 
 async def _analyze_dataset_patient(patient_id: str, db: Session) -> dict:
-    """Skip NLP entirely and serve ground-truth gaps from the dataset."""
-    meta = DATASET_PATIENTS[patient_id]
-    gaps = load_dataset_gaps(patient_id)
+    """Run the standard NLP + gap detection pipeline on dataset documents."""
+    meta = get_dataset_patient_meta(patient_id)
+    if meta is None:
+        raise HTTPException(status_code=404, detail="Dataset patient not found")
+
+    visit = meta["visit"]
+    docs = load_dataset_documents(patient_id, visit=visit)
+
+    discharge_entities = await extract_entities(docs["discharge_text"])
+    pcp_entities = await extract_entities(docs["history_text"])
+    gaps = detect_gaps(discharge=discharge_entities, pcp=pcp_entities)
 
     session = AnalysisSession(
         patient_id=patient_id,
@@ -89,12 +98,14 @@ async def _analyze_dataset_patient(patient_id: str, db: Session) -> dict:
         patient_dob=meta["dob"],
         sources=[{
             "name": "TransitionGuard Dataset",
-            "ehr": "Ground Truth Annotation",
+            "ehr": "Synthetic Dataset",
             "retrieved_at": datetime.now(timezone.utc).isoformat(),
-            "format": "JSON",
+            "format": "Markdown",
+            "visit": visit,
+            "variant_id": meta.get("variant_id"),
         }],
-        discharge_entities={},
-        pcp_entities={},
+        discharge_entities=discharge_entities,
+        pcp_entities=pcp_entities,
     )
     db.add(session)
     db.flush()
@@ -130,7 +141,7 @@ async def analyze_patient(
     handoff_file: UploadFile | None = File(None),
     handoff_text: str | None = Form(None),
 ):
-    # Dataset patients: bypass NLP entirely and serve ground-truth gaps
+    # Dataset patients: run NLP+rules on synthetic patient history and discharge docs
     if is_dataset_patient(patient_id):
         return await _analyze_dataset_patient(patient_id, db)
 

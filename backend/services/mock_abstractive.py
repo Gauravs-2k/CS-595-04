@@ -18,15 +18,31 @@ def search_patient(patient_data: dict) -> list[dict]:
     first = patient_data.get("first_name", "").strip().lower()
     last = patient_data.get("last_name", "").strip().lower()
     dob = patient_data.get("dob", "").strip()
-
-    if len(last) < 2:
-        return []
+    variant_id = patient_data.get("variant_id", "").strip().upper()
 
     candidates = list_mimic_patients() + list_dataset_patients()
-    results = [
-        p for p in candidates
-        if first in p["name"].lower() or last in p["name"].lower()
-    ]
+
+    if variant_id:
+        return [
+            p for p in candidates
+            if p.get("variant_id", "").upper() == variant_id
+            or p.get("patient_id", "").upper() == variant_id
+        ]
+
+    if not any([first, last, dob]):
+        return []
+
+    def _name_matches(name: str) -> bool:
+        tokens = name.lower().split()
+        return (
+            any(first in t for t in tokens if first)
+            or any(last in t for t in tokens if last)
+        )
+
+    if first or last:
+        results = [p for p in candidates if _name_matches(p.get("name", ""))]
+    else:
+        results = list(candidates)
 
     if dob:
         results = [p for p in results if p["dob"] == dob]

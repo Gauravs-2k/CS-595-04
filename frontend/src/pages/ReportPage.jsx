@@ -5,7 +5,7 @@ import AbstractivePanel from '../components/AbstractivePanel'
 import GapItem from '../components/GapItem'
 import Sidebar from '../components/Sidebar'
 import TopBar from '../components/TopBar'
-import { exportPDF, getSession, resolveGap } from '../api/client'
+import { exportPDF, getSession, resolveGap, runEvaluation } from '../api/client'
 
 const GROUPS = [
   {
@@ -35,6 +35,9 @@ export default function ReportPage() {
   const [session, setSession] = useState(null)
   const [error, setError] = useState('')
   const [exportError, setExportError] = useState('')
+  const [evaluation, setEvaluation] = useState(null)
+  const [evaluationError, setEvaluationError] = useState('')
+  const [evaluating, setEvaluating] = useState(false)
 
   useEffect(() => {
     const load = async () => {
@@ -82,6 +85,19 @@ export default function ReportPage() {
     }
   }
 
+  const onRunEvaluation = async () => {
+    try {
+      setEvaluating(true)
+      setEvaluationError('')
+      const { data } = await runEvaluation(sessionId)
+      setEvaluation(data)
+    } catch {
+      setEvaluationError('Failed to run evaluation for this session.')
+    } finally {
+      setEvaluating(false)
+    }
+  }
+
   if (error) return <main className="page shell"><p className="error">{error}</p></main>
   if (!session) return <main className="page shell"><p>Loading session...</p></main>
 
@@ -96,9 +112,31 @@ export default function ReportPage() {
         <section>
           <div className="report-actions">
             <Link to="/" className="btn-secondary">New Search</Link>
+            {session.patient?.id?.startsWith('dataset-') && (
+              <button onClick={onRunEvaluation} className="btn-secondary" disabled={evaluating}>
+                {evaluating ? 'Scoring...' : 'Run Scoring'}
+              </button>
+            )}
             <button onClick={onExport}>Export PDF</button>
             {exportError && <span className="error" style={{ fontSize: '0.85rem' }}>{exportError}</span>}
           </div>
+          {session.patient?.id?.startsWith('dataset-') && (
+            <section className="evaluation-panel">
+              <h3>Evaluation</h3>
+              <p className="group-description">Compare detected gaps against dataset ground truth.</p>
+              {evaluationError && <p className="error">{evaluationError}</p>}
+              {evaluation && (
+                <div className="evaluation-grid">
+                  <div><strong>Precision:</strong> {(evaluation.metrics.precision * 100).toFixed(1)}%</div>
+                  <div><strong>Recall:</strong> {(evaluation.metrics.recall * 100).toFixed(1)}%</div>
+                  <div><strong>F1:</strong> {(evaluation.metrics.f1 * 100).toFixed(1)}%</div>
+                  <div><strong>TP:</strong> {evaluation.counts.true_positives}</div>
+                  <div><strong>FP:</strong> {evaluation.counts.false_positives}</div>
+                  <div><strong>FN:</strong> {evaluation.counts.false_negatives}</div>
+                </div>
+              )}
+            </section>
+          )}
           <AbstractivePanel sources={session.sources} />
           {session.gaps.length === 0 ? (
             <section className="empty-state">

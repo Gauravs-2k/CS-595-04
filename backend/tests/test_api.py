@@ -20,23 +20,25 @@ def test_health():
 
 
 def test_search_patients_mock_mode(test_db):
-    """In mock mode, searching returns the demo patient."""
+    """In mock mode, searching returns dataset/mimic demo patients."""
     response = client.post("/patients/search", json={
-        "first_name": "Jane",
-        "last_name": "Doe",
-        "dob": "1955-03-16",
+        "first_name": "Maria",
+        "last_name": "Alvarez",
+        "dob": "",
         "gender": "F",
     })
     assert response.status_code == 200
     data = response.json()
     assert isinstance(data, list)
     assert len(data) >= 1
-    assert data[0]["patient_id"] == "demo-patient-001"
+    assert any(item["patient_id"].startswith("dataset-") for item in data)
 
 
 def test_analyze_mock_patient(test_db):
     """Full analysis pipeline with mock data should return a session with gaps."""
-    response = client.post("/analyze/demo-patient-001")
+    response = client.post("/analyze/demo-patient-001", data={
+        "handoff_text": "Discharged with lisinopril 10 mg daily. Follow up cardiology in 7 days. BMP pending.",
+    })
     assert response.status_code == 200
     data = response.json()
 
@@ -61,19 +63,20 @@ def test_analyze_mock_patient(test_db):
 
     # Expected gap categories from mock data
     categories = {g["category"] for g in data["gaps"]}
-    assert "missing" in categories
-    assert "unscheduled" in categories
-    assert "unaddressed" in categories
+    assert "missing_from_pcp" in categories
+    assert "action_needed" in categories
 
 
 def test_analyze_returns_expected_mock_gaps(test_db):
     """Mock data should produce specific known gaps."""
-    response = client.post("/analyze/demo-patient-001")
+    response = client.post("/analyze/demo-patient-001", data={
+        "handoff_text": "Discharged with lisinopril 10 mg daily. Follow up cardiology in 7 days. BMP pending.",
+    })
     data = response.json()
     titles = [g["title"] for g in data["gaps"]]
 
     # Mock data has: Lisinopril missing, Cardiology referral unscheduled, BMP pending
-    assert any("Lisinopril" in t for t in titles), f"Expected Lisinopril gap, got: {titles}"
+    assert any("lisinopril" in t.lower() for t in titles), f"Expected Lisinopril gap, got: {titles}"
     assert any("ardiology" in t for t in titles), f"Expected Cardiology gap, got: {titles}"
     assert any("metabolic" in t.lower() or "bmp" in t.lower() for t in titles), f"Expected BMP gap, got: {titles}"
 
@@ -94,3 +97,15 @@ def test_resolve_gap_404(test_db):
 def test_export_pdf_404(test_db):
     response = client.get("/export/pdf/00000000-0000-0000-0000-000000000000")
     assert response.status_code == 404
+
+
+def test_run_evaluation_for_dataset_session(test_db):
+    analyzed = client.post("/analyze/dataset-P1")
+    assert analyzed.status_code == 200
+    session_id = analyzed.json()["session_id"]
+
+    response = client.get(f"/evaluation/run/{session_id}")
+    assert response.status_code == 200
+    payload = response.json()
+    assert "metrics" in payload
+    assert "precision" in payload["metrics"]

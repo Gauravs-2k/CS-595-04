@@ -15,3 +15,8 @@ dist/
 .claude/
 /tmp/
 *.md
+!Readme.md
+!PRODUCT_OVERVIEW.md
+!TECHNICAL_WORKFLOW.md
+!TransitionGuard_Scaled_Dataset/MASTER_REFERENCE.md
+tmp_validation/

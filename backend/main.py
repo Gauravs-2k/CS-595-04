@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from db.database import Base, engine
-from routers import analysis, export, patients
+from routers import analysis, evaluation, export, patients
 
 logger = logging.getLogger(__name__)
 
@@ -41,3 +41,4 @@ def on_startup() -> None:
 app.include_router(patients.router)
 app.include_router(analysis.router)
 app.include_router(export.router)
+app.include_router(evaluation.router)

@@ -80,7 +80,7 @@ def test_gap_structure(patient_id):
     for gap in gaps:
         assert "id" in gap
         assert "category" in gap
-        assert gap["category"] in ("missing", "unscheduled", "unaddressed", "changed")
+        assert gap["category"] in ("missing_from_pcp", "missing_from_handoff", "action_needed", "changed")
         assert "severity" in gap
         assert gap["severity"] in ("critical", "warning", "info")
         assert "title" in gap
@@ -91,22 +91,22 @@ def test_gap_structure(patient_id):
 # ── Scenario-specific expectations ───────────────────────────────────────────
 
 def test_cardiac_has_pending_labs():
-    """Cardiac sample has pending BMP — should flag unaddressed."""
+    """Cardiac sample has pending BMP — should flag action_needed."""
     records = load_mimic_records("mimic-cardiac-001")
     discharge = _run(extract_entities(records.discharge_summary.raw_text))
     pcp = _run(extract_entities(records.pcp_chart.raw_text))
     gaps = detect_gaps(discharge, pcp)
-    assert any(g["category"] == "unaddressed" for g in gaps)
+    assert any(g["category"] == "action_needed" and "Pending" in g["title"] for g in gaps)
 
 
 def test_cardiac_has_follow_up_referrals():
-    """Cardiac sample has cardiology/nephrology referrals — should flag unscheduled."""
+    """Cardiac sample has cardiology/nephrology referrals — should flag action_needed."""
     records = load_mimic_records("mimic-cardiac-001")
     discharge = _run(extract_entities(records.discharge_summary.raw_text))
     pcp = _run(extract_entities(records.pcp_chart.raw_text))
     gaps = detect_gaps(discharge, pcp)
-    unscheduled = [g for g in gaps if g["category"] == "unscheduled"]
-    assert len(unscheduled) >= 2, f"Expected >=2 unscheduled referrals, got {len(unscheduled)}"
+    unscheduled = [g for g in gaps if g["category"] == "action_needed" and "Referral" in g["title"]]
+    assert len(unscheduled) >= 2, f"Expected >=2 referral actions, got {len(unscheduled)}"
 
 
 def test_diabetes_has_follow_ups():
@@ -115,7 +115,7 @@ def test_diabetes_has_follow_ups():
     discharge = _run(extract_entities(records.discharge_summary.raw_text))
     pcp = _run(extract_entities(records.pcp_chart.raw_text))
     gaps = detect_gaps(discharge, pcp)
-    assert any(g["category"] == "unscheduled" for g in gaps)
+    assert any(g["category"] == "action_needed" for g in gaps)
 
 
 def test_surgical_has_pending_labs():
@@ -124,4 +124,4 @@ def test_surgical_has_pending_labs():
     discharge = _run(extract_entities(records.discharge_summary.raw_text))
     pcp = _run(extract_entities(records.pcp_chart.raw_text))
     gaps = detect_gaps(discharge, pcp)
-    assert any(g["category"] == "unaddressed" for g in gaps)
+    assert any(g["category"] == "action_needed" and "Pending" in g["title"] for g in gaps)

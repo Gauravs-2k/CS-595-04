@@ -12,7 +12,6 @@ def test_mock_record_pipeline_detects_expected_gaps() -> None:
 
     categories = {gap["category"] for gap in gaps}
 
-    assert "missing" in categories
-    assert "unscheduled" in categories
-    assert "unaddressed" in categories
+    assert "missing_from_pcp" in categories
+    assert "action_needed" in categories
     assert len(gaps) >= 3

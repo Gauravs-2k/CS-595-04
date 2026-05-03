@@ -1,29 +1,29 @@
 [
   {
     "gap_id": "G001",
-    "category": "Lab",
+    "category": "Follow-up",
     "severity": "Warning",
-    "description": "Inconsistent or missing HbA1c lab result in the discharge summary despite evidence of diabetes management and elevated HbA1c in history.",
-    "evidence_in_history": "2024-03-01 HbA1c 7.2% (slightly elevated, diabetic control) documented in labs; plan to repeat labs including HbA1c mentioned in office visit 1.",
-    "evidence_in_summary": "Discharge summary mentions stable diabetic markers (HbA1c approx 7.2%) but does not provide recent lab results from 2024-06-01 or later labs around discharge date.",
-    "suggested_correction": "Include the most recent HbA1c result (or mention if pending) from laboratory studies near discharge to accurately reflect diabetes control status."
+    "description": "VTE prophylaxis not documented.",
+    "evidence_in_history": "Post-surgical risk context requires documented prophylaxis decision-making.",
+    "evidence_in_summary": "VTE prophylaxis status is not explicit in discharge handoff.",
+    "suggested_correction": "Document prophylaxis strategy and rationale."
   },
   {
     "gap_id": "G002",
-    "category": "Instruction",
+    "category": "Follow-up",
     "severity": "Info",
-    "description": "Lack of explicit weight management counseling or nutrition instruction given the patient's class 1 obesity status.",
-    "evidence_in_history": "Problem list includes Obesity, Class 1 (E66.09) and office visit notes mention patient education on weight management and glucose control (2023-12-05 visit).",
-    "evidence_in_summary": "Discharge summary notes management of chronic diseases and patient education on medications, wound care, activity restrictions, but no specific mention of weight or nutrition counseling.",
-    "suggested_correction": "Add explicit documentation of weight management and nutritional counseling at discharge given obesity diagnosis."
+    "description": "Weight-bearing instructions not documented after hip surgery.",
+    "evidence_in_history": "Orthopedic recovery requires explicit activity and weight-bearing guidance.",
+    "evidence_in_summary": "Discharge handoff lacks clear postoperative weight-bearing instructions.",
+    "suggested_correction": "Add explicit weight-bearing status and progression instructions."
   },
   {
     "gap_id": "G003",
     "category": "Follow-up",
-    "severity": "Info",
-    "description": "No specific timeline or plan documented for monitoring or imaging follow-up of left knee osteoarthritis noted in history.",
-    "evidence_in_history": "Office Visit 2 (2023-12-05) identifies early left knee osteoarthritis and recommends considering future imaging if symptoms progress.",
-    "evidence_in_summary": "Discharge summary does not include any mention of left knee osteoarthritis or plan for monitoring or orthopedic follow-up related to left knee symptoms.",
-    "suggested_correction": "Add documentation of left knee osteoarthritis in discharge summary along with instructions for symptom monitoring, potential referral, or imaging follow-up as needed."
+    "severity": "Warning",
+    "description": "Referral to schedule: Surgery.",
+    "evidence_in_history": "Postoperative care continuity needs surgical follow-up scheduling.",
+    "evidence_in_summary": "Surgical referral is indicated but not fully scheduled/documented.",
+    "suggested_correction": "Schedule and document surgical follow-up appointment details."
   }
 ]

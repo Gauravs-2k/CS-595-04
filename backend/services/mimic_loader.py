@@ -26,6 +26,7 @@ def list_mimic_patients() -> list[dict]:
     return [
         {
             "patient_id": pid,
+            "variant_id": pid.upper(),
             "name": MIMIC_PATIENT_META[pid]["name"],
             "dob": MIMIC_PATIENT_META[pid]["dob"],
             "mrn": pid,

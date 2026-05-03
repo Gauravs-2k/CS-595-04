@@ -1,47 +1,83 @@
 [
   {
     "gap_id": "G001",
-    "category": "Medication",
+    "category": "Follow-up",
     "severity": "Warning",
-    "description": "Discrepancy in current medication dosages: furosemide dosage was increased to 60 mg daily as per last office visit and hospital discharge, but the home medication list in history section still shows 40 mg; not clearly updated prior to admission.",
-    "evidence_in_history": "Current Medication List shows Furosemide 40 mg once daily; Office Visit #1 dated 2023-11-15 shows plan to increase furosemide to 60 mg daily.",
-    "evidence_in_summary": "Discharge medications include Furosemide 60 mg once daily (increased dose to manage volume overload); Home medications listed as 40 mg but discharge meds updated to 60 mg.",
-    "suggested_correction": "Clarify and update medication list to reflect furosemide dose increase consistently prior to admission and ensure outpatient records match discharge instructions."
+    "description": "VTE prophylaxis not documented. No VTE/DVT prophylaxis plan or documentation was found in the discharge summary.",
+    "evidence_in_history": "No explicit VTE prophylaxis plan is documented in the recent outpatient handoff context.",
+    "evidence_in_summary": "No VTE/DVT prophylaxis plan or documentation was found in the discharge summary.",
+    "suggested_correction": "Document whether VTE prophylaxis was indicated, provided, contraindicated, or intentionally not used."
   },
   {
     "gap_id": "G002",
     "category": "Follow-up",
-    "severity": "Info",
-    "description": "No specific details or dates provided for diabetes educator referral or appointments between last office visit and admission; unclear if patient attended recommended outpatient diabetes education or endocrinology evaluation prior to hospital admission.",
-    "evidence_in_history": "Office Visit #1 plan includes referral to diabetes educator and repeat labs in 3 months; Office Visit #2 mentions continuation of diabetes education and endocrinology evaluation but no concrete documentation of completed follow-up.",
-    "evidence_in_summary": "Discharge summary mentions outpatient endocrinology appointment scheduled but does not confirm prior diabetes educator visit completion or interim monitoring.",
-    "suggested_correction": "Include documentation of diabetes educator visits and endocrinology evaluations attended prior to admission; specify dates and outcomes to ensure continuity of care."
+    "severity": "Critical",
+    "description": "No cardiology follow-up within 7 days for CHF.",
+    "evidence_in_history": "CHF management requires timely specialist follow-up after hospitalization.",
+    "evidence_in_summary": "Follow-up plan does not include cardiology within 7 days.",
+    "suggested_correction": "Add an explicit cardiology appointment within 7 days post-discharge."
   },
   {
     "gap_id": "G003",
-    "category": "Lab",
+    "category": "Diagnosis",
     "severity": "Warning",
-    "description": "No recent potassium lab value documented at the time of admission or discharge despite history of mild hyperkalemia and the need for close potassium monitoring.",
-    "evidence_in_history": "Lab results show potassium mildly elevated (max 5.0 mmol/L) in last 6 months; Office Visit #1 notes mild hyperkalemia 4.9 mmol/L with plan to monitor potassium closely with labs.",
-    "evidence_in_summary": "Hospital course notes potassium was slightly elevated and monitored closely but no specific potassium values at admission or discharge labs documented.",
-    "suggested_correction": "Include potassium lab values at admission and discharge explicitly in the summary to demonstrate monitoring and treatment decisions."
+    "description": "New diagnosis: Obesity.",
+    "evidence_in_history": "Obesity is not clearly carried forward in the PCP-facing problem context.",
+    "evidence_in_summary": "Obesity appears as a newly surfaced diagnosis in discharge context.",
+    "suggested_correction": "Reconcile and document obesity consistently in longitudinal problem lists and handoff artifacts."
   },
   {
     "gap_id": "G004",
-    "category": "Instruction",
-    "severity": "Info",
-    "description": "Discharge instructions mention patient's verbalized understanding of medication changes, diet, and fluid restrictions but no documented use of written materials or formal teach-back to verify comprehension.",
-    "evidence_in_history": "Plans from office visits emphasize diet reinforcement and fluid restriction education but no documentation of patient education method or materials used.",
-    "evidence_in_summary": "Discharge summary states patient verbalized understanding but lacks documentation of teaching methods or provision of educational materials.",
-    "suggested_correction": "Document specific patient education methods used, such as written instructions, teach-back confirmations, or use of educational handouts to support patient comprehension."
+    "category": "Follow-up",
+    "severity": "Warning",
+    "description": "Referral to schedule: Cardiology.",
+    "evidence_in_history": "Specialty follow-up need is present without confirmed scheduling.",
+    "evidence_in_summary": "Discharge plan indicates cardiology follow-up intent without confirmed appointment.",
+    "suggested_correction": "Schedule and document cardiology referral details."
   },
   {
     "gap_id": "G005",
-    "category": "Lab",
-    "severity": "Info",
-    "description": "No baseline or discharge measurement of urine albumin included in labs or discharge labs despite albuminuria importance in CKD and diabetes management.",
-    "evidence_in_history": "Six-month lab history includes urine albumin (mg/g) values between 260-300 mg/g indicating albuminuria.",
-    "evidence_in_summary": "Discharge summary recommends repeat labs including urine albumin in 3 months but does not document baseline urine albumin or discharge value for comparison.",
-    "suggested_correction": "Include urine albumin values at admission and discharge to guide CKD and diabetes management and detect progression."
+    "category": "Follow-up",
+    "severity": "Warning",
+    "description": "Referral to schedule: Nephrology.",
+    "evidence_in_history": "Kidney-related chronic care needs suggest nephrology coordination.",
+    "evidence_in_summary": "No confirmed nephrology appointment is documented at discharge.",
+    "suggested_correction": "Schedule and document nephrology follow-up."
+  },
+  {
+    "gap_id": "G006",
+    "category": "Follow-up",
+    "severity": "Warning",
+    "description": "Referral to schedule: Endocrinology. Referral ordered at discharge but no matching appointment in patient's care plan.",
+    "evidence_in_history": "Diabetes optimization history suggests endocrine follow-up need.",
+    "evidence_in_summary": "Referral ordered at discharge but no matching appointment in patient's care plan.",
+    "suggested_correction": "Confirm endocrinology referral scheduling and include date/location."
+  },
+  {
+    "gap_id": "G007",
+    "category": "Follow-up",
+    "severity": "Warning",
+    "description": "Referral to schedule: Diabetes Educator.",
+    "evidence_in_history": "Diabetes educator support is part of prior outpatient management plans.",
+    "evidence_in_summary": "No completed diabetes-education referral is clearly documented.",
+    "suggested_correction": "Place/confirm diabetes educator referral and capture completion status."
+  },
+  {
+    "gap_id": "G008",
+    "category": "Follow-up",
+    "severity": "Warning",
+    "description": "Follow-up to schedule. Discharge follow-up task not yet reflected in patient's care plan: Endocrinology: Appointment scheduled for further diabetes optimization.",
+    "evidence_in_history": "Diabetes control trend indicates need for targeted endocrine follow-up.",
+    "evidence_in_summary": "Discharge follow-up task not yet reflected in patient's care plan: Endocrinology: Appointment scheduled for further diabetes optimization.",
+    "suggested_correction": "Include concrete appointment details and responsible provider in handoff."
+  },
+  {
+    "gap_id": "G009",
+    "category": "Follow-up",
+    "severity": "Warning",
+    "description": "Follow-up to schedule. Discharge follow-up task not yet reflected in patient's care plan: Primary Care Provider: Routine follow-up in 1 month.",
+    "evidence_in_history": "Primary care continuity is needed after discharge.",
+    "evidence_in_summary": "Discharge follow-up task not yet reflected in patient's care plan: Primary Care Provider: Routine follow-up in 1 month.",
+    "suggested_correction": "Document PCP appointment date and expected review objectives."
   }
 ]

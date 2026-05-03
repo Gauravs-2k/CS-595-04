@@ -92,10 +92,11 @@ class GapPatchRequest(BaseModel):
 
 
 class PatientSearchRequest(BaseModel):
-    first_name: str
-    last_name: str
-    dob: str          # YYYY-MM-DD
-    gender: str       # M or F
+    first_name: str = ""
+    last_name: str = ""
+    dob: str = ""          # YYYY-MM-DD
+    gender: str = ""       # M or F
+    variant_id: str = ""
     phone: str = ""
     email: str = ""
     address: str = ""

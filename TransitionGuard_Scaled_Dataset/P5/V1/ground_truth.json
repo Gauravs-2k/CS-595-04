@@ -1,38 +1,65 @@
 [
   {
     "gap_id": "G001",
-    "category": "Lab",
+    "category": "Follow-up",
     "severity": "Warning",
-    "description": "INR and aPTT lab tests are outdated with last values from 2023-12-10, and no recent coagulation labs were reported during hospitalization or at discharge.",
-    "evidence_in_history": "INR and aPTT labs last recorded on 2023-12-10 with INR 2.3 (therapeutic).",
-    "evidence_in_summary": "Hospital course states labs were stable within therapeutic ranges but does not provide recent coagulation labs or INR results corresponding to hospitalization period.",
-    "suggested_correction": "Include updated INR and coagulation test results performed during hospitalization or shortly before discharge to confirm therapeutic anticoagulation status."
+    "description": "VTE prophylaxis not documented. No VTE/DVT prophylaxis plan or documentation was found in the discharge summary.",
+    "evidence_in_history": "No explicit VTE prophylaxis decision is clearly represented in handoff context.",
+    "evidence_in_summary": "No VTE/DVT prophylaxis plan or documentation was found in the discharge summary.",
+    "suggested_correction": "Document prophylaxis indication, administration, or contraindication explicitly."
   },
   {
     "gap_id": "G002",
-    "category": "Medication",
-    "severity": "Info",
-    "description": "Aspirin is included in the medication list and discharge medications for secondary stroke prevention despite the patient being on Apixaban, which raises potential concerns for dual anticoagulation/antiplatelet effects.",
-    "evidence_in_history": "Current medications list includes both Apixaban and low-dose Aspirin (81 mg daily).",
-    "evidence_in_summary": "Discharge medications include both Apixaban and Aspirin without mention of rationale or bleeding risk assessment for combined use.",
-    "suggested_correction": "Document clinical justification and bleeding risk assessment for concurrent use of Apixaban and Aspirin and consider explicit instructions regarding monitoring for bleeding or potential need to reassess combination therapy."
+    "category": "Diagnosis",
+    "severity": "Warning",
+    "description": "New diagnosis: Hyperlipidemia. Documented on discharge but not in the patient's problem list.",
+    "evidence_in_history": "Hyperlipidemia continuity appears incomplete in PCP-facing problem carry-forward.",
+    "evidence_in_summary": "Documented on discharge but not in the patient's problem list.",
+    "suggested_correction": "Reconcile and include hyperlipidemia consistently in longitudinal problem lists and handoff."
   },
   {
     "gap_id": "G003",
-    "category": "Instruction",
-    "severity": "Info",
-    "description": "Discharge summary does not specify the exact dates of admission and discharge, which are important for clarity of hospitalization timeline and continuity of care.",
-    "evidence_in_history": "No mention of hospitalization dates in any sections.",
-    "evidence_in_summary": "Date of Admission and Date of Discharge fields are marked as '[Not specified]'.",
-    "suggested_correction": "Add precise admission and discharge dates to the summary to ensure clear documentation and facilitate follow-up and care coordination."
+    "category": "Follow-up",
+    "severity": "Warning",
+    "description": "Referral to schedule: Neurology. Referral ordered at discharge but no matching appointment in patient's care plan.",
+    "evidence_in_history": "Neurologic follow-up is required for post-stroke continuity.",
+    "evidence_in_summary": "Referral ordered at discharge but no matching appointment in patient's care plan.",
+    "suggested_correction": "Schedule neurology follow-up and record date/provider."
   },
   {
     "gap_id": "G004",
     "category": "Follow-up",
-    "severity": "Info",
-    "description": "Physical therapy details such as frequency and duration of sessions, goals, or expected outcomes are not documented beyond referral and continuation instructions.",
-    "evidence_in_history": "Plan includes physical therapy referral and encouragement but lacks detailed therapy plan.",
-    "evidence_in_summary": "Mentions physical therapy continuation but provides no detailed plan or expected goals.",
-    "suggested_correction": "Include more detailed physical therapy instructions, goals, session frequency, and expected duration to guide outpatient therapy and monitor patient progress."
+    "severity": "Warning",
+    "description": "Referral to schedule: Cardiology. Referral ordered at discharge but no matching appointment in patient's care plan.",
+    "evidence_in_history": "Cardiovascular comorbidity context supports specialist follow-up.",
+    "evidence_in_summary": "Referral ordered at discharge but no matching appointment in patient's care plan.",
+    "suggested_correction": "Schedule cardiology follow-up and include logistics in handoff."
+  },
+  {
+    "gap_id": "G005",
+    "category": "Follow-up",
+    "severity": "Warning",
+    "description": "Referral to schedule: Physical Therapy. Referral ordered at discharge but no matching appointment in patient's care plan.",
+    "evidence_in_history": "Functional recovery context indicates PT continuity needs.",
+    "evidence_in_summary": "Referral ordered at discharge but no matching appointment in patient's care plan.",
+    "suggested_correction": "Schedule PT and document cadence/goals."
+  },
+  {
+    "gap_id": "G006",
+    "category": "Follow-up",
+    "severity": "Warning",
+    "description": "Follow-up: Neurology and Cardiology outpatient follow-up in 6 weeks for clinical evaluation and review of Holter monitor results. Discharge follow-up task not yet reflected in patient's care plan.",
+    "evidence_in_history": "Dual-specialty follow-up is needed for neuro-cardiac comorbidity management.",
+    "evidence_in_summary": "Discharge follow-up task not yet reflected in patient's care plan: Neurology and Cardiology outpatient follow-up in 6 weeks for clinical evaluation and review of 48-hour Holter monitor results.",
+    "suggested_correction": "Add exact appointment details and accountability for both specialties."
+  },
+  {
+    "gap_id": "G007",
+    "category": "Follow-up",
+    "severity": "Warning",
+    "description": "Follow-up: Routine labs including CBC, BMP, INR prior to follow-up visits. Discharge follow-up task not yet reflected in patient's care plan.",
+    "evidence_in_history": "Chronic anticoagulation and comorbidity monitoring require interval labs.",
+    "evidence_in_summary": "Discharge follow-up task not yet reflected in patient's care plan: Routine labs including CBC, BMP, INR prior to follow-up visits.",
+    "suggested_correction": "Add timing and ordering responsibility for CBC/BMP/INR before follow-up."
   }
 ]
