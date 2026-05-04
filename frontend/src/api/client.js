@@ -24,8 +24,6 @@ export const getDemoHandoff = (patientId) => client.get(`/patients/${patientId}/
 
 export const getSession = (sessionId) => client.get(`/analyze/${sessionId}`)
 
-export const runEvaluation = (sessionId) => client.get(`/evaluation/run/${sessionId}`)
-
 export const resolveGap = (sessionId, gapId) =>
   client.patch(`/analyze/${sessionId}/gaps/${gapId}`, { resolved: true })
 

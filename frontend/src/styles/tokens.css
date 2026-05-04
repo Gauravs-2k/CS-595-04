@@ -307,25 +307,6 @@ button {
   margin-bottom: 12px;
 }
 
-.evaluation-panel {
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 14px;
-  margin-bottom: 12px;
-}
-
-.evaluation-panel h3 {
-  margin: 0 0 6px;
-}
-
-.evaluation-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 8px;
-  font-size: 0.9rem;
-}
-
 .group-description {
   margin: 0 0 12px;
   font-size: 0.85rem;
